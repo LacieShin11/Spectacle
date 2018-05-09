@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">스펙타클</string>
+
+    <string-array name="category">
+        <item>어학</item>
+        <item>자격증</item>
+        <item>인턴&amp;알바</item>
+        <item>봉사활동</item>
+        <item>교내활동</item>
+        <item>대외활동</item>
+    </string-array>
+</resources>
