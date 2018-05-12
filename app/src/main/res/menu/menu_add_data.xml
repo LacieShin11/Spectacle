@@ -4,8 +4,7 @@
 
     <item
         android:id="@+id/check"
-        android:title="확인"
-        android:icon="@drawable/check_icon"
+        android:title="완료"
         app:showAsAction="always" />
 
 </menu>
