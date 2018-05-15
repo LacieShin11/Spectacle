@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.drm.DrmStore;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -107,15 +108,18 @@ public class AddDataActivity extends AppCompatActivity {
                         startD = datePicker.getDayOfMonth();
 
                         //시작 날짜가 종료 날짜보다 늦을 때
-                        if (startY > endY || (startY >= endY && startM > endM) || (startY >= endY && startM >= endM && startD > endD)) {
+                        if (sameCheck.isChecked() || startY > endY || (startY >= endY && startM > endM) || (startY >= endY && startM >= endM && startD > endD)) {
                             endDateBtn.setText(startY + "-" + startM + "-" + startD);
                             endY = startY;
                             endM = startM;
                             endD = startD;
+
                             Log.i("시작일자가 더 늦음", "시작일 : " + startY + "-" + startM + "-" + startD + " 종료일 : " + endY + "-" + endM + "-" + endD);
-                            Toast.makeText(AddDataActivity.this, "시작일자가 종료일자보다 늦습니다.", Toast.LENGTH_SHORT).show();
+                            if (!sameCheck.isChecked())
+                                Toast.makeText(AddDataActivity.this, "시작일자가 종료일자보다 늦습니다.", Toast.LENGTH_SHORT).show();
                         }
                         startDateBtn.setText(startY + "-" + startM + "-" + startD);
+
                     }
                 });
                 builder.show();
@@ -152,6 +156,7 @@ public class AddDataActivity extends AppCompatActivity {
                             startM = endM;
                             startD = endD;
                             Log.i("종료일자가 더 빠름", "시작일 : " + startY + "-" + startM + "-" + startD + " 종료일 : " + endY + "-" + endM + "-" + endD);
+
                             Toast.makeText(AddDataActivity.this, "종료일자가 시작일자보다 빠릅니다.", Toast.LENGTH_SHORT).show();
                         }
                         endDateBtn.setText(endY + "-" + endM + "-" + endD);
@@ -170,7 +175,7 @@ public class AddDataActivity extends AppCompatActivity {
             }
         });
 
-        final ClipboardManager clipboardManager =  (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        final ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
         copyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +183,7 @@ public class AddDataActivity extends AppCompatActivity {
                 if (contentText.getText().length() == 0)
                     Toast.makeText(AddDataActivity.this, "복사할 내용이 없습니다.", Toast.LENGTH_SHORT).show();
                 else
-                clipboardManager.setText(contentText.getText());
+                    clipboardManager.setText(contentText.getText());
             }
         });
 
@@ -188,13 +193,7 @@ public class AddDataActivity extends AppCompatActivity {
                 addImgBtnOnClicked();
             }
         });
-        //카테고리 선택 이벤트
-        /*categorySpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-        });*/
     }
 
     @Override
@@ -217,8 +216,19 @@ public class AddDataActivity extends AppCompatActivity {
     public void addImgBtnOnClicked() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-//        intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
 
+    private Uri imgUri;
+    private String currentImgPath; //실제 이미지 파일 경로
+    private String mImageCaptureName; //이미지 이름
+
+    //갤러리에서 이미지 선택한 후의 동작 처리
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_FROM_ALBUM) {
+        }
     }
 }
