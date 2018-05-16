@@ -4,6 +4,7 @@
 
     <item
         android:id="@+id/check"
+        android:icon="@drawable/ic_check_white_36dp"
         android:title="완료"
         app:showAsAction="always" />
 

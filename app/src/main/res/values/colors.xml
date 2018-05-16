@@ -6,4 +6,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorStrongOrange">#eb4635</color>
     <color name="colorHintText">#ffae9b</color>
+    <drawable name="colorWhite">#FFFFFF</drawable>
+    <drawable name="colorGray">#e5e5e5</drawable>
 </resources>
