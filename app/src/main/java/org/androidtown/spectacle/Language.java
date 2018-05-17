@@ -1,16 +1,16 @@
 package org.androidtown.spectacle;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 /**
  * language 카테고리
  */
 
-public class Language extends Activity {
+public class Language extends AppCompatActivity {
     private ListView listView;
-    private dlistListViewItemAdapter adapter;
+    private ListViewAdapter adapter;
     //private ArrayList<ListVO> listItem;
 
     //데이터 값은 임시로 넣어두었음
@@ -24,7 +24,7 @@ public class Language extends Activity {
         setContentView(R.layout.language);
 
         //변수 초기화
-        adapter = new dlistListViewItemAdapter();
+        adapter = new ListViewAdapter();
         listView = (ListView) findViewById(R.id.listView_language);
 
         //어뎁터 할당
@@ -32,7 +32,7 @@ public class Language extends Activity {
 
         //adapter를 통한 값 전달
         for(int i = 0; i < category.length; i++) {
-            adapter.addItem(category[i], projectName[i], date[i]);
+            adapter.addVO(category[i], projectName[i], date[i]);
         }
 
         /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

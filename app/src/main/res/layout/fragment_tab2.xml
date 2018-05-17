@@ -19,17 +19,21 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/campus_activities_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/category_btn" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="어학" />
+                android:text="교내 활동"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -40,17 +44,21 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/international_activities_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/category_btn" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="자격증" />
+                android:text="대외 활동"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -71,17 +79,21 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/intern_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/category_btn" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="인턴&amp;알바" />
+                android:text="인턴·아르바이트"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -92,17 +104,21 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/volunteer_activities_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/category_btn" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="봉사활동" />
+                android:text="봉사 활동"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -124,17 +140,21 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/language_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/category_btn" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="교내활동" />
+                android:text="어학"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -145,17 +165,21 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/certificate_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/category_btn" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="대외활동" />
+                android:text="자격증"
+                android:textSize="20sp" />
 
         </LinearLayout>
 

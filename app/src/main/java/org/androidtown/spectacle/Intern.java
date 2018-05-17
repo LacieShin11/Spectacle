@@ -2,6 +2,7 @@ package org.androidtown.spectacle;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,9 +11,9 @@ import android.widget.ListView;
  * Intern 카테고리
  */
 
-public class Intern extends Activity {
+public class Intern extends AppCompatActivity {
     private ListView listView;
-    private dlistListViewItemAdapter adapter;
+    private ListViewAdapter adapter;
 
     //데이터 값은 임시로 넣어두었음
     private String[] category = {"a","b", "c", "d"};
@@ -25,7 +26,7 @@ public class Intern extends Activity {
         setContentView(R.layout.intern);
 
         //변수 초기화
-        adapter = new dlistListViewItemAdapter();
+        adapter = new ListViewAdapter();
         listView = (ListView) findViewById(R.id.listView_intern);
 
         //어뎁터 할당
@@ -33,7 +34,7 @@ public class Intern extends Activity {
 
         //adapter를 통한 값 전달
         for(int i = 0; i < category.length; i++) {
-            adapter.addItem(category[i], projectName[i], date[i]);
+            adapter.addVO(category[i], projectName[i], date[i]);
         }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

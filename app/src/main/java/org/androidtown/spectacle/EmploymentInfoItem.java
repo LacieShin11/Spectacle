@@ -2,16 +2,21 @@ package org.androidtown.spectacle;
 
 //채용정보 아이템 자료형
 public class EmploymentInfoItem {
-    String companyName, endDate, jobType, jobInfo;
+    String companyName, endDate, jobCategory, jobInfo, location;
 
     public EmploymentInfoItem() {
+        this.companyName = "";
+        this.endDate = "";
+        this.jobCategory = "";
+        this.jobInfo = "";
+        this.location = "";
     }
 
-    public EmploymentInfoItem(String companyName, String endDate, String jobType, String jobInfo) {
+    public EmploymentInfoItem(String companyName, String endDate, String jobCategory, String jobInfo, String location) {
         this.companyName = companyName;
         this.endDate = endDate;
-        this.jobType = jobType;
+        this.jobCategory = jobCategory;
         this.jobInfo = jobInfo;
+        this.location = location;
     }
-
 }

@@ -107,28 +107,4 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.login) { //로그인
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        else if (id == R.id.make_excel) { //SD카드에 엑셀 파일 생성
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }

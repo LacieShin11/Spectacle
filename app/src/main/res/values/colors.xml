@@ -8,4 +8,5 @@
     <color name="colorHintText">#ffae9b</color>
     <drawable name="colorWhite">#FFFFFF</drawable>
     <drawable name="colorGray">#e5e5e5</drawable>
+    <drawable name="colorWhiteOrange">#ffefe8</drawable>
 </resources>
