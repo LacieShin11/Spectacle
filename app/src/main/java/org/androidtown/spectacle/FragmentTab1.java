@@ -1,11 +1,15 @@
 package org.androidtown.spectacle;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.IntentCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,11 +31,7 @@ public class FragmentTab1 extends Fragment {
     private ListView dlistListView;
     //private ArrayAdapter adapter;
     private dlistListViewItemAdapter adapter;
-
-    // 데이터 값은 임시로 넣어두었음
-    private String[] category = {"a", "b", "c", "d"};
-    private String[] title = {"aaa", "bbb", "ccc", "ddd"};
-    private String[] date = {"123", "456", "789", "101"};
+    private DbOpenHelper mDbOpenHelper;
 
     public static FragmentTab1 newInstance() {
         FragmentTab1 fragment = new FragmentTab1();
@@ -49,6 +49,11 @@ public class FragmentTab1 extends Fragment {
     public void onCreate(@Nullable Bundle saveInstBundle) {
         super.onCreate(saveInstBundle);
         setHasOptionsMenu(true);
+
+        //DB Create and Open
+        mDbOpenHelper = new DbOpenHelper(getContext());
+        mDbOpenHelper.open();
+
     }
 
     //플로팅 액션 버튼 이벤트
@@ -63,6 +68,10 @@ public class FragmentTab1 extends Fragment {
 
         // adapter 할당
         dlistListView.setAdapter(adapter);
+
+        String[] category = mDbOpenHelper.getCategory();
+        String[] title = mDbOpenHelper.getTitle();
+        String[] date = mDbOpenHelper.getDate();
 
         // adapter를 통한 값 전달
         for (int i = 0; i < category.length; i++) {
@@ -106,6 +115,10 @@ public class FragmentTab1 extends Fragment {
             startActivity(intent);
         } else if (id == R.id.make_excel) {
 
+        } else if (id == R.id.initialization) {
+            mDbOpenHelper.deleteTable();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(this).attach(this).commit();
         }
 
         return true;

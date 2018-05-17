@@ -126,6 +126,7 @@ public class FragmentTab4 extends Fragment {
         } else {
             Toast.makeText(getContext(), "네트워크 연결상태를 확인해주세요.", Toast.LENGTH_SHORT).show();
         }
+
         slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
             @Override
             public void onDrawerOpened() {
