@@ -25,7 +25,7 @@ public class EmploymentListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public EmploymentInfoItem getItem(int position) {
         return infoArray.get(position);
     }
 
@@ -47,6 +47,7 @@ public class EmploymentListAdapter extends BaseAdapter {
         final TextView companyNameText = (TextView) convertView.findViewById(R.id.company_text);
         final TextView jobInfoText = (TextView) convertView.findViewById(R.id.job_info_text);
         final TextView locationText = (TextView) convertView.findViewById(R.id.area_text);
+        final TextView experienceText = (TextView) convertView.findViewById(R.id.experience_text);
         final TextView jobCategoryText = (TextView) convertView.findViewById(R.id.job_type_text);
         final TextView endDateText = (TextView) convertView.findViewById(R.id.end_date_text);
 
@@ -55,6 +56,7 @@ public class EmploymentListAdapter extends BaseAdapter {
         companyNameText.setText(item.companyName);
         jobInfoText.setText(item.jobInfo);
         locationText.setText(item.location);
+        experienceText.setText(item.experience);
         jobCategoryText.setText(item.jobCategory);
         endDateText.setText(item.endDate);
 
@@ -62,8 +64,8 @@ public class EmploymentListAdapter extends BaseAdapter {
     }
 
     //새로운 요소 추가
-    public void addItem(String companyName, String endDate, String jobCategory, String jobInfo, String location) {
-        infoArray.add(new EmploymentInfoItem(companyName, endDate, jobCategory, jobInfo, location));
+    public void addItem(String companyName, String endDate, String jobCategory, String jobInfo, String location, String link, String experience) {
+        infoArray.add(new EmploymentInfoItem(companyName, endDate, jobCategory, jobInfo, location, link, experience));
     }
 
     public void removeAll() {

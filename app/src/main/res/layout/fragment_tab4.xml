@@ -7,6 +7,18 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/none_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="25sp"
+            android:visibility="invisible"
+            android:background="@color/colorWhite"
+            android:clickable="false"
+            android:gravity="center"
+            android:text="직종을 선택해주세요."/>
+
         <ListView
             android:id="@+id/employment_list"
             android:layout_width="match_parent"
@@ -180,14 +192,6 @@
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="의료" />
-
-                    <CheckBox
-                        android:id="@+id/check14"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:text="전체선택" />
 
                     <CheckBox
                         android:layout_width="match_parent"

@@ -2,22 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingVertical="5dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingVertical="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/company_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LG전자"
             android:textColor="#000000"
             android:textSize="23sp"
             android:textStyle="bold" />
@@ -34,18 +33,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="~5/16(토)"
                 android:textColor="#3b62d6" />
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/area_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
-        android:text="서울시 강남구"
-        android:textSize="16sp" />
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/area_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/experience_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,7 +72,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:text="[IT/개발]"
             android:textColor="#3b62d6"
             android:textSize="18sp" />
 
@@ -68,7 +80,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="Hospitality 솔루션 서버 개발 경력사원 채용"
             android:textSize="16sp" />
 
     </LinearLayout>
