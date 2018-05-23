@@ -58,7 +58,7 @@ public class FragmentTab1 extends Fragment {
         FloatingActionButton fab = view.findViewById(R.id.fab);
 
         dlistListView = (ListView) view.findViewById(R.id.dlist_view);
-        //adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_single_choice, dlistListData);
+
         adapter = new dlistListViewItemAdapter();
 
         // adapter 할당
@@ -72,6 +72,9 @@ public class FragmentTab1 extends Fragment {
         for (int i = 0; i < category.length; i++) {
             adapter.addItem(category[i], title[i], date[i]);
         }
+
+        // list가 비었을 때 text 설정. 이 위치에서만 작동하니 위치 바꾸지 말 것.
+        dlistListView.setEmptyView(view.findViewById(R.id.nonexistent_text));
 
         // listView 아이템에 대한 터치 이벤트
         dlistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
