@@ -13,6 +13,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,6 +61,7 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
     private boolean[] isCheckedArray = new boolean[13];
     private Integer[] checkID = {R.id.check1, R.id.check2, R.id.check3, R.id.check4, R.id.check5, R.id.check6,
             R.id.check7, R.id.check8, R.id.check9, R.id.check10, R.id.check11, R.id.check12, R.id.check13};
+    private DbOpenHelper mDbOpenHelper;
 
     public static FragmentTab4 newInstance() {
         FragmentTab4 fragment = new FragmentTab4();
@@ -184,7 +186,6 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
         } else if (id == R.id.make_excel) {
 
         }
-
         return true;
     }
 
@@ -197,12 +198,17 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlStr = "https://api.saramin.co.kr/job-search?fields=expiration-date&count=50";
+                    String urlStr = "https://api.saramin.co.kr/job-search?fields=expiration-date&count=50&job_category=";
 
+                    int first = 0;
                     for (int i = 0; i < checkBoxes.length; i++) {
-                        if (checkBoxes[i].isChecked())
-                            urlStr += "&job_category=" + (i + 1);
+                        if (first == 0 && checkBoxes[i].isChecked()) {
+                            urlStr += "" + (i + 1);
+                            first++;
+                        } else if (checkBoxes[i].isChecked())
+                            urlStr += "," + (i + 1);
                     }
+
 
                     getJobData(urlStr);
 

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/dlist_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,7 +16,17 @@
             android:layout_height="match_parent">
         </ListView>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/nonexistent_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="우측 하단의 + 버튼을 눌러\n스펙을 추가해 주세요."
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
