@@ -8,8 +8,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,12 +32,18 @@ import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
+
+import static android.content.ContentValues.TAG;
 
 
 public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedChangeListener {
@@ -187,16 +197,11 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlStr = "https://api.saramin.co.kr/job-search?fields=expiration-date&count=50&job_category=";
+                    String urlStr = "https://api.saramin.co.kr/job-search?fields=expiration-date&count=50";
 
-                    int first = 0;
                     for (int i = 0; i < checkBoxes.length; i++) {
-                        if (first == 0 && checkBoxes[i].isChecked()) {
-                            urlStr += "" + (i + 1);
-                            first++;
-                        }
-                        else if (checkBoxes[i].isChecked())
-                            urlStr += "," + (i + 1);
+                        if (checkBoxes[i].isChecked())
+                            urlStr += "&job_category=" + (i + 1);
                     }
 
                     getJobData(urlStr);
