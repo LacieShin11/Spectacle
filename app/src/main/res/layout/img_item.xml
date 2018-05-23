@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:scaleType="fitCenter"
-        android:src="@drawable/add" />
+        android:src="@drawable/ic_add_white_24dp" />
 
     <TextView
         android:id="@+id/img_name_text"
@@ -29,7 +29,7 @@
             android:id="@+id/delete_img_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/cross_icon"
+            android:src="@drawable/ic_close_24dp"
             android:background="@color/colorWhite"
             android:layout_gravity="right" />
 

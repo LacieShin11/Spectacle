@@ -1,7 +1,7 @@
 package org.androidtown.spectacle;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -10,30 +10,35 @@ import android.widget.ListView;
  * campusActivities 카테고리
  */
 
-public class CampusActivities extends Activity {
+public class CampusActivities extends AppCompatActivity {
     private ListView listView;
-    private dlistListViewItemAdapter adapter;
-
-    //데이터 값은 임시로 넣어두었음
-    private String[] categoryDList = {"a","b", "c", "d"};
-    private String[] titleDList = {"aaa", "bbb", "ccc","ddd"};
-    private String[] dateDList = {"123","456","789","101"};
+    private ListViewAdapter adapter;
+    private DbOpenHelper mDbOpenHelper;
+    private static final String selectFolder = "교내활동";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.campus_activity);
+        setContentView(R.layout.campus_activities);
 
         //변수 초기화
-        adapter = new dlistListViewItemAdapter();
+        adapter = new ListViewAdapter();
         listView = (ListView) findViewById(R.id.listView_campus);
 
         //어뎁터 할당
         listView.setAdapter(adapter);
 
+        //DB Create and Open
+        mDbOpenHelper = new DbOpenHelper(this);
+        mDbOpenHelper.open();
+
+        String[] category = mDbOpenHelper.getListViewcategory(selectFolder);
+        String[] projectName = mDbOpenHelper.getListViewTitle(selectFolder);
+        String[] date = mDbOpenHelper.getListViewDate(selectFolder);
+
         //adapter를 통한 값 전달
-        for(int i = 0; i < categoryDList.length; i++) {
-            adapter.addItem(categoryDList[i], titleDList[i], dateDList[i]);
+        for(int i = 0; i < category.length; i++) {
+            adapter.addVO(category[i], projectName[i], date[i]);
         }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

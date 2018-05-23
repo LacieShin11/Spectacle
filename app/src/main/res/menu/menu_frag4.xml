@@ -5,6 +5,12 @@
     tools:context="org.androidtown.spectacle.MainActivity">
 
     <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_refresh_white_24dp"
+        android:title="새로고침"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/login"
         android:title="로그인/회원가입" />
 
@@ -12,7 +18,4 @@
         android:id="@+id/make_excel"
         android:title="엑셀 파일로 만들기" />
 
-    <item
-        android:id = "@+id/initialization"
-        android:title = "스펙 초기화" />
 </menu>

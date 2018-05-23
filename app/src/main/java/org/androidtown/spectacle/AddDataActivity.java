@@ -1,11 +1,8 @@
 package org.androidtown.spectacle;
 
 import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.drm.DrmStore;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -27,10 +23,10 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class AddDataActivity extends AppCompatActivity {
+public class
+AddDataActivity extends AppCompatActivity {
     private static final int PICK_FROM_ALBUM = 1;
     private Spinner categorySpinner;
     private CheckBox sameCheck;
@@ -39,6 +35,8 @@ public class AddDataActivity extends AppCompatActivity {
     private ImageButton plusImgBtn, eraseBtn, copyBtn;
     private EditText titleText, contentText;
     private int startY, startM, startD, endY, endM, endD;
+    private DbOpenHelper mDbOpenHelper;
+//    private boolean isChecked = false;
 
     @Override
     public void onCreate(@Nullable Bundle saveInstBundle) {
@@ -50,6 +48,10 @@ public class AddDataActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
+        //DB Create and Open
+        mDbOpenHelper = new DbOpenHelper(this);
+        mDbOpenHelper.open();
 
         categorySpinner = (Spinner) findViewById(R.id.category_spinner);
         sameCheck = (CheckBox) findViewById(R.id.same_date_check);
@@ -194,11 +196,13 @@ public class AddDataActivity extends AppCompatActivity {
             }
         });
 
+//        if(isChecked) this.finish();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add_data, menu);
+
         return true;
     }
 
@@ -207,6 +211,28 @@ public class AddDataActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.check) {
+            Log.i("확인버튼 선택됨", "확인버튼 눌러짐");
+            String category = categorySpinner.getSelectedItem().toString();
+            String title = titleText.getText().toString();
+            String content = contentText.getText().toString();
+            String startDate = startDateBtn.getText().toString();
+            String endDate = endDateBtn.getText().toString();
+
+//            if(category == "" || title == "" || startDate == "" || endDate == "" ) {
+//                Toast.makeText(this, "빈칸이 있습니다. 채워주세요.", Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+
+            Log.i("삽입될 내용", category + " / "+ title + " / " + content + " / " + startDate + " / " + endDate + " / " );
+            mDbOpenHelper.insertColumn(category, title, content, startDate,endDate,"");
+
+            mDbOpenHelper.displayColumn();
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            //체크 버튼 누르면 메인 페이지로 이동
+//            isChecked = true;
+
             return true;
         }
 
@@ -231,4 +257,11 @@ public class AddDataActivity extends AppCompatActivity {
         if(requestCode == PICK_FROM_ALBUM) {
         }
     }
+    //DbOpenHelper close
+    @Override
+    protected void onDestroy() {
+        mDbOpenHelper.close();
+        super.onDestroy();
+    }
+
 }

@@ -1,25 +1,19 @@
 package org.androidtown.spectacle;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TabHost;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
-    android.support.v7.app.ActionBar actionBar;
+    ActionBar actionBar;
     private FragmentManager fm;
     private ArrayList<Fragment> fList;
 
@@ -76,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentPagerAdapterClass adapter = new FragmentPagerAdapterClass(fm, fList);
         mViewPager.setAdapter(adapter);
 
+
     }
 
     ViewPager.SimpleOnPageChangeListener viewPagerListener = new ViewPager.SimpleOnPageChangeListener() {
@@ -106,29 +101,5 @@ public class MainActivity extends AppCompatActivity {
             // 해당 탭이 다시 선택됐을때 처리
         }
     };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.login) { //로그인
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        else if (id == R.id.make_excel) { //SD카드에 엑셀 파일 생성
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 }

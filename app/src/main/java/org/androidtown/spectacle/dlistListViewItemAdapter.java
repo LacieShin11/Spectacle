@@ -53,15 +53,6 @@ public class dlistListViewItemAdapter extends BaseAdapter {
         titleTextView.setText(dlistListViewItem.getTitleDList());
         dateTextView.setText(dlistListViewItem.getDateDList());
 
-        //리스트뷰 클릭 이벤트
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 터치 시 자세하게 보이는 이벤트
-
-            }
-        });
-
         return convertView;
     }
 
