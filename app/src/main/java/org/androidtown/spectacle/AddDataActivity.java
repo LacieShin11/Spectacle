@@ -228,10 +228,13 @@ AddDataActivity extends AppCompatActivity {
 
             mDbOpenHelper.displayColumn();
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            //체크 버튼 누르면 메인 페이지로 이동
-//            isChecked = true;
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(intent);
+
+            Intent intentSecond = new Intent(getApplicationContext(), FragmentTab1.class);
+            intentSecond.putExtra("ok","");
+            setResult(RESULT_OK, intentSecond);
+            finish();
 
             return true;
         }

@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,35 +19,43 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddDataActivity">
+        <activity android:name=".AddDataActivity"
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:launchMode="singleTask"/>
 
         <activity android:name=".CampusActivities"
-            android:label="교내 활동">
+            android:label="교내 활동"
+            android:launchMode="singleTask">
         </activity>
 
         <activity android:name=".InternationalActivities"
-            android:label="대외 활동">
+            android:label="대외 활동"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".Language"
-            android:label="어학">
+            android:label="어학"
+            android:launchMode="singleTask">
         </activity>
 
         <activity android:name=".Intern"
-            android:label="인턴/아르바이트">
+            android:label="인턴/아르바이트"
+            android:launchMode="singleTask">
         </activity>
 
         <activity android:name=".VolunteerActivities"
-            android:label="봉사활동">
+            android:label="봉사활동"
+            android:launchMode="singleTask">
         </activity>
 
         <activity android:name=".Certificate"
-            android:label="자격증">
+            android:label="자격증"
+            android:launchMode="singleTask">
         </activity>
     </application>
 

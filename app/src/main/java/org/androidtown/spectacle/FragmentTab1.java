@@ -15,8 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentTab1 extends Fragment {
@@ -27,6 +30,7 @@ public class FragmentTab1 extends Fragment {
     //private ArrayAdapter adapter;
     private dlistListViewItemAdapter adapter;
     private DbOpenHelper mDbOpenHelper;
+    private View view;
 
     public static FragmentTab1 newInstance() {
         FragmentTab1 fragment = new FragmentTab1();
@@ -54,7 +58,7 @@ public class FragmentTab1 extends Fragment {
     //플로팅 액션 버튼 이벤트
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        view = inflater.inflate(R.layout.fragment_tab1, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fab);
 
         dlistListView = (ListView) view.findViewById(R.id.dlist_view);
@@ -83,15 +87,26 @@ public class FragmentTab1 extends Fragment {
                 //String string = (String) parent.getItemAtPosition(position);
             }
         });
+        adapter.notifyDataSetChanged();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddDataActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
+
             }
         });
+
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.detach(this).attach(this).commit();
+        }
     }
 
     @Override
@@ -121,4 +136,5 @@ public class FragmentTab1 extends Fragment {
 
         return true;
     }
+
 }
