@@ -1,5 +1,6 @@
 package org.androidtown.spectacle;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +28,6 @@ public class FragmentTab2 extends Fragment {
     public void onCreate(@Nullable Bundle saveInstBundle) {
         super.onCreate(saveInstBundle);
         setHasOptionsMenu(true); //메뉴 버튼 활성화
-
 
     }
 

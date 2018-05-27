@@ -1,5 +1,6 @@
 package org.androidtown.spectacle;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,9 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+/*
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
+*/
 
 
 public class FragmentTab3 extends Fragment {
@@ -25,9 +28,9 @@ public class FragmentTab3 extends Fragment {
     //각 차트 이름
     private String[] pieChartTitle = new String[] {"교내활동", "대외활동", "인턴", "봉사활동", "자격증", "어학"};
 
-    private CategorySeries mSeries = new CategorySeries("계열");
-    private DefaultRenderer mRenderer = new DefaultRenderer();
-    private GraphicalView mChartView;
+//    private CategorySeries mSeries = new CategorySeries("계열");
+//    private DefaultRenderer mRenderer = new DefaultRenderer();
+//    private GraphicalView mChartView;
 
     public static FragmentTab3 newInstance() {
         FragmentTab3 fragment = new FragmentTab3();

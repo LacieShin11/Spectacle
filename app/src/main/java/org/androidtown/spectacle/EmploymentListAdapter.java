@@ -51,7 +51,7 @@ public class EmploymentListAdapter extends BaseAdapter {
         final TextView jobCategoryText = (TextView) convertView.findViewById(R.id.job_type_text);
         final TextView endDateText = (TextView) convertView.findViewById(R.id.end_date_text);
 
-        final EmploymentInfoItem item = infoArray.get(position);
+        EmploymentInfoItem item = infoArray.get(position);
 
         companyNameText.setText(item.companyName);
         jobInfoText.setText(item.jobInfo);

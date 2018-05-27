@@ -62,116 +62,133 @@ public class DbOpenHelper {
 
     public void displayColumn() {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ", null);
-        while (c.moveToNext()){
+        while (c.moveToNext()) {
             String category = c.getString(c.getColumnIndex("category"));
             String title = c.getString(c.getColumnIndex("activityName"));
             String content = c.getString(c.getColumnIndex("activityContent"));
 
-            Log.i("column 내용 ", category + " / "  + title + " / " + content );
+            Log.i("\ncolumn 내용 ", category + " | " + title + " | " + content);
         }
     }
+
     //listView에 표시할 값 얻기
     public String[] getTitle() {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
         String[] titles = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+
+        while (c.moveToNext()) {
             titles[i] = c.getString(c.getColumnIndex("activityName"));
             i++;
         }
         return titles;
     }
+
     public String[] getDate() {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
         String[] date = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
-            date[i] = c.getString(c.getColumnIndex("startDate"));
+
+        while (c.moveToNext()) {
+            String startD = c.getString(c.getColumnIndex("startDate"));
+            String endD = c.getString(c.getColumnIndex("endDate"));
+
+            if (startD.equals(endD))
+                date[i] = c.getString(c.getColumnIndex("startDate"));
+            else
+                date[i] = c.getString(c.getColumnIndex("startDate")) + " ~ " + c.getString(c.getColumnIndex("endDate"));
             i++;
         }
         return date;
     }
+
     public String[] getCategory() {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
         String[] categories = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+
+        while (c.moveToNext()) {
             categories[i] = c.getString(c.getColumnIndex("category"));
             i++;
         }
         return categories;
     }
+
     //카테고리 탭 리스트에 필요한 메소드
     public String[] getListViewTitle(String selectCategory) {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE", null);
-        if(selectCategory == "교내활동") {
-             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '교내활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "외부활동") {
+        if (selectCategory == "교내활동") {
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '교내활동' ORDER BY STARTDATE", null);
+        } else if (selectCategory == "외부활동") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '대외활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "어학") {
+        } else if (selectCategory == "어학") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '어학' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "자격증") {
+        } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "인턴") {
+        } else if (selectCategory == "인턴") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "봉사") {
+        } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
 
         String[] titles = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             titles[i] = c.getString(c.getColumnIndex("activityName"));
             i++;
         }
         return titles;
     }
+
     public String[] getListViewDate(String selectCategory) {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE", null);
-        if(selectCategory == "교내활동") {
+        if (selectCategory == "교내활동") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '교내활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "외부활동") {
+        } else if (selectCategory == "외부활동") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '대외활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "어학") {
+        } else if (selectCategory == "어학") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '어학' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "자격증") {
+        } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "인턴") {
+        } else if (selectCategory == "인턴") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "봉사") {
+        } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
         String[] date = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             date[i] = c.getString(c.getColumnIndex("startDate"));
             i++;
         }
         return date;
     }
+
     public String[] getListViewcategory(String selectCategory) {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE", null);
-        if(selectCategory == "교내활동") {
+        if (selectCategory == "교내활동") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '교내활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "외부활동") {
+        } else if (selectCategory == "외부활동") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '대외활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "어학") {
+        } else if (selectCategory == "어학") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '어학' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "자격증") {
+        } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "인턴") {
+        } else if (selectCategory == "인턴") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "봉사") {
+        } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
         String[] category = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             category[i] = c.getString(c.getColumnIndex("category"));
             i++;
         }
         return category;
     }
 
-    public void deleteTable() { mDB.delete("CONTENTTABLE", null, null); }
+    public void deleteTable() {
+        mDB.delete("CONTENTTABLE", null, null);
+    }
 }

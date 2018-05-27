@@ -29,12 +29,10 @@ public class MainActivity extends AppCompatActivity {
         // fragment 매니져 객체 정의
         fm = getSupportFragmentManager();
 
-        // 액션바 객체 정의
         actionBar = getSupportActionBar();
 
-        // 액션바 속성 정의
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle("스펙타클");
+        if(actionBar != null)
+        actionBar.setIcon(R.drawable.app_label);
 
         // 액션바 모드 설정
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

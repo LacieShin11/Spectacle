@@ -36,7 +36,7 @@ AddDataActivity extends AppCompatActivity {
     private EditText titleText, contentText;
     private int startY, startM, startD, endY, endM, endD;
     private DbOpenHelper mDbOpenHelper;
-//    private boolean isChecked = false;
+    String startDateStr, endDateStr;
 
     @Override
     public void onCreate(@Nullable Bundle saveInstBundle) {
@@ -66,14 +66,17 @@ AddDataActivity extends AppCompatActivity {
 
         Calendar cal = Calendar.getInstance();
 
+        sameCheck.setChecked(true);
+        endDateBtn.setEnabled(false);
+
         startY = endY = cal.get(cal.YEAR);
         startM = endM = cal.get(cal.MONTH) + 1;
         startD = endD = cal.get(cal.DATE);
 
-        final String startDate = startY + "-" + startM + "-" + startD;
-        final String endDate = endY + "-" + endM + "-" + endD;
-        startDateBtn.setText(startDate);
-        endDateBtn.setText(endDate);
+        startDateStr = startY + "-" + startM + "-" + startD;
+        endDateStr = endY + "-" + endM + "-" + endD;
+        startDateBtn.setText(startDateStr);
+        endDateBtn.setText(endDateStr);
 
         sameCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -108,20 +111,23 @@ AddDataActivity extends AppCompatActivity {
                         startY = datePicker.getYear();
                         startM = datePicker.getMonth() + 1;
                         startD = datePicker.getDayOfMonth();
+                        startDateStr = startY + "-" + startM + "-" + startD;
 
                         //시작 날짜가 종료 날짜보다 늦을 때
                         if (sameCheck.isChecked() || startY > endY || (startY >= endY && startM > endM) || (startY >= endY && startM >= endM && startD > endD)) {
-                            endDateBtn.setText(startY + "-" + startM + "-" + startD);
+                            endDateBtn.setText(startDateStr);
+                            endDateStr = startDateStr;
                             endY = startY;
                             endM = startM;
                             endD = startD;
 
-                            Log.i("시작일자가 더 늦음", "시작일 : " + startY + "-" + startM + "-" + startD + " 종료일 : " + endY + "-" + endM + "-" + endD);
                             if (!sameCheck.isChecked())
                                 Toast.makeText(AddDataActivity.this, "시작일자가 종료일자보다 늦습니다.", Toast.LENGTH_SHORT).show();
                         }
-                        startDateBtn.setText(startY + "-" + startM + "-" + startD);
+                        startDateBtn.setText(startDateStr);
 
+                        if (startDateStr.equals(endDateStr))
+                            sameCheck.setChecked(true);
                     }
                 });
                 builder.show();
@@ -150,18 +156,23 @@ AddDataActivity extends AppCompatActivity {
                         endY = datePicker.getYear();
                         endM = datePicker.getMonth() + 1;
                         endD = datePicker.getDayOfMonth();
+                        endDateStr = endY + "-" + endM + "-" + endD;
 
                         //종료날짜가 시작 날짜를 앞설때
                         if (endY < startY || (endY <= startY && endM < startM) || (endY <= startY && endM <= startM && endD < startD)) {
-                            startDateBtn.setText(endY + "-" + endM + "-" + endD);
+                            startDateBtn.setText(endDateStr);
+                            startDateStr = endDateStr;
                             startY = endY;
                             startM = endM;
                             startD = endD;
-                            Log.i("종료일자가 더 빠름", "시작일 : " + startY + "-" + startM + "-" + startD + " 종료일 : " + endY + "-" + endM + "-" + endD);
 
                             Toast.makeText(AddDataActivity.this, "종료일자가 시작일자보다 빠릅니다.", Toast.LENGTH_SHORT).show();
                         }
-                        endDateBtn.setText(endY + "-" + endM + "-" + endD);
+
+                        endDateBtn.setText(endDateStr);
+
+                        if (startDateStr.equals(endDateStr))
+                            sameCheck.setChecked(true);
                     }
                 });
 
@@ -218,24 +229,21 @@ AddDataActivity extends AppCompatActivity {
             String startDate = startDateBtn.getText().toString();
             String endDate = endDateBtn.getText().toString();
 
-//            if(category == "" || title == "" || startDate == "" || endDate == "" ) {
-//                Toast.makeText(this, "빈칸이 있습니다. 채워주세요.", Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
+            if (category.equals("(선택없음)") || title.equals("")) {
+                if (title.equals(""))
+                    Toast.makeText(getApplicationContext(), "활동명을 작성해주세요.", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), "분류할 카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.i("삽입될 내용", category + " / " + title + " / " + content + " / " + startDate + " / " + endDate + " / ");
+                mDbOpenHelper.insertColumn(category, title, content, startDate, endDate, "");
+                mDbOpenHelper.displayColumn();
 
-            Log.i("삽입될 내용", category + " / "+ title + " / " + content + " / " + startDate + " / " + endDate + " / " );
-            mDbOpenHelper.insertColumn(category, title, content, startDate,endDate,"");
-
-            mDbOpenHelper.displayColumn();
-
-//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(intent);
-
-            Intent intentSecond = new Intent(getApplicationContext(), FragmentTab1.class);
-            intentSecond.putExtra("ok","");
-            setResult(RESULT_OK, intentSecond);
-            finish();
-
+                Intent intent = new Intent(getApplicationContext(), FragmentTab1.class);
+                intent.putExtra("ok", "");
+                setResult(RESULT_OK, intent);
+                finish();
+            }
             return true;
         }
 
@@ -257,9 +265,10 @@ AddDataActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PICK_FROM_ALBUM) {
+        if (requestCode == PICK_FROM_ALBUM) {
         }
     }
+
     //DbOpenHelper close
     @Override
     protected void onDestroy() {

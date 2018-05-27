@@ -15,8 +15,9 @@
 
         <TextView
             android:id="@+id/company_text"
-            android:layout_width="wrap_content"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textColor="#000000"
             android:textSize="23sp"
             android:textStyle="bold" />
@@ -33,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:gravity="right"
                 android:textColor="#3b62d6" />
         </LinearLayout>
     </LinearLayout>

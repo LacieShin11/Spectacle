@@ -1,5 +1,6 @@
 package org.androidtown.spectacle;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +14,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,7 +61,6 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
     private boolean[] isCheckedArray = new boolean[13];
     private Integer[] checkID = {R.id.check1, R.id.check2, R.id.check3, R.id.check4, R.id.check5, R.id.check6,
             R.id.check7, R.id.check8, R.id.check9, R.id.check10, R.id.check11, R.id.check12, R.id.check13};
-    private DbOpenHelper mDbOpenHelper;
 
     public static FragmentTab4 newInstance() {
         FragmentTab4 fragment = new FragmentTab4();
@@ -92,8 +91,8 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
         listView = (ListView) view.findViewById(R.id.employment_list);
         slidingBtn = (Button) view.findViewById(R.id.handle);
         slidingDrawer = (SlidingDrawer) view.findViewById(R.id.slide_drawer);
-        upIcon = getContext().getResources().getDrawable(R.drawable.up_icon_custom);
-        downIcon = getContext().getResources().getDrawable(R.drawable.down_icon_custom);
+        upIcon = getContext().getResources().getDrawable(R.drawable.ic_up_24dp);
+        downIcon = getContext().getResources().getDrawable(R.drawable.ic_down_24dp);
 
         //체크박스 초기화
         for (int i = 0; i < checkBoxes.length; i++) {
@@ -177,7 +176,7 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
             ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected())
-                Toast.makeText(getActivity(), "새로고침 완료.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "새로고침 완료", Toast.LENGTH_SHORT).show();
             showList();
 
         } else if (id == R.id.login) {
@@ -186,6 +185,7 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
         } else if (id == R.id.make_excel) {
 
         }
+
         return true;
     }
 
@@ -209,7 +209,7 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
                             urlStr += "," + (i + 1);
                     }
 
-
+                    Log.d("link", urlStr);
                     getJobData(urlStr);
 
                     activity.runOnUiThread(new Runnable() {

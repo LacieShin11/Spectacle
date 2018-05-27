@@ -12,12 +12,12 @@
             android:id="@+id/none_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25sp"
-            android:visibility="invisible"
             android:background="@color/colorWhite"
             android:clickable="false"
             android:gravity="center"
-            android:text="직종을 선택해주세요."/>
+            android:text="직종을 선택해주세요."
+            android:textSize="25sp"
+            android:visibility="invisible" />
 
         <ListView
             android:id="@+id/employment_list"
@@ -39,31 +39,32 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_select"
                 android:drawablePadding="-5dp"
-                android:drawableTop="@drawable/up_icon_custom"
+                android:drawableTop="@drawable/ic_up_24dp"
+                android:gravity="center"
                 android:handle="@+id/slide_btn"
                 android:paddingTop="5dp"
-                android:gravity="center"
                 android:text="직종 선택" />
 
             <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:background="@color/colorWhite"
-                android:paddingLeft="20dp"
-                android:paddingTop="5dp">
+                android:orientation="vertical"
+                android:paddingLeft="0dp"
+                android:paddingVertical="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="25dp">
 
                     <CheckBox
                         android:id="@+id/check1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="경영·사무" />
@@ -71,7 +72,7 @@
                     <CheckBox
                         android:id="@+id/check2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="영업·고객상담" />
@@ -79,7 +80,7 @@
                     <CheckBox
                         android:id="@+id/check3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="생산·제조" />
@@ -89,12 +90,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="25dp">
 
                     <CheckBox
                         android:id="@+id/check4"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="IT·인터넷" />
@@ -102,7 +104,7 @@
                     <CheckBox
                         android:id="@+id/check5"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="전문직" />
@@ -110,7 +112,7 @@
                     <CheckBox
                         android:id="@+id/check6"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="교육" />
@@ -121,12 +123,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="25dp">
 
                     <CheckBox
                         android:id="@+id/check7"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="미디어" />
@@ -134,7 +137,7 @@
                     <CheckBox
                         android:id="@+id/check8"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="특수계층·공공" />
@@ -142,7 +145,7 @@
                     <CheckBox
                         android:id="@+id/check9"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="건설" />
@@ -152,12 +155,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="25dp">
 
                     <CheckBox
                         android:id="@+id/check10"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="유통·무역" />
@@ -165,7 +169,7 @@
                     <CheckBox
                         android:id="@+id/check11"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="서비스" />
@@ -173,7 +177,7 @@
                     <CheckBox
                         android:id="@+id/check12"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:checked="true"
                         android:text="디자인" />
@@ -183,32 +187,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="25dp">
 
                     <CheckBox
                         android:id="@+id/check13"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:checked="true"
                         android:text="의료" />
 
-                    <CheckBox
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
-                </LinearLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="right|bottom"
-                    android:paddingBottom="10dp"
-                    android:paddingRight="10dp"
-                    android:text="Powered by 취업 사람인"
-                    android:textColor="#3b62d6" />
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00000000"
+                        android:gravity="right|bottom"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="20dp"
+                        android:text="Powered by 취업 사람인"
+                        android:textColor="#3b62d6" />
+                </LinearLayout>
 
             </LinearLayout>
 
