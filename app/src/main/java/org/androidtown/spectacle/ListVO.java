@@ -8,6 +8,7 @@ public class ListVO {
     private String category;
     private String projectName;
     private String date;
+    private int contentID;
 
     public String getCategory() {
         return category;
@@ -27,4 +28,6 @@ public class ListVO {
     public void setDate(String date) {
         this.date = date;
     }
+    public void setContentID(int contentID) {this.contentID = contentID;}
+    public int getContentID() {return contentID;}
 }

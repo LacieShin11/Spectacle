@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import static org.androidtown.spectacle.DataBase.CreateDB.CONTENT_ID;
+import static org.androidtown.spectacle.DataBase.CreateDB._TABLENAME;
+
 public class DbOpenHelper {
     private static final String DATABASE_NAME = "spectacle.db";
     private static final int DATABASE_VERSION = 1;
@@ -71,6 +74,30 @@ public class DbOpenHelper {
         }
     }
 
+    public String[] getSelectedRow(int content_id) {
+
+        String selectedTitle = "";
+        String selectedCategory = "";
+        String selectedStartDate = "";
+        String selectedEndDate = "";
+        String selectedContent = "";
+        String sql = "SELECT * FROM " + _TABLENAME + " WHERE " + CONTENT_ID + "='" + content_id + "';";
+        Cursor row = mDB.rawQuery(sql, null);
+
+        if (row.getCount() > 0)
+            while (row.moveToNext()) {
+                selectedTitle = row.getString(row.getColumnIndex("activityName"));
+                selectedCategory = row.getString(row.getColumnIndex("category"));
+                selectedStartDate = row.getString(row.getColumnIndex("startDate"));
+                selectedEndDate = row.getString(row.getColumnIndex("endDate"));
+                selectedContent = row.getString(row.getColumnIndex("activityContent"));
+            }
+
+        String[] selectedRow = {selectedTitle, selectedCategory, selectedStartDate, selectedEndDate, selectedContent};
+
+        return selectedRow;
+    }
+
     //listView에 표시할 값 얻기
     public String[] getTitle() {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
@@ -82,6 +109,17 @@ public class DbOpenHelper {
             i++;
         }
         return titles;
+    }
+
+    public int[] getContentID() {
+        Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ", null);
+        int[] contentID = new int[c.getCount()];
+        int i = 0;
+        while(c.moveToNext()) {
+            contentID[i] = c.getInt(c.getColumnIndex("contentId"));
+            i++;
+        }
+        return contentID;
     }
 
     public String[] getDate() {
@@ -187,6 +225,38 @@ public class DbOpenHelper {
         }
         return category;
     }
+
+    public int[] getListViewID(String selectCategory) {
+        Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE", null);
+        if(selectCategory == "교내활동") {
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '교내활동' ORDER BY STARTDATE", null);
+        } else if(selectCategory == "외부활동") {
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '대외활동' ORDER BY STARTDATE", null);
+        } else if(selectCategory == "어학") {
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '어학' ORDER BY STARTDATE", null);
+        } else if(selectCategory == "자격증") {
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
+        } else if(selectCategory == "인턴") {
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
+        } else if(selectCategory == "봉사") {
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
+        }
+
+        int[] contentID = new int[c.getCount()];
+        int i = 0;
+        while(c.moveToNext()) {
+            contentID[i] = c.getInt(c.getColumnIndex("contentId"));
+            i++;
+        }
+        return contentID;
+    }
+
+    public void delete(int content_id) {
+        String sql = "DELETE FROM " + _TABLENAME + " WHERE " + CONTENT_ID + "='" + content_id + "';";
+        mDB.execSQL(sql);
+        mDB.close();
+    }
+
 
     public void deleteTable() {
         mDB.delete("CONTENTTABLE", null, null);

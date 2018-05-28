@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 public class ListViewAdapter extends BaseAdapter {
     private ListVO listViewItem;
     private ArrayList<ListVO> listVO = new ArrayList<ListVO>();
+
     public ListViewAdapter() {
 
     }
@@ -44,18 +44,25 @@ public class ListViewAdapter extends BaseAdapter {
         projectName.setText(listViewItem.getProjectName());
         date.setText(listViewItem.getDate());
 
-        //리스트뷰 클릭 이벤트
+
+
+        /*//리스트뷰 클릭 이벤트
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // 터치 시 자세하게 보이는 항목
-                // 테스트로 프로젝트 이름을 토스트로 띄우도록
 
                 // 클릭한 항목의 pos의 아이템을 listViewItem에 넣기
                 listViewItem = listVO.get(pos);
-                Toast.makeText(context, listViewItem.getProjectName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, DetailContentActivity.class);
+
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
+
+        listViewItem = listVO.get(position);*/
+
+
         return convertView;
     }
 
@@ -69,14 +76,18 @@ public class ListViewAdapter extends BaseAdapter {
         return listVO.get(position);
     }
 
+
+
     //데이터값 넣어줌
-    public void addVO(String category, String projectName, String date) {
+    public void addVO(String category, String projectName, String date, int contentID) {
         ListVO item = new ListVO();
 
         item.setCategory(category);
         item.setProjectName(projectName);
         item.setDate(date);
+        item.setContentID(contentID);
 
         listVO.add(item);
     }
 }
+
