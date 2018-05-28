@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/180517Spectacle.iml" filepath="$PROJECT_DIR$/180517Spectacle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Spectacle.iml" filepath="$PROJECT_DIR$/Spectacle.iml" />
+      <module fileurl="file://C:\Users\Android\Desktop\Spectacle_kyong\180517Spectacle.iml" filepath="C:\Users\Android\Desktop\Spectacle_kyong\180517Spectacle.iml" />
+      <module fileurl="file://C:\Users\Android\Desktop\Spectacle_kyong\Spectacle.iml" filepath="C:\Users\Android\Desktop\Spectacle_kyong\Spectacle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectacle_kyong.iml" filepath="$PROJECT_DIR$/Spectacle_kyong.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Android\Desktop\Spectacle_kyong\app\app.iml" filepath="C:\Users\Android\Desktop\Spectacle_kyong\app\app.iml" />
     </modules>
   </component>
 </project>
