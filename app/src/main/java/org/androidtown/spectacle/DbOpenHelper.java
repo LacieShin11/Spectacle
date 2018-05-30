@@ -83,6 +83,18 @@ public class DbOpenHelper {
         return res;
     }//**엑셀용-테이블 전체 가져오기
 
+    public boolean isEmpty(Cursor c) {
+        int notEmpty=0;
+        c = rDB.rawQuery("select * from CONTENTTABLE ORDER BY STARTDATE", null);
+        while(c.moveToNext()){
+            notEmpty++;
+        }
+        if(notEmpty > 0){
+            return false;
+        }
+        else return true;
+    } //DB 비어 있는지 여부 알려주는 함수 - 맨 처음 앱 켰을 때 빈 화면 뜨게 하기 위해 추가해 준 함수
+
 
     //listView에 표시할 값 얻기
     public String[] getTitle() {

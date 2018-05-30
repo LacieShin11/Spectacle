@@ -101,135 +101,146 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     //플로팅 액션 버튼 이벤트
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tab1, container, false);
-        FloatingActionButton fab = view.findViewById(R.id.fab);
-
+        View v;
         //DB 생성 및 열기
         mDbOpenHelper = new DbOpenHelper(getContext());
         mDbOpenHelper.open();
 
-        yearText = view.findViewById(R.id.year_text);
-        leftArrow = view.findViewById(R.id.left_arrow);
-        rightArrow = view.findViewById(R.id.right_arrow);
+        if(mDbOpenHelper.isEmpty(mDbOpenHelper.getTable())) {
+            View view = inflater.inflate(R.layout.list_empty_layout, container, false);
+            FloatingActionButton fab = view.findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), AddDataActivity.class);
+                    startActivityForResult(intent, 0);
+                }
+            });
+            v = view;
+        }//db가 텅 비어있으면 빈 화면 보여주기
+        else {
+            View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+            FloatingActionButton fab = view.findViewById(R.id.fab);
+            v = view;
 
-        year = Calendar.getInstance().get(Calendar.YEAR);
-        yearText.setText(year + "년");
+            yearText = view.findViewById(R.id.year_text);
+            leftArrow = view.findViewById(R.id.left_arrow);
+            rightArrow = view.findViewById(R.id.right_arrow);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddDataActivity.class);
-                startActivity(intent);
-            }
-        });
+            year = Calendar.getInstance().get(Calendar.YEAR);
+            yearText.setText(year + "년");
 
-        listView = (ExpandableListView) view.findViewById(R.id.date_list);
-        listView.setGroupIndicator(null);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), AddDataActivity.class);
+                    startActivity(intent);
+                }
+            });
 
-        final ListByDateAdapter adapter = new ListByDateAdapter();
-        adapter.headerList = groupList;
-        adapter.childList = childList;
-        listView.setAdapter(adapter);
+            listView = (ExpandableListView) view.findViewById(R.id.date_list);
+            listView.setGroupIndicator(null);
 
-        //DB Create and Open
-        mDbOpenHelper = new DbOpenHelper(getContext());
-        mDbOpenHelper.open();
+            final ListByDateAdapter adapter = new ListByDateAdapter();
+            adapter.headerList = groupList;
+            adapter.childList = childList;
+            listView.setAdapter(adapter);
 
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Log.i("childPosition", "childPosition : " + childPosition);
-                selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
+            listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                    Log.i("childPosition", "childPosition : " + childPosition);
+                    selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
 
                 /*childList.get(3).get(0) //4월의 0번째 요소
                 childList.get(0).get(1) //1월 2번째 요소*/
 
-                int content_id = selectedItem.getContentID();
-                String cate = selectedItem.getCategoryName();
-                Log.i("content_id", "content_id : " + content_id);
-                Log.i("cate", "cate : " + cate);
+                    int content_id = selectedItem.getContentID();
+                    String cate = selectedItem.getCategoryName();
+                    Log.i("content_id", "content_id : " + content_id);
+                    Log.i("cate", "cate : " + cate);
 
-                String[] selectedRow = mDbOpenHelper.getSelectedRow(content_id);
+                    String[] selectedRow = mDbOpenHelper.getSelectedRow(content_id);
 
-                String selectedTitle = selectedRow[0];
-                String selectedCategory = selectedRow[1];
-                String selectedStartDate = selectedRow[2];
-                String selectedEndDate = selectedRow[3];
-                String selectedContent = selectedRow[4];
+                    String selectedTitle = selectedRow[0];
+                    String selectedCategory = selectedRow[1];
+                    String selectedStartDate = selectedRow[2];
+                    String selectedEndDate = selectedRow[3];
+                    String selectedContent = selectedRow[4];
 
-                Intent intent = new Intent(getContext(), DetailContentActivity.class);
-                intent.putExtra("title", selectedTitle);
-                intent.putExtra("cate", selectedCategory);
-                intent.putExtra("startDate", selectedStartDate);
-                intent.putExtra("endDate", selectedEndDate);
-                intent.putExtra("content", selectedContent);
+                    Intent intent = new Intent(getContext(), DetailContentActivity.class);
+                    intent.putExtra("title", selectedTitle);
+                    intent.putExtra("cate", selectedCategory);
+                    intent.putExtra("startDate", selectedStartDate);
+                    intent.putExtra("endDate", selectedEndDate);
+                    intent.putExtra("content", selectedContent);
 
-                startActivity(intent);
+                    startActivity(intent);
 
-                return false;
-            }
-
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    final int groupPosition = ExpandableListView.getPackedPositionGroup(id);
-                    final int childPosition = ExpandableListView.getPackedPositionChild(id);
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-                    alertDialogBuilder.setTitle("삭제");
-                    alertDialogBuilder.setMessage("삭제하기");
-                    alertDialogBuilder.setCancelable(false);
-                    alertDialogBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
-                            int content_id = selectedItem.getContentID();
-                            mDbOpenHelper.delete(content_id);
-                            adapter.removeChild(groupPosition, childPosition);
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                    alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // 다이얼로그를 취소한다
-                            dialog.cancel();
-                        }
-                    });
-                    alertDialogBuilder.create();
-                    alertDialogBuilder.show();
-                    adapter.notifyDataSetChanged();
-
-                    return true;
-
+                    return false;
                 }
 
-                return false;
-            }
-        });
+            });
 
-        //좌우 화살표 클릭 이벤트
-        leftArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                year--;
-                yearText.setText(year + "년");
-                setListItem();
-            }
-        });
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                        final int groupPosition = ExpandableListView.getPackedPositionGroup(id);
+                        final int childPosition = ExpandableListView.getPackedPositionChild(id);
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                        alertDialogBuilder.setTitle("삭제");
+                        alertDialogBuilder.setMessage("삭제하기");
+                        alertDialogBuilder.setCancelable(false);
+                        alertDialogBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
+                                int content_id = selectedItem.getContentID();
+                                mDbOpenHelper.delete(content_id);
+                                adapter.removeChild(groupPosition, childPosition);
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                        alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // 다이얼로그를 취소한다
+                                dialog.cancel();
+                            }
+                        });
+                        alertDialogBuilder.create();
+                        alertDialogBuilder.show();
+                        adapter.notifyDataSetChanged();
 
-        rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                year++;
-                yearText.setText(year + "년");
-                setListItem();
-            }
-        });
+                        return true;
 
+                    }
+
+                    return false;
+                }
+            });
+
+            //좌우 화살표 클릭 이벤트
+            leftArrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    year--;
+                    yearText.setText(year + "년");
+                    setListItem();
+                }
+            });
+
+            rightArrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    year++;
+                    yearText.setText(year + "년");
+                    setListItem();
+                }
+            });
+        }
         setListItem();
 
-        return view;
+        return v;
     }
 
     @Override
@@ -258,7 +269,24 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
         } else if (id == R.id.make_excel) {//엑셀 파일로 만들기
+            mDbOpenHelper.open();
             Cursor cursor = mDbOpenHelper.getTable(); //db전체 내용 가져옴
+//*****나중에 알림창 띄우는 기능 추가할 수 있으면 할 것*********
+//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+//                    getContext().getApplicationContext());
+//
+//            alertDialogBuilder
+//                    .setTitle("엑셀파일 생성 권한")
+//                    .setMessage("[엑셀 내보내기] 기능을 사용하시려면 내부 파일, 미디어 접근 권한을 [허용]해주셔야 합니다. " +
+//                            "'다시 묻지 않기' 후에 [거부]를 누르시면 [엑셀 내보내기] 기능을 사용하실 수 없으니 이 점 참고해 주시길 바랍니다.")
+//                    .setCancelable(false)
+//                    .setPositiveButton("확인했습니다",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(
+//                                        DialogInterface dialog, int id) {
+//                                    // 프로그램을 종료한다
+//                                }
+//                            });
 
             askForPermission();
 
@@ -268,14 +296,18 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             String csvFile = "mySpec.xls";//xlsx로 하면 파일 확장자 오류? 내부파일 망가졌다고? 오류나므로 xls로 확장자할 것
             String path = directory.toString();// /storage/emulated/0/Spectacle *0은 루트 의미하는 듯
 
-            File file = new File(path+"/"+csvFile); //해당 경로 밑에 xsl파일 생성
+            File file = new File(path); //해당 경로 밑에 xsl파일 생성
+            if(!file.isDirectory()){
+                file.mkdirs();
+            }
 
             try{
+                File file_2 = new File(directory, csvFile);
                 WorkbookSettings wbSettings = new WorkbookSettings();
                 wbSettings.setLocale(new Locale("en", "EN"));
                 WritableWorkbook workbook;
 
-                workbook = Workbook.createWorkbook(file, wbSettings);
+                workbook = Workbook.createWorkbook(file_2, wbSettings);
 
                 //WorkbookSetting class의 역할: 엑셀 시트 만들어주는데 필요한 클래스.
                 WritableSheet sheet = workbook.createSheet("MySPECtacle", 0); //엑셀파일 생성 및 이름 설정
