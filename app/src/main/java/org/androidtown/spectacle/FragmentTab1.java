@@ -281,7 +281,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.login) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            Intent intent = new Intent(getActivity(), SettingActivity.class);
             startActivity(intent);
         } else if (id == R.id.make_excel) {//엑셀 파일로 만들기
             mDbOpenHelper.open();
