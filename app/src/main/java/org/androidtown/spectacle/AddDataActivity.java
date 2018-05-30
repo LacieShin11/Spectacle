@@ -29,9 +29,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,7 +58,9 @@ AddDataActivity extends AppCompatActivity {
     private ImageView selectImg;
     private DbOpenHelper mDbOpenHelper;
     private TextView noneImgText, imgNameText;
-    String startDateStr, endDateStr, imgPath, imgName;
+    String startDateStr, endDateStr, imgPath = "", imgName;
+    File to;
+    int imgCount = 0;
 
     @Override
     public void onCreate(@Nullable Bundle saveInstBundle) {
@@ -230,6 +235,16 @@ AddDataActivity extends AppCompatActivity {
             }
         });
 
+        //이미지 삭제 버튼 클릭 이벤트
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeView();
+                imgCount = 0;
+                imgName = "";
+                imgPath = "";
+            }
+        });
     }
 
     private void askForPermission() {
@@ -287,7 +302,7 @@ AddDataActivity extends AppCompatActivity {
                 }
 
                 File from = new File(imgPath); //기존 파일
-                File to = new File(file + "/" + imgName);
+                to = new File(file + "/" + imgName);
 
                 to.createNewFile(); //복사할 파일명 가져와서 빈 파일 생성
 
@@ -303,8 +318,8 @@ AddDataActivity extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(), "분류할 카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
             } else {
-                Log.i("삽입될 내용", category + " / " + title + " / " + content + " / " + startDate + " / " + endDate + " / ");
-                mDbOpenHelper.insertColumn(category, title, content, startDate, endDate, "");
+                mDbOpenHelper.insertColumn(category, title, content, startDate, endDate, to.toString());
+
                 mDbOpenHelper.displayColumn();
 
                 Intent intent = new Intent(AddDataActivity.this, FragmentTab1.class);
@@ -340,6 +355,10 @@ AddDataActivity extends AppCompatActivity {
             if (requestCode == PICK_FROM_ALBUM) {
                 selectImg.setImageBitmap(bitmap);
                 imgNameText.setText(imgName);
+                imgCount++;
+
+                if (imgCount == 1)
+                    changeView();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -354,9 +373,7 @@ AddDataActivity extends AppCompatActivity {
         cursor.moveToFirst();
 
         imgPath = cursor.getString(column_index);
-        Log.i("이미지 경로: ", imgPath);
         String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
-        Log.i("이미지 이름: ", imgName);
 
         return imgName;
     }
@@ -380,6 +397,19 @@ AddDataActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void changeView() {
+        LinearLayout layout = findViewById(R.id.image_layout);
+        TextView textView = findViewById(R.id.none_img_text);
+
+        if (layout.getVisibility() == View.VISIBLE) {
+            layout.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            layout.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.INVISIBLE);
         }
     }
 

@@ -72,6 +72,7 @@ public class Certificate extends AppCompatActivity {
                 String selectedStartDate = selectedRow[2];
                 String selectedEndDate = selectedRow[3];
                 String selectedContent = selectedRow[4];
+                String selectedImgPath = selectedRow[5];
 
                 Intent intent = new Intent(getApplicationContext(), DetailContentActivity.class);
                 intent.putExtra("title", selectedTitle);
@@ -79,7 +80,8 @@ public class Certificate extends AppCompatActivity {
                 intent.putExtra("startDate", selectedStartDate);
                 intent.putExtra("endDate", selectedEndDate);
                 intent.putExtra("content", selectedContent);
-                intent.putExtra("postContentID", content_id);
+                intent.putExtra("contentID", content_id);
+                intent.putExtra("image", selectedImgPath);
 
                 startActivity(intent);
 

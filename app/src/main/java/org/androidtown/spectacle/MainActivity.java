@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
 
-        if(actionBar != null)
+        if (actionBar != null)
             actionBar.setIcon(R.drawable.app_label);
 
         // 액션바 모드 설정

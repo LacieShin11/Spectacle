@@ -32,7 +32,8 @@ public class DbOpenHelper {
         //최초 DB를 만들 때 한 번만 호출된다.
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DataBase.CreateDB._CREATE);//테이블 생성
+            db.execSQL(DataBase.CreateDB._CREATE);
+            db.execSQL(DataBase.CreateDB.CREATEPASS);//테이블 생성
         }
 
         //버전이 업데이트 되었을 경우 DB를 다시 만들어 준다.
@@ -64,6 +65,18 @@ public class DbOpenHelper {
         return state;
     }
 
+    public long insertColumnPass(String password) {
+        ContentValues values = new ContentValues();
+        values.put(DataBase.CreateDB.PASSWORD, password);
+        Log.i("password : ", password);
+        return mDB.insert(DataBase.CreateDB.PASSWORD_TABLE, null, values);
+    }
+
+    public void updateColumnPass(String password) {
+        ContentValues values = new ContentValues();
+        mDB.execSQL("update PASSWORDTABLE SET password = " + password);
+    }
+
     public long insertColumn(String category, String activityName, String activityContent, String startDate, String endDate, String image) {
         ContentValues values = new ContentValues();
         values.put(DataBase.CreateDB.CATEGORY, category);
@@ -72,18 +85,20 @@ public class DbOpenHelper {
         values.put(DataBase.CreateDB.STARTDATE, startDate);
         values.put(DataBase.CreateDB.ENDDATE, endDate);
         values.put(DataBase.CreateDB.IMAGE, image);
+
         return mDB.insert(DataBase.CreateDB._TABLENAME, null, values);
     }
 
-    public long updateColumn(int contentID, String category, String activityName, String activityContent, String startDate, String endDate) {
+    public long updateColumn(int contentID, String category, String activityName, String activityContent, String startDate, String endDate, String imgPath) {
         ContentValues values = new ContentValues();
         values.put("category", category);
         values.put("activityName", activityName);
         values.put("activityContent", activityContent);
         values.put("startDate", startDate);
         values.put("endDate", endDate);
+        values.put("image", imgPath);
 
-        return mDB.update("CONTENTTABLE", values, "contentId="+contentID, null);
+        return mDB.update("CONTENTTABLE", values, "contentId=" + contentID, null);
     }
 
     public void displayColumn() {
@@ -114,6 +129,18 @@ public class DbOpenHelper {
             return false;
         } else return true;
     } //DB 비어 있는지 여부 알려주는 함수 - 맨 처음 앱 켰을 때 빈 화면 뜨게 하기 위해 추가해 준 함수
+
+    // 비밀번호 값 얻기
+    public String[] getPassword() {
+        Cursor c = mDB.rawQuery("Select * from PASSWORDTABLE", null);
+        String[] password = new String[c.getCount()];
+        int i = 0;
+        while (c.moveToNext()) {
+            password[i] = c.getString(c.getColumnIndex("password"));
+            i++;
+        }
+        return password;
+    }
 
     //listView에 표시할 값 얻기
     public String[] getTitle() {
@@ -230,6 +257,7 @@ public class DbOpenHelper {
         String selectedStartDate = "";
         String selectedEndDate = "";
         String selectedContent = "";
+        String selectedImgPath = "";
         String sql = "SELECT * FROM " + _TABLENAME + " WHERE " + CONTENT_ID + "='" + content_id + "';";
         Cursor row = mDB.rawQuery(sql, null);
 
@@ -240,9 +268,11 @@ public class DbOpenHelper {
                 selectedStartDate = row.getString(row.getColumnIndex("startDate"));
                 selectedEndDate = row.getString(row.getColumnIndex("endDate"));
                 selectedContent = row.getString(row.getColumnIndex("activityContent"));
+                selectedImgPath = row.getString(row.getColumnIndex("image"));
+                Log.i("getSelectRow", selectedCategory + " " + selectedImgPath);
             }
 
-        String[] selectedRow = {selectedTitle, selectedCategory, selectedStartDate, selectedEndDate, selectedContent};
+        String[] selectedRow = {selectedTitle, selectedCategory, selectedStartDate, selectedEndDate, selectedContent, selectedImgPath};
 
         return selectedRow;
     }//선택된 행의 데이터 전체를 가져오는 메소드-새로 추가된 듯

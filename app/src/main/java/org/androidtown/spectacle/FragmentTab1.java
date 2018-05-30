@@ -101,6 +101,8 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             mDbOpenHelper.open();
             Log.i("DB 상태", mDbOpenHelper.getState() + " ");
         }
+
+        year = Calendar.getInstance().get(Calendar.YEAR);
     }
 
     //플로팅 액션 버튼 이벤트
@@ -139,7 +141,6 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             leftArrow = view.findViewById(R.id.left_arrow);
             rightArrow = view.findViewById(R.id.right_arrow);
 
-            year = Calendar.getInstance().get(Calendar.YEAR);
             yearText.setText(year + "년");
 
             listView = (ExpandableListView) view.findViewById(R.id.date_list);
@@ -168,6 +169,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     String selectedStartDate = selectedRow[2];
                     String selectedEndDate = selectedRow[3];
                     String selectedContent = selectedRow[4];
+                    String selectedImgPath = selectedRow[5];
 
                     Intent intent = new Intent(getContext(), DetailContentActivity.class);
                     intent.putExtra("title", selectedTitle);
@@ -176,6 +178,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     intent.putExtra("endDate", selectedEndDate);
                     intent.putExtra("content", selectedContent);
                     intent.putExtra("contentID", content_id);
+                    intent.putExtra("image", selectedImgPath);
 
                     startActivity(intent);
 
@@ -234,6 +237,9 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     yearText.setText(year + "년");
                     setListItem();
                     adapter.notifyDataSetChanged();
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(FragmentTab1.this).attach(FragmentTab1.this).commit();
                 }
             });
 
@@ -244,6 +250,9 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     yearText.setText(year + "년");
                     setListItem();
                     adapter.notifyDataSetChanged();
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(FragmentTab1.this).attach(FragmentTab1.this).commit();
                 }
             });
         }
@@ -364,10 +373,21 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
         } else if (id == R.id.initialization) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("모든 내역을 초기화 하시겠습니까? 초기화 된 내용은 복구가 불가능합니다.").setCancelable(false).setPositiveButton("확인",
+            builder.setMessage("모든 내역을 초기화 하시겠습니까? \n초기화 된 내용은 복구가 불가능합니다.").setCancelable(false).setPositiveButton("확인",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            //사진 폴더 삭제
+                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Spectacle/image");
+                            File[] childFileList = file.listFiles();
+                            for (File child : childFileList) {
+                                if (!child.isDirectory())
+                                    child.delete();
+                            }
+
+                            file.delete();
+
+                            //DB 테이블 삭제
                             mDbOpenHelper.deleteTable();
                             FragmentTransaction ft = getFragmentManager().beginTransaction();
                             ft.detach(FragmentTab1.this).attach(FragmentTab1.this).commit();

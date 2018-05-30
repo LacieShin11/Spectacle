@@ -72,6 +72,7 @@ public class Intern extends AppCompatActivity {
                 String selectedStartDate = selectedRow[2];
                 String selectedEndDate = selectedRow[3];
                 String selectedContent = selectedRow[4];
+                String selectedImgPath = selectedRow[5];
 
                 Intent intent = new Intent(getApplicationContext(), DetailContentActivity.class);
                 intent.putExtra("title", selectedTitle);
@@ -80,6 +81,7 @@ public class Intern extends AppCompatActivity {
                 intent.putExtra("endDate", selectedEndDate);
                 intent.putExtra("content", selectedContent);
                 intent.putExtra("contentID", content_id);
+                intent.putExtra("image", selectedImgPath);
 
                 startActivity(intent);
 
