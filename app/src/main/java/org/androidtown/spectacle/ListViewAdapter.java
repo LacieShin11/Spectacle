@@ -76,7 +76,10 @@ public class ListViewAdapter extends BaseAdapter {
         return listVO.get(position);
     }
 
-
+    public void removeChild(int position)
+    {
+        listVO.remove(position);
+    }
 
     //데이터값 넣어줌
     public void addVO(String category, String projectName, String date, int contentID) {

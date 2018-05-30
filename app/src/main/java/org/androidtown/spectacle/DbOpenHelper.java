@@ -120,7 +120,7 @@ public class DbOpenHelper {
     }//테이블에 id 데이터는 STARTDATE로 정렬해서 ids배열에 저장-엑셀용
 
     public int[] getContentID() {
-        Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ", null);
+        Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE", null);
         int[] contentID = new int[c.getCount()];
         int i = 0;
         while(c.moveToNext()) {
@@ -314,13 +314,12 @@ public class DbOpenHelper {
             i++;
         }
         return contentID;
-    }//새로 생긴 메소드인 듯!!
+    }
 
     public void delete(int content_id) {
         String sql = "DELETE FROM " + _TABLENAME + " WHERE " + CONTENT_ID + "='" + content_id + "';";
         mDB.execSQL(sql);
-        //mDB.close();
-    }//새로 생긴 메소드!-특정 행을 삭제하는 듯
+    }
 
 
     public void deleteTable() {

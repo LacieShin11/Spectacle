@@ -80,6 +80,7 @@ public class ListByDateAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View v = convertView;
         Context context = parent.getContext();
+        final int childPos = childPosition;
 
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -101,6 +102,11 @@ public class ListByDateAdapter extends BaseExpandableListAdapter {
             }
         }
         return v;
+    }
+
+    public void removeChild(int groupPosition, int childPosition)
+    {
+        childList.get(groupPosition).remove(childPosition);
     }
 
     @Override

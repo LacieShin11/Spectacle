@@ -49,7 +49,6 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     Context mContext;
     DbOpenHelper mDbOpenHelper;
     ExpandableListView listView;
-    ListByDateAdapter adapter;
     ArrayList<ListByDateHeaderItem> groupList = new ArrayList<>();
     ArrayList<ArrayList<ListByDateItem>> childList = new ArrayList<>();
     ArrayList<ArrayList<ListByDateItem>> monthArray = new ArrayList<>();
@@ -65,6 +64,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     ArrayList<ListByDateItem> month10 = new ArrayList<>();
     ArrayList<ListByDateItem> month11 = new ArrayList<>();
     ArrayList<ListByDateItem> month12 = new ArrayList<>();
+    ListByDateItem selectedItem;
 
     public static FragmentTab1 newInstance() {
         FragmentTab1 fragment = new FragmentTab1();
@@ -126,18 +126,87 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         listView = (ExpandableListView) view.findViewById(R.id.date_list);
         listView.setGroupIndicator(null);
 
-        ListByDateAdapter adapter = new ListByDateAdapter();
+        final ListByDateAdapter adapter = new ListByDateAdapter();
         adapter.headerList = groupList;
         adapter.childList = childList;
         listView.setAdapter(adapter);
 
-//        //listview 아이템 클릭 이벤트
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
+        //DB Create and Open
+        mDbOpenHelper = new DbOpenHelper(getContext());
+        mDbOpenHelper.open();
+
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Log.i("childPosition", "childPosition : " + childPosition);
+                selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
+
+                /*childList.get(3).get(0) //4월의 0번째 요소
+                childList.get(0).get(1) //1월 2번째 요소*/
+
+                int content_id = selectedItem.getContentID();
+                String cate = selectedItem.getCategoryName();
+                Log.i("content_id", "content_id : " + content_id);
+                Log.i("cate", "cate : " + cate);
+
+                String[] selectedRow = mDbOpenHelper.getSelectedRow(content_id);
+
+                String selectedTitle = selectedRow[0];
+                String selectedCategory = selectedRow[1];
+                String selectedStartDate = selectedRow[2];
+                String selectedEndDate = selectedRow[3];
+                String selectedContent = selectedRow[4];
+
+                Intent intent = new Intent(getContext(), DetailContentActivity.class);
+                intent.putExtra("title", selectedTitle);
+                intent.putExtra("cate", selectedCategory);
+                intent.putExtra("startDate", selectedStartDate);
+                intent.putExtra("endDate", selectedEndDate);
+                intent.putExtra("content", selectedContent);
+
+                startActivity(intent);
+
+                return false;
+            }
+
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    final int groupPosition = ExpandableListView.getPackedPositionGroup(id);
+                    final int childPosition = ExpandableListView.getPackedPositionChild(id);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+                    alertDialogBuilder.setTitle("삭제");
+                    alertDialogBuilder.setMessage("삭제하기");
+                    alertDialogBuilder.setCancelable(false);
+                    alertDialogBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
+                            int content_id = selectedItem.getContentID();
+                            mDbOpenHelper.delete(content_id);
+                            adapter.removeChild(groupPosition, childPosition);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // 다이얼로그를 취소한다
+                            dialog.cancel();
+                        }
+                    });
+                    alertDialogBuilder.create();
+                    alertDialogBuilder.show();
+                    adapter.notifyDataSetChanged();
+
+                    return true;
+
+                }
+
+                return false;
+            }
+        });
 
         //좌우 화살표 클릭 이벤트
         leftArrow.setOnClickListener(new View.OnClickListener() {
@@ -313,11 +382,13 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         String[] categoryArray = mDbOpenHelper.getCategory();
         String[] titleArray = mDbOpenHelper.getTitle();
         String[] dateArray = mDbOpenHelper.getDate();
+        int[] contentIDArray = mDbOpenHelper.getContentID();
 
         for (int i = 0; i < dateArray.length; i++) {
             Log.i("category 값 확인: ", categoryArray[i]);
             Log.i("title 값 확인: ", titleArray[i]);
             Log.i("Date 값 확인: ", dateArray[i]);
+            Log.i("ID 값 확인: ", "contentID : " + contentIDArray[i]);
         }
 
         //리스트 내용 초기화
@@ -334,40 +405,40 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             //현재 년도에 해당하는 아이템일 경우에만
             if ((date[0] + "년").equals(yearText.getText())) {
                 if (date[1].equals("1"))
-                    month1.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month1.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("2"))
-                    month2.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month2.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("3"))
-                    month3.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month3.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("4"))
-                    month4.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month4.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("5"))
-                    month5.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month5.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("6"))
-                    month6.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month6.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("7"))
-                    month7.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month7.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("8"))
-                    month8.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month8.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("9"))
-                    month9.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month9.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("10"))
-                    month10.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month10.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("11"))
-                    month11.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month11.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
 
                 else if (date[1].equals("12"))
-                    month12.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i]));
+                    month12.add(new ListByDateItem(categoryArray[i], titleArray[i], dateArray[i], contentIDArray[i]));
             }
         }
 

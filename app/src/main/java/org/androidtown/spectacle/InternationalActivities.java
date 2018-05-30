@@ -96,9 +96,8 @@ public class InternationalActivities extends AppCompatActivity {
                         ListVO selectedList = (ListVO) adapter.getItem(index);;
                         int content_id = selectedList.getContentID();
                         mDbOpenHelper.delete(content_id);
+                        adapter.removeChild(index);
                         adapter.notifyDataSetChanged();
-
-
                     }
                 });
                 alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
