@@ -3,8 +3,11 @@ package org.androidtown.spectacle;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +23,9 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -32,10 +37,12 @@ AddDataActivity extends AppCompatActivity {
     private CheckBox sameCheck;
     private Button startDateBtn, endDateBtn;
     private DatePicker datePicker;
-    private ImageButton plusImgBtn, eraseBtn, copyBtn;
+    private ImageButton plusImgBtn, eraseBtn, copyBtn, deleteBtn;
     private EditText titleText, contentText;
     private int startY, startM, startD, endY, endM, endD;
+    private ImageView selectImg;
     private DbOpenHelper mDbOpenHelper;
+    private TextView noneImgText, imgNameText;
     String startDateStr, endDateStr;
 
     @Override
@@ -57,12 +64,16 @@ AddDataActivity extends AppCompatActivity {
         sameCheck = (CheckBox) findViewById(R.id.same_date_check);
         startDateBtn = (Button) findViewById(R.id.start_date_btn);
         endDateBtn = (Button) findViewById(R.id.end_date_btn);
-        datePicker = new DatePicker(AddDataActivity.this);
         titleText = (EditText) findViewById(R.id.activity_title_edit);
         contentText = (EditText) findViewById(R.id.activity_content_edit);
         eraseBtn = (ImageButton) findViewById(R.id.eraser_img_btn);
         plusImgBtn = (ImageButton) findViewById(R.id.add_img_btn);
         copyBtn = (ImageButton) findViewById(R.id.copy_img_btn);
+        selectImg = (ImageView) findViewById(R.id.select_img);
+        deleteBtn = (ImageButton) findViewById(R.id.close_img);
+        noneImgText = (TextView) findViewById(R.id.none_img_text);
+        imgNameText = (TextView) findViewById(R.id.img_name_text);
+        datePicker = new DatePicker(AddDataActivity.this);
 
         Calendar cal = Calendar.getInstance();
 
@@ -239,7 +250,7 @@ AddDataActivity extends AppCompatActivity {
                 mDbOpenHelper.insertColumn(category, title, content, startDate, endDate, "");
                 mDbOpenHelper.displayColumn();
 
-                Intent intent = new Intent(getApplicationContext(), FragmentTab1.class);
+                Intent intent = new Intent(AddDataActivity.this, FragmentTab1.class);
                 intent.putExtra("ok", "");
                 setResult(RESULT_OK, intent);
                 finish();
@@ -265,8 +276,32 @@ AddDataActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_FROM_ALBUM) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+            String imgName = getImageNameToUri(data.getData());
+
+            if (requestCode == PICK_FROM_ALBUM) {
+                selectImg.setImageBitmap(bitmap);
+                imgNameText.setText(imgName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    public String getImageNameToUri(Uri data) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(data, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+        cursor.moveToFirst();
+
+        String imgPath = cursor.getString(column_index);
+        Log.i("이미지 경로: ", imgPath);
+        String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
+        Log.i("이미지 이름: ", imgName);
+
+        return imgName;
     }
 
     //DbOpenHelper close

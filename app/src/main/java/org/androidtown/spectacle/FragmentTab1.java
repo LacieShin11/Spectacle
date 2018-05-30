@@ -41,7 +41,7 @@ import jxl.write.WritableWorkbook;
 import static android.app.Activity.RESULT_OK;
 
 
-public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{ //접근권한 위해 추가함
+public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback { //접근권한 위해 추가함
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     int year;
     TextView yearText;
@@ -106,9 +106,11 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         mDbOpenHelper = new DbOpenHelper(getContext());
         mDbOpenHelper.open();
 
-        if(mDbOpenHelper.isEmpty(mDbOpenHelper.getTable())) {
+        if (mDbOpenHelper.isEmpty(mDbOpenHelper.getTable())) {
             View view = inflater.inflate(R.layout.list_empty_layout, container, false);
             FloatingActionButton fab = view.findViewById(R.id.fab);
+
+            v = view;
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,12 +118,20 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     startActivityForResult(intent, 0);
                 }
             });
-            v = view;
-        }//db가 텅 비어있으면 빈 화면 보여주기
+        } //db가 텅 비어있으면 빈 화면 보여주기
+
         else {
             View view = inflater.inflate(R.layout.fragment_tab1, container, false);
             FloatingActionButton fab = view.findViewById(R.id.fab);
             v = view;
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), AddDataActivity.class);
+                    startActivityForResult(intent, 0);
+                }
+            });
 
             yearText = view.findViewById(R.id.year_text);
             leftArrow = view.findViewById(R.id.left_arrow);
@@ -129,14 +139,6 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
             year = Calendar.getInstance().get(Calendar.YEAR);
             yearText.setText(year + "년");
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), AddDataActivity.class);
-                    startActivity(intent);
-                }
-            });
 
             listView = (ExpandableListView) view.findViewById(R.id.date_list);
             listView.setGroupIndicator(null);
@@ -151,9 +153,6 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                     Log.i("childPosition", "childPosition : " + childPosition);
                     selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
-
-                /*childList.get(3).get(0) //4월의 0번째 요소
-                childList.get(0).get(1) //1월 2번째 요소*/
 
                     int content_id = selectedItem.getContentID();
                     String cate = selectedItem.getCategoryName();
@@ -188,31 +187,36 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     if (ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
                         final int groupPosition = ExpandableListView.getPackedPositionGroup(id);
                         final int childPosition = ExpandableListView.getPackedPositionChild(id);
+
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
                         alertDialogBuilder.setTitle("삭제");
-                        alertDialogBuilder.setMessage("삭제하기");
+                        alertDialogBuilder.setMessage("선택한 항목을 삭제하시겠습니까?\n삭제된 내역은 복구가 불가능합니다.");
                         alertDialogBuilder.setCancelable(false);
+
                         alertDialogBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
                                 int content_id = selectedItem.getContentID();
                                 mDbOpenHelper.delete(content_id);
                                 adapter.removeChild(groupPosition, childPosition);
+
+                                setListItem();
                                 adapter.notifyDataSetChanged();
+
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.detach(FragmentTab1.this).attach(FragmentTab1.this).commit();
                             }
                         });
                         alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // 다이얼로그를 취소한다
                                 dialog.cancel();
                             }
                         });
+
                         alertDialogBuilder.create();
                         alertDialogBuilder.show();
-                        adapter.notifyDataSetChanged();
 
                         return true;
-
                     }
 
                     return false;
@@ -226,6 +230,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     year--;
                     yearText.setText(year + "년");
                     setListItem();
+                    adapter.notifyDataSetChanged();
                 }
             });
 
@@ -235,9 +240,11 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     year++;
                     yearText.setText(year + "년");
                     setListItem();
+                    adapter.notifyDataSetChanged();
                 }
             });
         }
+
         setListItem();
 
         return v;
@@ -245,10 +252,8 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.detach(this).attach(this).commit();
-        }
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 
     @Override
@@ -271,6 +276,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         } else if (id == R.id.make_excel) {//엑셀 파일로 만들기
             mDbOpenHelper.open();
             Cursor cursor = mDbOpenHelper.getTable(); //db전체 내용 가져옴
+
 //*****나중에 알림창 띄우는 기능 추가할 수 있으면 할 것*********
 //            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 //                    getContext().getApplicationContext());
@@ -292,16 +298,16 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
             //우선 엑셀 파일 저장할 디렉토리랑 파일 생성
             File sd = Environment.getExternalStorageDirectory();
-            File directory = new File(sd.getAbsolutePath()+"/Spectacle");
+            File directory = new File(sd.getAbsolutePath() + "/Spectacle");
             String csvFile = "mySpec.xls";//xlsx로 하면 파일 확장자 오류? 내부파일 망가졌다고? 오류나므로 xls로 확장자할 것
             String path = directory.toString();// /storage/emulated/0/Spectacle *0은 루트 의미하는 듯
 
             File file = new File(path); //해당 경로 밑에 xsl파일 생성
-            if(!file.isDirectory()){
+            if (!file.isDirectory()) {
                 file.mkdirs();
             }
 
-            try{
+            try {
                 File file_2 = new File(directory, csvFile);
                 WorkbookSettings wbSettings = new WorkbookSettings();
                 wbSettings.setLocale(new Locale("en", "EN"));
@@ -319,30 +325,30 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                 sheet.addCell(new Label(5, 0, "종료날짜"));
                 //차례로 column번호, row번호, row이름 정해주기
 
-                if(cursor.moveToFirst()){
+                if (cursor.moveToFirst()) {
                     String[] ids = mDbOpenHelper.getID(); //contentId 정보 가져옴
                     String[] category = mDbOpenHelper.getCategory(); //category 정보 가져옴
-                    String[] activityname=mDbOpenHelper.getTitle(); //activityname 값들 가져옴
+                    String[] activityname = mDbOpenHelper.getTitle(); //activityname 값들 가져옴
                     String[] activitycontent = mDbOpenHelper.getContent(); //activtyContent값들 가져옴
-                    String[] startdate=mDbOpenHelper.getDate1(); //Date 데이터 가져옴
-                    String[] enddate=mDbOpenHelper.getDate2(); //Date 데이터 가져옴
+                    String[] startdate = mDbOpenHelper.getDate1(); //Date 데이터 가져옴
+                    String[] enddate = mDbOpenHelper.getDate2(); //Date 데이터 가져옴
 
-                    for(int i=0; i<ids.length; i++) {
-                        sheet.addCell(new Label(0, i+1, ids[i]));
-                        sheet.addCell(new Label(1, i+1, category[i]));
-                        sheet.addCell(new Label(2, i+1, activityname[i]));
-                        sheet.addCell(new Label(3, i+1, activitycontent[i]));
-                        sheet.addCell(new Label(4, i+1, startdate[i]));
-                        sheet.addCell(new Label(5, i+1, enddate[i]));
+                    for (int i = 0; i < ids.length; i++) {
+                        sheet.addCell(new Label(0, i + 1, ids[i]));
+                        sheet.addCell(new Label(1, i + 1, category[i]));
+                        sheet.addCell(new Label(2, i + 1, activityname[i]));
+                        sheet.addCell(new Label(3, i + 1, activitycontent[i]));
+                        sheet.addCell(new Label(4, i + 1, startdate[i]));
+                        sheet.addCell(new Label(5, i + 1, enddate[i]));
                     }//데이터베이스 내용 가져오기
                 }
 
                 //cursor.close();
                 workbook.write();
                 workbook.close();
-                Toast.makeText(getActivity(), "파일이 생성되었습니다" +'\n' +
+                Toast.makeText(getActivity(), "파일이 생성되었습니다" + '\n' +
                         "(내 파일/내장메모리/Spectacle/mySpec.xsl)", Toast.LENGTH_LONG).show();
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -353,8 +359,8 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             mDbOpenHelper.deleteTable();
-//                            FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                            ft.detach(getTargetFragment()).attach(getTargetFragment()).commit();
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            ft.detach(FragmentTab1.this).attach(FragmentTab1.this).commit();
                         }
                     }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
                 @Override
@@ -368,17 +374,17 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     }
 
     //**엑셀용 코드
-    public boolean isExternalStorageWritable(){
+    public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if(Environment.MEDIA_MOUNTED.equals(state)) {
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
         }
         return false;
     }//외부 저장소가 read,write 현재 가능한지 점검
 
-    public boolean isExternalStorageReadable(){
+    public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
-        if(Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)){
+        if (Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             return true;
         }
         return false;
@@ -408,6 +414,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             }
         }//다 WRITE로! 파일 생성할 거니까
     }
+
     //**
     public void setListItem() {
 

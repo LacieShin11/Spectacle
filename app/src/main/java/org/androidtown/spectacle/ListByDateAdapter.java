@@ -1,6 +1,7 @@
 package org.androidtown.spectacle;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ListByDateAdapter extends BaseExpandableListAdapter {
-     ArrayList<ListByDateHeaderItem> headerList;
-     LayoutInflater inflater;
-     ArrayList<ArrayList<ListByDateItem>> childList;
+    ArrayList<ListByDateHeaderItem> headerList;
+    LayoutInflater inflater;
+    ArrayList<ArrayList<ListByDateItem>> childList;
 
     //부모리스트 크기 반환
     @Override
@@ -80,7 +81,6 @@ public class ListByDateAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View v = convertView;
         Context context = parent.getContext();
-        final int childPos = childPosition;
 
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -96,10 +96,25 @@ public class ListByDateAdapter extends BaseExpandableListAdapter {
         specName.setText(getChild(groupPosition, childPosition).specName);
         startDate.setText(getChild(groupPosition, childPosition).date);
 
-        for (int i = 0; i < childList.size(); i++) {
-            for (int j = 0; j < childList.get(i).size(); j++) {
-
-            }
+        switch (categoryName.getText().toString()) {
+            case "어학":
+                categoryIcon.setImageResource(R.drawable.ic_translate_24dp);
+                break;
+            case "자격증":
+                categoryIcon.setImageResource(R.drawable.ic_qualification_24dp);
+                break;
+            case "인턴&알바":
+                categoryIcon.setImageResource(R.drawable.ic_company_24dp);
+                break;
+            case "봉사활동":
+                categoryIcon.setImageResource(R.drawable.ic_favorite_24dp);
+                break;
+            case "교내활동":
+                categoryIcon.setImageResource(R.drawable.ic_school_24dp);
+                break;
+            case "대외활동":
+                categoryIcon.setImageResource(R.drawable.ic_card_travel_24dp);
+                break;
         }
         return v;
     }
