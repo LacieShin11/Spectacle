@@ -65,6 +65,17 @@ public class DbOpenHelper {
         return mDB.insert(DataBase.CreateDB._TABLENAME, null, values);
     }
 
+    public long updateColumn(int contentID, String category, String activityName, String activityContent, String startDate, String endDate) {
+        ContentValues values = new ContentValues();
+        values.put("category", category);
+        values.put("activityName", activityName);
+        values.put("activityContent", activityContent);
+        values.put("startDate", startDate);
+        values.put("endDate", endDate);
+
+        return mDB.update("CONTENTTABLE", values, "contentId="+contentID, null);
+    }
+
     public void displayColumn() {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ", null);
         while (c.moveToNext()) {
@@ -357,7 +368,7 @@ public class DbOpenHelper {
 
         int[] count = {campusCount, internationalCount, internCount, volunteerCount, languageCount, certificateCount};
 
-        c.close();
+        // c.close();
         return count;
     }
 

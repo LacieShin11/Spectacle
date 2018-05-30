@@ -38,8 +38,6 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
-import static android.app.Activity.RESULT_OK;
-
 
 public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback { //접근권한 위해 추가함
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -173,6 +171,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     intent.putExtra("startDate", selectedStartDate);
                     intent.putExtra("endDate", selectedEndDate);
                     intent.putExtra("content", selectedContent);
+                    intent.putExtra("contentID", content_id);
 
                     startActivity(intent);
 

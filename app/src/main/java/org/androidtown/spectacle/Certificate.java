@@ -73,6 +73,7 @@ public class Certificate extends AppCompatActivity {
                 intent.putExtra("startDate", selectedStartDate);
                 intent.putExtra("endDate", selectedEndDate);
                 intent.putExtra("content", selectedContent);
+                intent.putExtra("postContentID", content_id);
 
                 startActivity(intent);
 

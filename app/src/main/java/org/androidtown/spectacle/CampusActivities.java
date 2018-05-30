@@ -74,6 +74,7 @@ public class CampusActivities extends AppCompatActivity {
                 intent.putExtra("startDate", selectedStartDate);
                 intent.putExtra("endDate", selectedEndDate);
                 intent.putExtra("content", selectedContent);
+                intent.putExtra("contentID", content_id);
 
                 startActivity(intent);
             }
