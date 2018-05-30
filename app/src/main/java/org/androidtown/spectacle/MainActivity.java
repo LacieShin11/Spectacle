@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar_custom);
 
         // 스와이프할 뷰페이저를 정의
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -42,12 +44,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBar.Tab tab2 = actionBar.newTab().setText("카테고리").setTabListener(tabListener);
         ActionBar.Tab tab3 = actionBar.newTab().setText("통계").setTabListener(tabListener);
         ActionBar.Tab tab4 = actionBar.newTab().setText("채용 정보").setTabListener(tabListener);
-
-        //액션바 아이콘
-//        tab1.setIcon(R.drawable.calendar_icon);
-//        tab2.setIcon(R.drawable.category_icon);
-//        tab3.setIcon(R.drawable.statistics_icon);
-//        tab4.setIcon(R.drawable.company_icon);
 
         actionBar.addTab(tab1);
         actionBar.addTab(tab2);

@@ -103,7 +103,7 @@ public class ListByDateAdapter extends BaseExpandableListAdapter {
             case "자격증":
                 categoryIcon.setImageResource(R.drawable.ic_qualification_24dp);
                 break;
-            case "인턴&알바":
+            case "인턴·알바":
                 categoryIcon.setImageResource(R.drawable.ic_company_24dp);
                 break;
             case "봉사활동":

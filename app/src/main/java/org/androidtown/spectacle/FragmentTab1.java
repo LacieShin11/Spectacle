@@ -94,15 +94,19 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         monthArray.add(month11);
         monthArray.add(month12);
         //리스트 내용 설정
+
+        //DB 생성 및 열기
+        mDbOpenHelper = new DbOpenHelper(getContext());
+        if (!mDbOpenHelper.getState()) {
+            mDbOpenHelper.open();
+            Log.i("DB 상태", mDbOpenHelper.getState() + " ");
+        }
     }
 
     //플로팅 액션 버튼 이벤트
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v;
-        //DB 생성 및 열기
-        mDbOpenHelper = new DbOpenHelper(getContext());
-        mDbOpenHelper.open();
 
         if (mDbOpenHelper.isEmpty(mDbOpenHelper.getTable())) {
             View view = inflater.inflate(R.layout.list_empty_layout, container, false);
@@ -267,6 +271,13 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("onDestroy", "onDestory 호출!" + mDbOpenHelper.getState());
+        mDbOpenHelper.close();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.login) {
@@ -342,11 +353,11 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     }//데이터베이스 내용 가져오기
                 }
 
-                //cursor.close();
+                cursor.close();
                 workbook.write();
                 workbook.close();
-                Toast.makeText(getActivity(), "파일이 생성되었습니다" + '\n' +
-                        "(내 파일/내장메모리/Spectacle/mySpec.xsl)", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "다음 경로에 파일이 생성되었습니다." + '\n' + "(" + sd.getAbsolutePath().toString() +
+                        "/Spectacle/mySpec.xsl)", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -405,7 +416,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
                 if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(getActivity(), "성공", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), "성공", Toast.LENGTH_LONG).show();
                     } else {
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE);
                     }
@@ -414,20 +425,12 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         }//다 WRITE로! 파일 생성할 거니까
     }
 
-    //**
     public void setListItem() {
 
         String[] categoryArray = mDbOpenHelper.getCategory();
         String[] titleArray = mDbOpenHelper.getTitle();
         String[] dateArray = mDbOpenHelper.getDate();
         int[] contentIDArray = mDbOpenHelper.getContentID();
-
-        for (int i = 0; i < dateArray.length; i++) {
-            Log.i("category 값 확인: ", categoryArray[i]);
-            Log.i("title 값 확인: ", titleArray[i]);
-            Log.i("Date 값 확인: ", dateArray[i]);
-            Log.i("ID 값 확인: ", "contentID : " + contentIDArray[i]);
-        }
 
         //리스트 내용 초기화
         groupList.clear();

@@ -215,8 +215,8 @@
                 <ImageView
                     android:id="@+id/select_img"
                     android:layout_width="60dp"
-                    android:layout_height="40dp"
-                    android:scaleType="centerCrop"
+                    android:layout_height="50dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/app_label" />
 
                 <FrameLayout
@@ -230,6 +230,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="30dp"
+                        android:singleLine="true"
                         android:text="file_name.jpg"
                         android:textColor="@android:color/black"
                         android:textSize="17sp" />

@@ -14,8 +14,4 @@
         android:id="@+id/login"
         android:title="로그인/회원가입" />
 
-    <item
-        android:id="@+id/make_excel"
-        android:title="엑셀 파일로 만들기" />
-
 </menu>

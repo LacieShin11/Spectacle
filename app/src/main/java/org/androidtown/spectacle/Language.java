@@ -3,6 +3,7 @@ package org.androidtown.spectacle;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,6 +26,10 @@ public class Language extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.language);
 
+        //뒤로가기 아이콘 추가
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 
         //변수 초기화
         adapter = new ListViewAdapter();

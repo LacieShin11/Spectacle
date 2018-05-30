@@ -7,68 +7,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
-        android:text="스펙 통계"
-        android:textSize="30dp" />
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:text="나의 스펙 통계"/>
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/piechart"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="8" />
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="bottom"
-        >
-
-        <TableRow
-            android:gravity="left">
-
-            <TextView
-                android:id="@+id/chart_legend1"
-                android:layout_margin="10dp"
-                android:textColor="@color/chartColor1"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/chart_legend2"
-                android:layout_margin="10dp"
-                android:textColor="@color/chartColor2"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/chart_legend3"
-                android:layout_margin="10dp"
-                android:textColor="@color/chartColor3"
-                android:textSize="20dp" />
-        </TableRow>
-
-        <TableRow
-            android:gravity="left">
-
-            <TextView
-                android:id="@+id/chart_legend4"
-                android:layout_margin="10dp"
-                android:textColor="@color/chartColor4"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/chart_legend5"
-                android:layout_margin="10dp"
-                android:textColor="@color/chartColor5"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/chart_legend6"
-                android:layout_margin="10dp"
-                android:textColor="@color/chartColor6"
-                android:textSize="20dp" />
-        </TableRow>
-
-    </TableLayout>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.androidtown.spectacle.DataBase.CreateDB.CONTENT_ID;
 import static org.androidtown.spectacle.DataBase.CreateDB._TABLENAME;
 
@@ -18,6 +20,8 @@ public class DbOpenHelper {
     public static SQLiteDatabase rDB;
     private DatabaseHelper mDBHelper;
     private Context mCtx;
+    private boolean state = false;
+    private AtomicInteger mOpenCounter = new AtomicInteger(0);
 
     private class DatabaseHelper extends SQLiteOpenHelper {
         //생성자
@@ -47,11 +51,17 @@ public class DbOpenHelper {
         mDBHelper = new DatabaseHelper(mCtx, DATABASE_NAME, null, DATABASE_VERSION);
         mDB = mDBHelper.getWritableDatabase();//DB를 쓰기버전으로 데려옴
         rDB = mDBHelper.getReadableDatabase();//DB를 읽기버전으로 데려옴
+        state = true;
         return this;
     }
 
     public void close() {
         mDB.close();
+        state = false;
+    }
+
+    public boolean getState() {
+        return state;
     }
 
     public long insertColumn(String category, String activityName, String activityContent, String startDate, String endDate, String image) {
@@ -95,17 +105,15 @@ public class DbOpenHelper {
     }//**엑셀용-테이블 전체 가져오기
 
     public boolean isEmpty(Cursor c) {
-        int notEmpty=0;
+        int notEmpty = 0;
         c = rDB.rawQuery("select * from CONTENTTABLE ORDER BY STARTDATE", null);
-        while(c.moveToNext()){
+        while (c.moveToNext()) {
             notEmpty++;
         }
-        if(notEmpty > 0){
+        if (notEmpty > 0) {
             return false;
-        }
-        else return true;
+        } else return true;
     } //DB 비어 있는지 여부 알려주는 함수 - 맨 처음 앱 켰을 때 빈 화면 뜨게 하기 위해 추가해 준 함수
-
 
     //listView에 표시할 값 얻기
     public String[] getTitle() {
@@ -124,7 +132,7 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
         String[] contents = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             contents[i] = c.getString(c.getColumnIndex("activityContent"));
             i++;
         }
@@ -135,7 +143,7 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ", null);
         String[] ids = new String[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             ids[i] = c.getString(c.getColumnIndex("contentId"));
             i++;
         }
@@ -146,7 +154,7 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE", null);
         int[] contentID = new int[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             contentID[i] = c.getInt(c.getColumnIndex("contentId"));
             i++;
         }
@@ -175,7 +183,7 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
         String[] date = new String[c.getCount()];//테이블 행 개수만큼 배열공간 생성
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             date[i] = c.getString(c.getColumnIndex("startDate"));
             i++;
         }
@@ -186,7 +194,7 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
         String[] date2 = new String[c.getCount()];//테이블 행 개수만큼 배열공간 생성
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             date2[i] = c.getString(c.getColumnIndex("endDate"));
             i++;
         }
@@ -197,7 +205,7 @@ public class DbOpenHelper {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE ", null);
         String[] images = new String[c.getCount()];//테이블 행 개수만큼 배열공간 생성
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             images[i] = c.getString(c.getColumnIndex("image"));
             i++;
         }
@@ -316,23 +324,23 @@ public class DbOpenHelper {
 
     public int[] getListViewID(String selectCategory) {
         Cursor c = mDB.rawQuery("Select * from CONTENTTABLE ORDER BY STARTDATE", null);
-        if(selectCategory == "교내활동") {
+        if (selectCategory == "교내활동") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '교내활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "외부활동") {
+        } else if (selectCategory == "외부활동") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '대외활동' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "어학") {
+        } else if (selectCategory == "어학") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '어학' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "자격증") {
+        } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "인턴") {
+        } else if (selectCategory == "인턴") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
-        } else if(selectCategory == "봉사") {
+        } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
 
         int[] contentID = new int[c.getCount()];
         int i = 0;
-        while(c.moveToNext()) {
+        while (c.moveToNext()) {
             contentID[i] = c.getInt(c.getColumnIndex("contentId"));
             i++;
         }
