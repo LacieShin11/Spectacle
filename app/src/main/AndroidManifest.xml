@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,54 +24,95 @@
         </activity>
 
         <activity android:name=".AddDataActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".LoginActivity"
-            android:launchMode="singleTask"/>
-
         <activity android:name=".CampusActivities"
             android:label="교내 활동"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".InternationalActivities"
             android:label="대외 활동"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
+
         <activity android:name=".Language"
             android:label="어학"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".Intern"
             android:label="인턴/아르바이트"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".VolunteerActivities"
             android:label="봉사활동"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".Certificate"
             android:label="자격증"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".DetailContentActivity"
-            android:label="상세 페이지">
+            android:label="상세 페이지"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
         <activity android:name=".ModifyActivity"
-            android:label="수정 페이지">
+            android:label="수정 페이지"
+            android:screenOrientation="portrait">
         </activity>
+
+        <activity android:name=".SettingActivity"
+            android:label="설정"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity android:name=".LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".PasswordSettingActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".PasswordModifyingActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".AppInformationActivity"
+            android:label="앱 정보"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

@@ -180,7 +180,7 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
             showList();
 
         } else if (id == R.id.login) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            Intent intent = new Intent(getActivity(), SettingActivity.class);
             startActivity(intent);
         } else if (id == R.id.make_excel) {
 

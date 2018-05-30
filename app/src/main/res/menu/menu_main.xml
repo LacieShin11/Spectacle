@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tool"
     tools:context="org.androidtown.spectacle.MainActivity">
 
-    <item
-        android:id="@+id/login"
-        android:title="로그인/회원가입" />
 
     <item
         android:id="@+id/make_excel"
@@ -15,4 +12,8 @@
     <item
         android:id = "@+id/initialization"
         android:title = "스펙 초기화" />
+
+    <item
+        android:id="@+id/login"
+        android:title="설정" />
 </menu>

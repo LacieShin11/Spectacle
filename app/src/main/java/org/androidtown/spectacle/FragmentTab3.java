@@ -69,7 +69,7 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
             if(values[index] != 0 ) break;
         }
         if(index == values.length) {
-            Toast.makeText(getContext(), "차트를 만들 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getContext(), "차트를 만들 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
         };
         ArrayList<Entry> yvalues = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
@@ -142,6 +142,6 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
     @Override
     public void onResume() {
         super.onResume();
-  }
+    }
 
 }

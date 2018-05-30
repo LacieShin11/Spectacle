@@ -1,5 +1,7 @@
 package org.androidtown.spectacle;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,12 +18,22 @@ public class MainActivity extends AppCompatActivity {
     ActionBar actionBar;
     private FragmentManager fm;
     private ArrayList<Fragment> fList;
+    public final String PREFERENCE = "org.androidtown.spectacle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_main);
+
+        // 어플 잠금 스위치 값 받아 올 preference
+        SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        Boolean result = pref.getBoolean("key", false);
+
+        // 스위치 상태가 ON일 경우 어플 시작할 때 암호 입력 activity 띄우기
+        if (result == true) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
 
         // 스와이프할 뷰페이저를 정의
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -32,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
 
         if(actionBar != null)
-        actionBar.setIcon(R.drawable.app_label);
+            actionBar.setIcon(R.drawable.app_label);
 
         // 액션바 모드 설정
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

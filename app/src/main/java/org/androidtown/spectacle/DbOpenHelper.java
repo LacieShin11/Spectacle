@@ -28,7 +28,8 @@ public class DbOpenHelper {
         //최초 DB를 만들 때 한 번만 호출된다.
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DataBase.CreateDB._CREATE);//테이블 생성
+            db.execSQL(DataBase.CreateDB._CREATE);
+            db.execSQL(DataBase.CreateDB.CREATEPASS);//테이블 생성
         }
 
         //버전이 업데이트 되었을 경우 DB를 다시 만들어 준다.
@@ -52,6 +53,18 @@ public class DbOpenHelper {
 
     public void close() {
         mDB.close();
+    }
+
+    public long insertColumnPass(String password) {
+        ContentValues values = new ContentValues();
+        values.put(DataBase.CreateDB.PASSWORD, password);
+        Log.i("password : ", password);
+        return mDB.insert(DataBase.CreateDB.PASSWORD_TABLE, null, values);
+    }
+
+    public void updateColumnPass(String password) {
+        ContentValues values = new ContentValues();
+        mDB.execSQL("update PASSWORDTABLE SET password = " + password);
     }
 
     public long insertColumn(String category, String activityName, String activityContent, String startDate, String endDate, String image) {
@@ -106,6 +119,18 @@ public class DbOpenHelper {
         else return true;
     } //DB 비어 있는지 여부 알려주는 함수 - 맨 처음 앱 켰을 때 빈 화면 뜨게 하기 위해 추가해 준 함수
 
+
+    // 비밀번호 값 얻기
+    public String[] getPassword() {
+        Cursor c = mDB.rawQuery("Select * from PASSWORDTABLE", null);
+        String[] password = new String[c.getCount()];
+        int i = 0;
+        while (c.moveToNext()) {
+            password[i] = c.getString(c.getColumnIndex("password"));
+            i++;
+        }
+        return password;
+    }
 
     //listView에 표시할 값 얻기
     public String[] getTitle() {

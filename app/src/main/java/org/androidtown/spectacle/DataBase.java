@@ -4,6 +4,10 @@ import android.provider.BaseColumns;
 
 public final class DataBase {
     public static final class CreateDB implements BaseColumns{
+        public static final String PASSWORD_TABLE = "PASSWORDTABLE";
+        public static final String PASSWORD = "password";
+        public static final String CREATEPASS = "create Table if not exists " + PASSWORD_TABLE + "(" + PASSWORD + " string); ";
+
         public static final String CONTENT_ID = "contentId";
         public static final String CATEGORY = "category";
         public static final String ACTIVITYNAME = "activityName";
