@@ -319,11 +319,35 @@ public class DbOpenHelper {
     public void delete(int content_id) {
         String sql = "DELETE FROM " + _TABLENAME + " WHERE " + CONTENT_ID + "='" + content_id + "';";
         mDB.execSQL(sql);
-        mDB.close();
+        //mDB.close();
     }//새로 생긴 메소드!-특정 행을 삭제하는 듯
 
 
     public void deleteTable() {
         mDB.delete("CONTENTTABLE", null, null);
     }//DB테이블 삭제
+
+    //통계에 필요한 메소드
+    public int[] getSpecCount() {
+        Cursor c;
+        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '교내활동'", null);
+        int campusCount = c.getCount();
+        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '대외활동'", null);
+        int internationalCount = c.getCount();
+        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바'", null);
+        int internCount = c.getCount();
+        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동'", null);
+        int volunteerCount = c.getCount();
+        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '어학'", null);
+        int languageCount = c.getCount();
+        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증'", null);
+        int certificateCount = c.getCount();
+
+
+        int[] count = {campusCount, internationalCount, internCount, volunteerCount, languageCount, certificateCount};
+
+        c.close();
+        return count;
+    }
+
 }

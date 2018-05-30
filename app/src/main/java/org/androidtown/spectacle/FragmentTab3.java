@@ -1,11 +1,10 @@
 package org.androidtown.spectacle;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,24 +12,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-/*
-import org.achartengine.GraphicalView;
-import org.achartengine.model.CategorySeries;
-import org.achartengine.renderer.DefaultRenderer;
-*/
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.DefaultValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+
+import java.util.ArrayList;
 
 
-public class FragmentTab3 extends Fragment {
-    //각 차트의 값
-    private int[] pieChartValues;
-    //각 차트의 색상
-    private static int[] COLOR = new int[] {Color.YELLOW, Color.GREEN, Color.RED, Color.BLUE, Color.MAGENTA, Color.CYAN };
-    //각 차트 이름
-    private String[] pieChartTitle = new String[] {"교내활동", "대외활동", "인턴", "봉사활동", "자격증", "어학"};
-
-//    private CategorySeries mSeries = new CategorySeries("계열");
-//    private DefaultRenderer mRenderer = new DefaultRenderer();
-//    private GraphicalView mChartView;
+public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListener {
+    private int[] COLOR;
+    private DbOpenHelper mDbOpenHelper;
 
     public static FragmentTab3 newInstance() {
         FragmentTab3 fragment = new FragmentTab3();
@@ -42,65 +37,82 @@ public class FragmentTab3 extends Fragment {
         super.onCreate(saveInstBundle);
         setHasOptionsMenu(true); //메뉴 버튼 활성화
 
+        int charColor1 = getResources().getColor(R.color.chartColor1);
+        int charColor2 = getResources().getColor(R.color.chartColor2);
+        int charColor3 = getResources().getColor(R.color.chartColor3);
+        int charColor4 = getResources().getColor(R.color.chartColor4);
+        int charColor5 = getResources().getColor(R.color.chartColor5);
+        int charColor6 = getResources().getColor(R.color.chartColor6);
+        COLOR = new int[] {charColor1, charColor2, charColor3, charColor4, charColor5, charColor6 };
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab3, container, false);
+        //DB Create and Open
+        mDbOpenHelper = new DbOpenHelper(getContext());
+        mDbOpenHelper.open();
+        PieChart pieChart = (PieChart) view.findViewById(R.id.piechart);
 
-//        mRenderer.setApplyBackgroundColor(true);
-//        mRenderer.setBackgroundColor(Color.WHITE);
-//        mRenderer.setChartTitleTextSize(20);
-//        mRenderer.setLabelsTextSize(30);
-//        mRenderer.setLegendTextSize(30);
-//        mRenderer.setMargins(new int[]{20, 30, 15, 0});
-//        mRenderer.setZoomButtonsVisible(true);
-//        mRenderer.setStartAngle(90);
-//
-//        if(mChartView == null ) {
-//            LinearLayout layout = (LinearLayout) getView().findViewById(R.id.pie_chart);
-//
-//            mChartView = ChartFactory.getPieChartView(getContext(), mSeries, mRenderer);
-//
-//            mRenderer.setClickEnabled(true);
-//
-//            mRenderer.setSelectableBuffer(10);
-//
-//            layout.addView(mChartView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-//
-//                    LinearLayout.LayoutParams.FILL_PARENT));
-//        } else {
-//            mChartView.repaint();
-//        }
-//
-//        fillPieChart();
-//
+        //y 값의 퍼센트 표시
+        pieChart.setUsePercentValues(true);
+
+        //Y 값
+        int[] values = mDbOpenHelper.getSpecCount();
+        ArrayList<Entry> yvalues = new ArrayList<Entry>();
+        yvalues.add(new Entry(values[0], 0));
+        yvalues.add(new Entry(values[1], 1));
+        yvalues.add(new Entry(values[2], 2));
+        yvalues.add(new Entry(values[3], 3));
+        yvalues.add(new Entry(values[4], 4));
+        yvalues.add(new Entry(values[5], 5));
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "스펙 카테고리");
+
+        ArrayList<String> xVals = new ArrayList<String>();
+
+        xVals.add("교내활동");
+        xVals.add("대외활동");
+        xVals.add("인턴&아르바이트");
+        xVals.add("봉사활동");
+        xVals.add("어학");
+        xVals.add("자격증");
+
+        PieData data = new PieData(xVals, dataSet);
+        //default value
+        data.setValueFormatter(new DefaultValueFormatter(0));
+        data.setValueTextSize(15f);
+        pieChart.setData(data);
+        pieChart.setDescription("카테고리 별 활동 비율");
+        dataSet.setColors(COLOR);
+
+        //Disable Hole in the Pie Chart
+        pieChart.setDrawHoleEnabled(false);
+
+        pieChart.setOnChartValueSelectedListener(this);
+
+        pieChart.animateXY(1400, 1400);
+
+        mDbOpenHelper.close();
+
         return view;
     }
-//
-//    public void fillPieChart() {
-//        for (int i = 0; i < pieChartValues.length; i++) {
-//
-//            mSeries.add(pieChartTitle[i] + "_" + (String.valueOf(pieChartValues[i])), pieChartValues[i]);
-//
-//
-//            //Chart에서 사용할 값, 색깔, 텍스트등을 DefaultRenderer객체에 설정
-//
-//            SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
-//
-//            renderer.setColor(COLOR[(mSeries.getItemCount() - 1) % COLOR.length]);
-//
-//
-//            mRenderer.addSeriesRenderer(renderer);
-//
-//
-//            if (mChartView != null)
-//
-//                mChartView.repaint();
-//
-//        }
-//    }
+
+    @Override
+    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
+
+        if (e == null)
+            return;
+        Log.i("VAL SELECTED",
+                "Value: " + e.getVal() + ", xIndex: " + e.getXIndex()
+                        + ", DataSet index: " + dataSetIndex);
+    }
+
+    @Override
+    public void onNothingSelected() {
+        Log.i("PieChart", "nothing selected");
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://C:\Users\Android\Desktop\Spectacle_kyong\180517Spectacle.iml" filepath="C:\Users\Android\Desktop\Spectacle_kyong\180517Spectacle.iml" />
+      <module fileurl="file://D:\AndroidStudioProjects\Spectacle_demo\180517Spectacle.iml" filepath="D:\AndroidStudioProjects\Spectacle_demo\180517Spectacle.iml" />
       <module fileurl="file://C:\Users\Android\Desktop\Spectacle_kyong\Spectacle.iml" filepath="C:\Users\Android\Desktop\Spectacle_kyong\Spectacle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Spectacle_kyong.iml" filepath="$PROJECT_DIR$/Spectacle_kyong.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spectacle_demo.iml" filepath="$PROJECT_DIR$/Spectacle_demo.iml" />
+      <module fileurl="file://D:\AndroidStudioProjects\Spectacle_demo\Spectacle_kyong.iml" filepath="D:\AndroidStudioProjects\Spectacle_demo\Spectacle_kyong.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\Android\Desktop\Spectacle_kyong\app\app.iml" filepath="C:\Users\Android\Desktop\Spectacle_kyong\app\app.iml" />
     </modules>

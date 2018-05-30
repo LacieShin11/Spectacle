@@ -6,6 +6,12 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorStrongOrange">#eb4635</color>
     <color name="colorHintText">#ffae9b</color>
+    <color name="chartColor1">#4BED84</color>
+    <color name="chartColor2">#664bed</color>
+    <color name="chartColor3">#edaa4b</color>
+    <color name="chartColor4">#d2ed4b</color>
+    <color name="chartColor5">#4bb4ed</color>
+    <color name="chartColor6">#81ed4b</color>
     <drawable name="colorWhite">#FFFFFF</drawable>
     <drawable name="colorGray">#e5e5e5</drawable>
     <drawable name="colorWhiteOrange">#ffefe8</drawable>

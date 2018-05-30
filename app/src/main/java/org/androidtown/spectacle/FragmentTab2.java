@@ -95,7 +95,6 @@ public class FragmentTab2 extends Fragment {
             }
         });
 
-
         return myView;
     }
 

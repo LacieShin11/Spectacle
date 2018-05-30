@@ -83,10 +83,6 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         super.onCreate(saveInstBundle);
         setHasOptionsMenu(true);
 
-        //DB 생성 및 열기
-        mDbOpenHelper = new DbOpenHelper(getContext());
-        mDbOpenHelper.open();
-
         monthArray.add(month1);
         monthArray.add(month2);
         monthArray.add(month3);
@@ -107,6 +103,11 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
         FloatingActionButton fab = view.findViewById(R.id.fab);
+
+        //DB 생성 및 열기
+        mDbOpenHelper = new DbOpenHelper(getContext());
+        mDbOpenHelper.open();
+
         yearText = view.findViewById(R.id.year_text);
         leftArrow = view.findViewById(R.id.left_arrow);
         rightArrow = view.findViewById(R.id.right_arrow);
@@ -130,13 +131,13 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
         adapter.childList = childList;
         listView.setAdapter(adapter);
 
-        //listview 아이템 클릭 이벤트
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
+//        //listview 아이템 클릭 이벤트
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
 
         //좌우 화살표 클릭 이벤트
         leftArrow.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +216,6 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                 sheet.addCell(new Label(3, 0, "활동내용"));
                 sheet.addCell(new Label(4, 0, "시작날짜"));
                 sheet.addCell(new Label(5, 0, "종료날짜"));
-                sheet.addCell(new Label(6, 0, "이미지"));
                 //차례로 column번호, row번호, row이름 정해주기
 
                 if(cursor.moveToFirst()){
@@ -225,7 +225,6 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     String[] activitycontent = mDbOpenHelper.getContent(); //activtyContent값들 가져옴
                     String[] startdate=mDbOpenHelper.getDate1(); //Date 데이터 가져옴
                     String[] enddate=mDbOpenHelper.getDate2(); //Date 데이터 가져옴
-                    String[] image = mDbOpenHelper.getImage();//??이미지정보는 이미지 파일 이름가져오게 해야할 것 같은
 
                     for(int i=0; i<ids.length; i++) {
                         sheet.addCell(new Label(0, i+1, ids[i]));
@@ -234,11 +233,10 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                         sheet.addCell(new Label(3, i+1, activitycontent[i]));
                         sheet.addCell(new Label(4, i+1, startdate[i]));
                         sheet.addCell(new Label(5, i+1, enddate[i]));
-                        sheet.addCell(new Label(6, i+1, image[i]));
                     }//데이터베이스 내용 가져오기
                 }
 
-                cursor.close();
+                //cursor.close();
                 workbook.write();
                 workbook.close();
                 Toast.makeText(getActivity(), "파일이 생성되었습니다" +'\n' +

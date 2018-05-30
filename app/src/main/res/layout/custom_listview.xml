@@ -12,14 +12,14 @@
         android:textSize="20dp"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical"/>
+        android:gravity="center_vertical"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/project_name"
         android:textSize="20dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical"/>
+        android:gravity="center_vertical"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,6 +27,6 @@
         android:textSize="20dp"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
-        android:layout_gravity="center_vertical" />
+        android:gravity="center_vertical" />
 
 </LinearLayout>
