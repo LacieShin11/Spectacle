@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -63,6 +64,14 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
 
         //Y 값
         int[] values = mDbOpenHelper.getSpecCount();
+        //data가 없는 경우
+        int index;
+        for(index = 0; index < values.length; index++) {
+            if(values[index] != 0 ) break;
+        }
+        if(index == values.length) {
+            Toast.makeText(getContext(), "차트를 만들 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+        };
         ArrayList<Entry> yvalues = new ArrayList<Entry>();
         ArrayList<String> xVals = new ArrayList<String>();
 
