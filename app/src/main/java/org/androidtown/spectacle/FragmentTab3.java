@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -86,7 +87,20 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
         //파이 차트 색상
         dataSet.setColors(COLOR);
         pieChart.getLegend().setEnabled(false);
-        //pieChart.getLegend().setFormSize(3f);
+        //Legend 값 표시
+        TextView tLegend = (TextView) view.findViewById(R.id.chart_legend1);
+        tLegend.setText(pieChart.getXValue(0));
+        tLegend = (TextView) view.findViewById(R.id.chart_legend2);
+        tLegend.setText(pieChart.getXValue(1));
+        tLegend = (TextView) view.findViewById(R.id.chart_legend3);
+        tLegend.setText(pieChart.getXValue(2));
+        tLegend = (TextView) view.findViewById(R.id.chart_legend4);
+        tLegend.setText(pieChart.getXValue(3));
+        tLegend = (TextView) view.findViewById(R.id.chart_legend5);
+        tLegend.setText(pieChart.getXValue(4));
+        tLegend = (TextView) view.findViewById(R.id.chart_legend6);
+        tLegend.setText(pieChart.getXValue(5));
+
 
         //Disable Hole in the Pie Chart
         pieChart.setDrawHoleEnabled(true);

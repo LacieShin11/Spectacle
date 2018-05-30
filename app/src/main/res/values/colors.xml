@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ed594b</color>
+    <color name="colorPrimary">#f84e40</color>
     <color name="colorPrimaryDark">#172363</color>
     <color name="colorAccent">#172363</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorStrongOrange">#eb4635</color>
+    <color name="colorStrongOrange">#ed594b</color>ed594b
     <color name="colorHintText">#ffae9b</color>
-    <color name="chartColor1">#4BED84</color>
-    <color name="chartColor2">#664bed</color>
-    <color name="chartColor3">#edaa4b</color>
-    <color name="chartColor4">#d2ed4b</color>
-    <color name="chartColor5">#4bb4ed</color>
-    <color name="chartColor6">#81ed4b</color>
+    <color name="chartColor1">#fcc6a2</color>
+    <color name="chartColor2">#f89b6c</color>
+    <color name="chartColor3">#ff7c44</color>
+    <color name="chartColor4">#ed594b</color>
+    <color name="chartColor5">#f7766a</color>
+    <color name="chartColor6">#ff9f7c</color>
     <drawable name="colorWhite">#FFFFFF</drawable>
     <drawable name="colorGray">#e5e5e5</drawable>
     <drawable name="colorWhiteOrange">#ffefe8</drawable>
