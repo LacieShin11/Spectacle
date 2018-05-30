@@ -1,6 +1,7 @@
 package org.androidtown.spectacle;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListener {
     private int[] COLOR;
     private DbOpenHelper mDbOpenHelper;
+    private String[] xTitle = {"교내활동", "대외활동", "인턴&아르바이트", "봉사활동", "어학", "자격증"};
 
     public static FragmentTab3 newInstance() {
         FragmentTab3 fragment = new FragmentTab3();
@@ -61,34 +64,35 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
         //Y 값
         int[] values = mDbOpenHelper.getSpecCount();
         ArrayList<Entry> yvalues = new ArrayList<Entry>();
-        yvalues.add(new Entry(values[0], 0));
-        yvalues.add(new Entry(values[1], 1));
-        yvalues.add(new Entry(values[2], 2));
-        yvalues.add(new Entry(values[3], 3));
-        yvalues.add(new Entry(values[4], 4));
-        yvalues.add(new Entry(values[5], 5));
-
-        PieDataSet dataSet = new PieDataSet(yvalues, "스펙 카테고리");
-
         ArrayList<String> xVals = new ArrayList<String>();
 
-        xVals.add("교내활동");
-        xVals.add("대외활동");
-        xVals.add("인턴&아르바이트");
-        xVals.add("봉사활동");
-        xVals.add("어학");
-        xVals.add("자격증");
+        for(int i = 0; i < values.length; i++) {
+            if(values[i] != 0 ) {
+                yvalues.add(new Entry(values[i], i));
+                xVals.add(xTitle[i]);
+            }
+        }
+
+        PieDataSet dataSet = new PieDataSet(yvalues, "스펙 카테고리");
 
         PieData data = new PieData(xVals, dataSet);
         //default value
         data.setValueFormatter(new DefaultValueFormatter(0));
+        //파이 차트 글씨
         data.setValueTextSize(15f);
+        data.setValueTextColor(Color.DKGRAY);
         pieChart.setData(data);
+
         pieChart.setDescription("카테고리 별 활동 비율");
+        //파이 차트 색상
         dataSet.setColors(COLOR);
+        pieChart.getLegend().setEnabled(false);
+        //pieChart.getLegend().setFormSize(3f);
 
         //Disable Hole in the Pie Chart
-        pieChart.setDrawHoleEnabled(false);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setTransparentCircleRadius(30f);
+        pieChart.setHoleRadius(25f);
 
         pieChart.setOnChartValueSelectedListener(this);
 
