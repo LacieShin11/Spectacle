@@ -50,7 +50,6 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
         COLOR = new int[] {charColor1, charColor2, charColor3, charColor4, charColor5, charColor6 };
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab3, container, false);
@@ -138,25 +137,6 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
     @Override
     public void onNothingSelected() {
         Log.i("PieChart", "nothing selected");
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.login) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.make_excel) {
-
-        }
-
-        return true;
     }
 
     @Override
