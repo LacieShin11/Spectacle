@@ -1,5 +1,7 @@
 package org.androidtown.spectacle;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -35,10 +38,6 @@ public class DetailContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_content);
-
-        /*ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);*/
 
         activityTitleDisplay = (TextView) findViewById(R.id.activity_title_display);
         categoryDisplay = (TextView) findViewById(R.id.category_display);
@@ -65,15 +64,10 @@ public class DetailContentActivity extends AppCompatActivity {
 
         contentID = intent.getIntExtra("contentID", 0);
 
-
         mDbOpenHelper = new DbOpenHelper(DetailContentActivity.this);
         mDbOpenHelper.open();
 
-        int index = imgPath.indexOf("Spectacle/image/");
-
-        imgFileNameText.setText(imgPath.substring(index + 1));
-
-        Log.i("이미지 경로", imgPath);
+        imgFileNameText.setText(imgPath.substring(imgPath.lastIndexOf("/") + 1)); //이미지 경로 잘라서 이름 설정
 
         activityTitleDisplay.setText(inputTitle);
         categoryDisplay.setText(inputCategory);
@@ -86,8 +80,15 @@ public class DetailContentActivity extends AppCompatActivity {
 
         File imgFile = new File(imgPath);
 
+        /*String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File imgFile = new File(selectedImgPath);
+
+        if (selectedImgPath.equals(sd + "/Spectacle/image") || selectedImgPath.equals(sd + "/Spectacle/image/null")
+            */
+
         //이미지가 있을 때와 없을 때 뷰를 바꿈
-        if (imgFile.exists() && !(imgPath.equals("/storage/emulated/0/Spectacle/image/null"))) {
+        //이부분 수정 필요
+        if (imgFile.exists() && !(imgPath.substring(imgPath.lastIndexOf("/") + 1).equals("null"))) {
             layout.setVisibility(View.VISIBLE);
             noneImgFileText.setVisibility(View.INVISIBLE);
 
@@ -153,12 +154,9 @@ public class DetailContentActivity extends AppCompatActivity {
                 intent.putExtra("endDate", selectedEndDate);
                 intent.putExtra("content", selectedContent);
                 intent.putExtra("contentID", contentID);
+                intent.putExtra("image", imgPath);
 
                 startActivityForResult(intent, 1);
-                break;
-
-            case R.id.delete:
-                finish();
                 break;
         }
         return true;
@@ -167,8 +165,7 @@ public class DetailContentActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK)
-        {
+        if (resultCode == RESULT_OK) {
             String[] selectedRow = mDbOpenHelper.getSelectedRow(contentID);
 
             final String selectedTitle = selectedRow[0];
@@ -176,9 +173,35 @@ public class DetailContentActivity extends AppCompatActivity {
             final String selectedStartDate = selectedRow[2];
             final String selectedEndDate = selectedRow[3];
             final String selectedContent = selectedRow[4];
+            final String selectedImgPath = selectedRow[5];
 
             activityTitleDisplay.setText(selectedTitle);
             categoryDisplay.setText(selectedCategory);
+
+            //수정된 이미지로 교체
+            String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+            File imgFile = new File(selectedImgPath);
+
+            if (selectedImgPath.equals(sd + "/Spectacle/image") || selectedImgPath.equals(sd + "/Spectacle/image/null")) { //이미지가 없을 때
+                Log.i("이미지 존재하지 않음", selectedImgPath + "||" + sd);
+                layout.setVisibility(View.INVISIBLE);
+                findViewById(R.id.none_img_text).setVisibility(View.VISIBLE);
+            }
+
+            else { //이미지가 있을 때
+                Log.i("이미지 존재함", selectedImgPath + "||" + sd);
+                layout.setVisibility(View.VISIBLE);
+                findViewById(R.id.none_img_text).setVisibility(View.INVISIBLE);
+
+                if (imgFile.exists()) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    selectImg.setImageBitmap(bitmap);
+                    imgFileNameText.setText(selectedImgPath.substring(selectedImgPath.lastIndexOf("/") + 1));
+
+                } else {
+                    Toast.makeText(this, "이미지 파일이 손상되었습니다.\n" + sd + "/Spectacle/image\" 경로에서 파일을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                }
+            }
 
             //날짜가 같을 때와 다를 때 다른 문자열 입력
             if (selectedStartDate.equals(selectedEndDate))

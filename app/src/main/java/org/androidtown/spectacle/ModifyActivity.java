@@ -57,22 +57,22 @@ public class ModifyActivity extends AppCompatActivity {
     private DbOpenHelper mDbOpenHelper;
     private ImageView selectImg;
     private TextView noneImgFileText, imgNameText, textView;
-    String startDateStr, endDateStr, imgPath = "", imgName;
+    String startDateStr, endDateStr, imgPath, imgName;
     String inputTitle, inputContent, inputCategory, inputStartDate, inputEndDate;
     int categoryIndex, contentID;
     File to;
-    int imgCount = 0;
+    int imgCount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modification);
 
+        datePicker = new DatePicker(ModifyActivity.this);
         categorySpinner = (Spinner) findViewById(R.id.category_spinner);
         sameCheck = (CheckBox) findViewById(R.id.same_date_check);
         startDateBtn = (Button) findViewById(R.id.start_date_btn);
         endDateBtn = (Button) findViewById(R.id.end_date_btn);
-        datePicker = new DatePicker(ModifyActivity.this);
         titleText = (EditText) findViewById(R.id.activity_title_edit);
         contentText = (EditText) findViewById(R.id.activity_content_edit);
         eraseBtn = (ImageButton) findViewById(R.id.eraser_img_btn);
@@ -95,25 +95,27 @@ public class ModifyActivity extends AppCompatActivity {
         imgPath = intent.getStringExtra("image");
 
         //이미지가 있을 때와 없을 때 뷰를 바꿈
-        /*if (!(imgPath.equals("/storage/emulated/0/Spectacle/image/null"))) {
+        Log.i("imgPath", imgPath);
+        if (!(imgPath.equals(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Spectacle/image/null"))) {
             File imgFile = new File(imgPath);
 
             if (imgFile.exists()) {
-            layout.setVisibility(View.VISIBLE);
-            noneImgFileText.setVisibility(View.INVISIBLE);
+                layout.setVisibility(View.VISIBLE);
+                noneImgFileText.setVisibility(View.INVISIBLE);
 
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            selectImg.setImageBitmap(myBitmap); }
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath()); //해당 이미지 가져옴
+                selectImg.setImageBitmap(myBitmap);
+                imgNameText.setText(imgPath.substring(imgPath.lastIndexOf("/") + 1));
+                imgCount = 1;
+            }
         } else {
             layout.setVisibility(View.INVISIBLE);
             noneImgFileText.setVisibility(View.VISIBLE);
+            imgCount = 0;
         }
-*/
+
         mDbOpenHelper = new DbOpenHelper(this);
         mDbOpenHelper.open();
-
-
-        final Calendar cal = Calendar.getInstance();
 
         if (inputCategory.equals("어학"))
             categoryIndex = 1;
@@ -274,13 +276,6 @@ public class ModifyActivity extends AppCompatActivity {
             }
         });
 
-        plusImgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addImgBtnOnClicked();
-            }
-        });
-
         //이미지 삭제 버튼 클릭 이벤트
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,7 +332,7 @@ public class ModifyActivity extends AppCompatActivity {
             String startDate = startDateBtn.getText().toString();
             String endDate = endDateBtn.getText().toString();
 
-            /*try {
+            try {
                 File sd = Environment.getExternalStorageDirectory();
                 File directory = new File(sd.getAbsolutePath() + "/Spectacle/image");
                 String path = directory.toString();
@@ -365,7 +360,7 @@ public class ModifyActivity extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(), "분류할 카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
             } else {
-                Log.i("삽입될 내용", category + " / " + title + " / " + content + " / " + startDate + " / " + endDate + " / ");
+                Log.i("삽입될 내용", to.toString());
                 mDbOpenHelper.updateColumn(contentID, category, title, content, startDate, endDate, to.toString());
                 mDbOpenHelper.displayColumn();
 
@@ -373,14 +368,16 @@ public class ModifyActivity extends AppCompatActivity {
                 intent.putExtra("ok", "");
                 setResult(RESULT_OK, intent);
                 finish();
-            }*/
+            }
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void addImgBtnOnClicked() {
+    public void addImgBtnOnClicked(View view) {
+        askForPermission();
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, PICK_FROM_ALBUM);
@@ -400,7 +397,7 @@ public class ModifyActivity extends AppCompatActivity {
                 imgNameText.setText(imgName);
                 imgCount++;
 
-                if (imgCount == 1)
+                if (imgCount == 1) //이미지가 없는 상태였을 때만 레이아웃 변경
                     changeView();
             }
         } catch (Exception e) {

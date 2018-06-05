@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     ActionBar.TabListener tabListener = new ActionBar.TabListener() {
         @Override
         public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {

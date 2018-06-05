@@ -181,6 +181,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="15dp"
+                android:onClick="addImgBtnOnClicked"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_add_a_photo_24dp" />
@@ -236,7 +237,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="30dp"
                         android:singleLine="true"
-                        android:text="file_name.jpg"
+                        android:text="존재하지 않는 이미지 파일"
                         android:textColor="@android:color/black"
                         android:textSize="17sp" />
 

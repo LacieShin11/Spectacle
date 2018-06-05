@@ -47,6 +47,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     Context mContext;
     DbOpenHelper mDbOpenHelper;
     ExpandableListView listView;
+    ListByDateAdapter adapter;
     ArrayList<ListByDateHeaderItem> groupList = new ArrayList<>();
     ArrayList<ArrayList<ListByDateItem>> childList = new ArrayList<>();
     ArrayList<ArrayList<ListByDateItem>> monthArray = new ArrayList<>();
@@ -146,7 +147,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             listView = (ExpandableListView) view.findViewById(R.id.date_list);
             listView.setGroupIndicator(null);
 
-            final ListByDateAdapter adapter = new ListByDateAdapter();
+            adapter = new ListByDateAdapter();
             adapter.headerList = groupList;
             adapter.childList = childList;
             listView.setAdapter(adapter);

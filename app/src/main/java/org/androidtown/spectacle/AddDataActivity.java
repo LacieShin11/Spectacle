@@ -73,7 +73,7 @@ AddDataActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        //DB Create and Open
+        //DB 생성 및 열기
         mDbOpenHelper = new DbOpenHelper(this);
         mDbOpenHelper.open();
 
@@ -228,13 +228,6 @@ AddDataActivity extends AppCompatActivity {
             }
         });
 
-        plusImgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addImgBtnOnClicked();
-            }
-        });
-
         //이미지 삭제 버튼 클릭 이벤트
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,7 +328,7 @@ AddDataActivity extends AppCompatActivity {
     }
 
     //이미지 추가 클릭시
-    public void addImgBtnOnClicked() {
+    public void addImgBtnOnClicked(View view) {
         askForPermission();
 
         Intent intent = new Intent(Intent.ACTION_PICK);

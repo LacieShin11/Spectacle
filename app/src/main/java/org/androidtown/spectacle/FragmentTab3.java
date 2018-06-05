@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListener {
     private int[] COLOR;
     private DbOpenHelper mDbOpenHelper;
-    private String[] xTitle = {"교내활동", "대외활동", "인턴&아르바이트", "봉사활동", "어학", "자격증"};
+    private String[] xTitle = {"교내활동", "대외활동", "인턴·알바", "봉사활동", "어학", "자격증"};
 
     public static FragmentTab3 newInstance() {
         FragmentTab3 fragment = new FragmentTab3();

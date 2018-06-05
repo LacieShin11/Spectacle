@@ -32,13 +32,13 @@
         </activity>
 
         <activity android:name=".CampusActivities"
-            android:label="교내 활동"
+            android:label="교내활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".InternationalActivities"
-            android:label="대외 활동"
+            android:label="대외활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
@@ -50,7 +50,7 @@
         </activity>
 
         <activity android:name=".Intern"
-            android:label="인턴/아르바이트"
+            android:label="인턴·아르바이트"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
@@ -68,12 +68,12 @@
         </activity>
 
         <activity android:name=".DetailContentActivity"
-            android:label="상세 페이지"
+            android:label="상세내역"
             android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".ModifyActivity"
-            android:label="수정 페이지"
+            android:label="항목 수정"
             android:screenOrientation="portrait">
         </activity>
 
