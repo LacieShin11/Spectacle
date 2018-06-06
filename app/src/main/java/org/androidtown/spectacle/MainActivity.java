@@ -1,14 +1,18 @@
 package org.androidtown.spectacle;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fm;
     private ArrayList<Fragment> fList;
     public final String PREFERENCE = "org.androidtown.spectacle";
+    private long time= 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if (result == true) {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
+
 
         // 스와이프할 뷰페이저를 정의
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -79,6 +85,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // 뒤로 가기 버튼 두번 누르면 종료 시키기
+    @Override
+    public void onBackPressed(){
+        if(System.currentTimeMillis()-time>=2000){
+            time=System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"뒤로가기 버튼을 한번 더 누르면 종료합니다.",Toast.LENGTH_SHORT).show();
+        }else if(System.currentTimeMillis()-time<2000){
+            finish();
+        }
+    }
+
     ViewPager.SimpleOnPageChangeListener viewPagerListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
@@ -107,4 +124,21 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+
+
+/*    @Override
+    protected void onPause() {
+        if (flagKey == true) {
+            finish();
+            flagKey = false;
+            Log.d("ghhan","finish activity!!");
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        flagKey = true;
+        super.onUserLeaveHint();
+    }*/
 }

@@ -8,7 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by USER on 2018-05-28.
@@ -44,15 +47,6 @@ public class PasswordModifyingActivity extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.input_password);
         cancleBtn = (Button) findViewById(R.id.password_cancle_btn);
         backspaceBtn = (Button) findViewById(R.id.password_backspace_btn);
-
-        // 비밀번호 입력 editText의 커서를 항상 끝에 위치시키기
- /*       inputPassword.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                inputPassword.setSelection(inputPassword.getText().length());
-                return false;
-            }
-        });*/
 
         // 숫자 버튼 xml 연결 처리. 전역변수로 해줄 시 에러 발생.
         for (int i = 0; i < 10; i++) {
@@ -109,7 +103,7 @@ public class PasswordModifyingActivity extends AppCompatActivity {
                     if (length > 0) {
                         // 숫자 하나만 지우기
                         inputPassword.setText(temp.substring(0, length - 1));
-                        inputPassword.setSelection(inputPassword.getText().length());
+                        //inputPassword.setSelection(inputPassword.getText().length());
                     }
                 }
             }

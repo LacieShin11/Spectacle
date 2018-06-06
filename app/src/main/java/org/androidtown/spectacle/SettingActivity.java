@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -83,9 +87,13 @@ public class SettingActivity extends AppCompatActivity {
                         return;
                     }
                 } else if (strText == "비밀번호 변경") { // 비밀번호 변경 클릭했을 때
-                    Intent intent = new Intent(SettingActivity.this, PasswordModifyingActivity.class);
-                    startActivityForResult(intent, 0);
-                } else if (strText == "앱 정보 및 사용설명서") { // 앱 정보 클릭했을 때
+                    if (mDbOpenHelper.getPassword().length == 0) {
+                        Toast.makeText(SettingActivity.this, "먼저 비밀번호를 설정해 주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(SettingActivity.this, PasswordModifyingActivity.class);
+                        startActivityForResult(intent, 0);
+                    }
+                } else if (strText == "어플 정보") { // 어플 정보 클릭했을 때
                     Intent intent = new Intent(SettingActivity.this, AppInformationActivity.class);
                     startActivityForResult(intent, 0);
                 }
