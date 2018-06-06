@@ -153,6 +153,15 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
             adapter.childList = childList;
             listView.setAdapter(adapter);
 
+            listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
+                    adapter.notifyDataSetChanged();
+                    onActivityResult(20, Activity.RESULT_OK, getActivity().getIntent());
+                    return false;
+                }
+            });
+
             listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

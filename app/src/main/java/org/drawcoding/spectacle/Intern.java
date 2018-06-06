@@ -99,7 +99,7 @@ public class Intern extends AppCompatActivity {
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Intern.this);
                 alertDialogBuilder.setTitle("삭제");
-                alertDialogBuilder.setMessage("선택한 항목을 삭제하시겠습니까?\n삭제된 내역은 복구가 불가능합니다.");
+                alertDialogBuilder.setMessage("선택한 항목을 삭제하시겠습니까?\n삭제된 내역은 복구가 불가능합니다.\n\n(※삭제 내역이 날짜탭에 반영되지 않았을 시에는 날짜탭에서 해당 데이터의 날짜 리스트를 한번 더 눌러주시기 바랍니다 )");
                 alertDialogBuilder.setCancelable(false);
                 alertDialogBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

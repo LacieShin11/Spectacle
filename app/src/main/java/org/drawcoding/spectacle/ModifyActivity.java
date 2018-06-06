@@ -363,6 +363,7 @@ public class ModifyActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ModifyActivity.this, DetailContentActivity.class);
                 intent.putExtra("ok", "");
+                Toast.makeText(getApplicationContext(), "수정내역이 날짜탭에 반영되지 않았을 시에는 날짜탭에서 해당 데이터의 날짜리스트를 한번 더 눌러주시기 바랍니다", Toast.LENGTH_LONG).show();
                 setResult(RESULT_OK, intent);
                 finish();
             }

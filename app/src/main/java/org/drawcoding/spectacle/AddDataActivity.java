@@ -217,8 +217,10 @@ AddDataActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (contentText.getText().length() == 0)
                     Toast.makeText(AddDataActivity.this, "복사할 내용이 없습니다.", Toast.LENGTH_SHORT).show();
-                else
+                else {
+                    Toast.makeText(AddDataActivity.this, "클립보드에 복사되었습니다", Toast.LENGTH_SHORT).show();
                     clipboardManager.setText(contentText.getText());
+                }
             }
         });
 
