@@ -1,5 +1,6 @@
 package org.androidtown.spectacle;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -83,7 +84,7 @@ public class Certificate extends AppCompatActivity {
                 intent.putExtra("contentID", content_id);
                 intent.putExtra("image", selectedImgPath);
 
-                startActivity(intent);
+                startActivityForResult(intent, 11);
 
             }
         });
@@ -125,4 +126,26 @@ public class Certificate extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("onResume: ", "onResume: start");
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 11) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i("onActivityResult: ", "onActivityResult: start");
+                int contentID = data.getIntExtra("contentID", 0);
+                String cate = data.getStringExtra("cate");
+                String title = data.getStringExtra("title");
+                String startDate = data.getStringExtra("startDate");
+                adapter.updateChild(contentID, cate, title, startDate);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
 }

@@ -26,8 +26,8 @@ public class ListViewAdapter extends BaseAdapter {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //position = ListView 위치, 0부터 시작
-        final int pos = position;
+        // position = ListView 위치, 0부터 시작
+        // final int pos = position;
         final Context context = parent.getContext();
         if(convertView==null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,25 +43,6 @@ public class ListViewAdapter extends BaseAdapter {
         category.setText(listViewItem.getCategory());
         projectName.setText(listViewItem.getProjectName());
         date.setText(listViewItem.getDate());
-
-
-
-        /*//리스트뷰 클릭 이벤트
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 터치 시 자세하게 보이는 항목
-
-                // 클릭한 항목의 pos의 아이템을 listViewItem에 넣기
-                listViewItem = listVO.get(pos);
-                Intent intent = new Intent(context, DetailContentActivity.class);
-
-                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            }
-        });
-
-        listViewItem = listVO.get(position);*/
-
 
         return convertView;
     }
@@ -81,6 +62,20 @@ public class ListViewAdapter extends BaseAdapter {
         listVO.remove(position);
     }
 
+    public void updateChild(int contentID, String cate, String title, String startDate)
+    {
+        for (int i = 0; i < listVO.size(); i++)
+        {
+            listViewItem = listVO.get(i);
+            if (contentID == listViewItem.getContentID()) {
+                listViewItem.setDate(startDate);
+                listViewItem.setCategory(cate);
+                listViewItem.setProjectName(title);
+            }
+
+        }
+    }
+
     //데이터값 넣어줌
     public void addVO(String category, String projectName, String date, int contentID) {
         ListVO item = new ListVO();
@@ -91,6 +86,11 @@ public class ListViewAdapter extends BaseAdapter {
         item.setContentID(contentID);
 
         listVO.add(item);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
     }
 }
 

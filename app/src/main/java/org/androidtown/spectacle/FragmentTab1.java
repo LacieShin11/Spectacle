@@ -273,6 +273,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     @Override
     public void onResume() {
         super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

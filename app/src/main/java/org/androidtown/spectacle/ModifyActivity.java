@@ -17,7 +17,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +36,6 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Calendar;
 
 /**
  * Created by NKJ on 2018-05-30.
@@ -134,6 +132,9 @@ public class ModifyActivity extends AppCompatActivity {
         categorySpinner.setSelection(categoryIndex);
         startDateBtn.setText(inputStartDate);
         endDateBtn.setText(inputEndDate);
+        startDateStr = inputStartDate;
+        endDateStr = inputEndDate;
+
 
         String[] endDate = inputEndDate.split("-");
 
@@ -338,7 +339,7 @@ public class ModifyActivity extends AppCompatActivity {
 
                 to = new File(file + "/" + imgName);
 
-                if (!imgPath.isEmpty()) {
+                if (!imgPath.isEmpty() && !imgName.isEmpty()) {
                     File from = new File(imgPath); //기존 파일
 
                     to.createNewFile(); //복사할 파일명 가져와서 빈 파일 생성
@@ -355,7 +356,7 @@ public class ModifyActivity extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(), "분류할 카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
             } else {
-                mDbOpenHelper.updateColumn(contentID, category, title, content, startDate, endDate, to.toString());
+                mDbOpenHelper.updateColumn(contentID, category, title, content, startDate, endDate, imgPath);
                 mDbOpenHelper.displayColumn();
 
                 Intent intent = new Intent(ModifyActivity.this, DetailContentActivity.class);

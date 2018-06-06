@@ -1,7 +1,6 @@
 package org.androidtown.spectacle;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -186,6 +183,14 @@ public class DetailContentActivity extends AppCompatActivity {
 
             activityTitleDisplay.setText(selectedTitle);
             categoryDisplay.setText(selectedCategory);
+
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("contentID", contentID);
+            returnIntent.putExtra("cate", selectedCategory);
+            returnIntent.putExtra("title", selectedTitle);
+            returnIntent.putExtra("startDate", selectedStartDate);
+            setResult(Activity.RESULT_OK, returnIntent);
+            // finish();
 
             //수정된 이미지로 교체
             File imgFile = new File(imgPath);
