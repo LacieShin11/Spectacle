@@ -1,12 +1,22 @@
 package org.androidtown.spectacle;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -289,7 +299,7 @@ public class DbOpenHelper {
         } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
         } else if (selectCategory == "인턴") {
-            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴·알바' ORDER BY STARTDATE", null);
         } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
@@ -315,7 +325,7 @@ public class DbOpenHelper {
         } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
         } else if (selectCategory == "인턴") {
-            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴·알바' ORDER BY STARTDATE", null);
         } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
@@ -339,7 +349,7 @@ public class DbOpenHelper {
         } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
         } else if (selectCategory == "인턴") {
-            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴·알바' ORDER BY STARTDATE", null);
         } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
@@ -363,7 +373,7 @@ public class DbOpenHelper {
         } else if (selectCategory == "자격증") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '자격증' ORDER BY STARTDATE", null);
         } else if (selectCategory == "인턴") {
-            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바' ORDER BY STARTDATE", null);
+            c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴·알바' ORDER BY STARTDATE", null);
         } else if (selectCategory == "봉사") {
             c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동' ORDER BY STARTDATE", null);
         }
@@ -394,7 +404,7 @@ public class DbOpenHelper {
         int campusCount = c.getCount();
         c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '대외활동'", null);
         int internationalCount = c.getCount();
-        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴&알바'", null);
+        c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '인턴·알바'", null);
         int internCount = c.getCount();
         c = mDB.rawQuery("Select * from CONTENTTABLE WHERE CATEGORY = '봉사활동'", null);
         int volunteerCount = c.getCount();
@@ -409,5 +419,4 @@ public class DbOpenHelper {
         // c.close();
         return count;
     }
-
 }
