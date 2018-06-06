@@ -67,10 +67,18 @@ public class ListViewAdapter extends BaseAdapter {
         {
             listViewItem = listVO.get(i);
             if (contentID == listViewItem.getContentID()) {
-                listViewItem.setDate(startDate);
-                listViewItem.setCategory(cate);
-                listViewItem.setProjectName(title);
+                if (cate != listViewItem.getCategory())
+                {
+                    removeChild(i);
+                }
+                else
+                {
+                    listViewItem.setDate(startDate);
+                    listViewItem.setCategory(cate);
+                    listViewItem.setProjectName(title);
+                }
             }
+
 
         }
     }
