@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tool"
-    tools:context="org.androidtown.spectacle.MainActivity">
+    tools:context="org.drawcoding.spectacle.MainActivity">
     <item
         android:id="@+id/make_excel"
         android:title="엑셀 파일로 만들기" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.androidtown.spectacle">
+    package="org.drawcoding.spectacle">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="org.drawcoding.spectacle.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,114 +28,114 @@
         </activity>
 
         <activity
-            android:name=".AddDataActivity"
+            android:name="org.drawcoding.spectacle.AddDataActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".CampusActivities"
+            android:name="org.drawcoding.spectacle.CampusActivities"
             android:label="교내활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".InternationalActivities"
+            android:name="org.drawcoding.spectacle.InternationalActivities"
             android:label="대외활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Language"
+            android:name="org.drawcoding.spectacle.Language"
             android:label="어학"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Intern"
+            android:name="org.drawcoding.spectacle.Intern"
             android:label="인턴·아르바이트"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".VolunteerActivities"
+            android:name="org.drawcoding.spectacle.VolunteerActivities"
             android:label="봉사활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Certificate"
+            android:name="org.drawcoding.spectacle.Certificate"
             android:label="자격증"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".DetailContentActivity"
+            android:name="org.drawcoding.spectacle.DetailContentActivity"
             android:label="상세내역"
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".ModifyActivity"
+            android:name="org.drawcoding.spectacle.ModifyActivity"
             android:label="항목 수정"
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name=".SettingActivity"
+            android:name="org.drawcoding.spectacle.SettingActivity"
             android:label="설정"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="org.drawcoding.spectacle.MainActivity" />
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name="org.drawcoding.spectacle.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
         <activity
-            android:name=".PasswordSettingActivity"
+            android:name="org.drawcoding.spectacle.PasswordSettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
         <activity
-            android:name=".PasswordModifyingActivity"
+            android:name="org.drawcoding.spectacle.PasswordModifyingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
         <activity
-            android:name=".AppInformationActivity"
+            android:name="org.drawcoding.spectacle.AppInformationActivity"
             android:label="앱 정보"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
