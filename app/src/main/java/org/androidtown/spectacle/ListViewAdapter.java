@@ -61,21 +61,21 @@ public class ListViewAdapter extends BaseAdapter {
         listVO.remove(position);
     }
 
-    public void updateChild(int contentID, String cate, String title, String startDate)
+    public void updateChild(int contentID, String cate, String title, String startDate, String currentCate)
     {
         for (int i = 0; i < listVO.size(); i++)
         {
             listViewItem = listVO.get(i);
             if (contentID == listViewItem.getContentID()) {
-                if (cate != listViewItem.getCategory())
-                {
-                    removeChild(i);
-                }
-                else
+                if (cate.equals(currentCate))
                 {
                     listViewItem.setDate(startDate);
                     listViewItem.setCategory(cate);
                     listViewItem.setProjectName(title);
+                }
+                else
+                {
+                    removeChild(i);
                 }
             }
 

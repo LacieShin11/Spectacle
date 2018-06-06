@@ -64,6 +64,7 @@ public class DetailContentActivity extends AppCompatActivity {
         group = intent.getIntExtra("groupPosition",0);
 
 
+
         activityTitleDisplay = (TextView) findViewById(R.id.activity_title_display);
         categoryDisplay = (TextView) findViewById(R.id.category_display);
         startDateDisplay = (TextView) findViewById(R.id.start_date_display);
@@ -209,6 +210,7 @@ public class DetailContentActivity extends AppCompatActivity {
             returnIntent.putExtra("startDate", selectedDate);
             returnIntent.putExtra("child", child);
             returnIntent.putExtra("group", group);
+            returnIntent.putExtra("current_cate", inputCategory);
             setResult(Activity.RESULT_OK, returnIntent);
 
             //수정된 이미지로 교체

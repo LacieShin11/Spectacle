@@ -143,7 +143,8 @@ public class Intern extends AppCompatActivity {
                 String cate = data.getStringExtra("cate");
                 String title = data.getStringExtra("title");
                 String startDate = data.getStringExtra("startDate");
-                adapter.updateChild(contentID, cate, title, startDate);
+                String currentCate = data.getStringExtra("current_cate");
+                adapter.updateChild(contentID, cate, title, startDate, currentCate);
                 adapter.notifyDataSetChanged();
             }
         }
