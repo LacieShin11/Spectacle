@@ -21,5 +21,21 @@ public class ListByDateItem {
     public String getCategoryName() {
         return categoryName;
     }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void setContentID(int contentID) {
+        this.contentID = contentID;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setSpecName(String specName) {
+        this.specName = specName;
+    }
 }
 

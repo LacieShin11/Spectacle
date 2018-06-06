@@ -1,6 +1,7 @@
 package org.androidtown.spectacle;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -180,8 +181,10 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                     intent.putExtra("content", selectedContent);
                     intent.putExtra("contentID", content_id);
                     intent.putExtra("image", selectedImgPath);
+                    intent.putExtra("childPosition", childPosition);
+                    intent.putExtra("groupPosition", groupPosition);
 
-                    startActivity(intent);
+                    startActivityForResult(intent, 20);
 
                     return false;
                 }
@@ -266,9 +269,23 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //adapter.notifyDataSetChanged();
+        super.onActivityResult(requestCode, resultCode, data);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
+
+        if(requestCode == 20) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i("onActivityResult: ", "onActivityResult: start");
+                int contentID = data.getIntExtra("contentID", 0);
+                String cate = data.getStringExtra("cate");
+                String title = data.getStringExtra("title");
+                String startDate = data.getStringExtra("startDate");
+                int child = data.getIntExtra("child", 0);
+                int group = data.getIntExtra("group", 0);
+                adapter.updateChild(group, child, contentID, cate, title, startDate);
+                adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override

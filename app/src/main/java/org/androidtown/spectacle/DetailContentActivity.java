@@ -1,8 +1,6 @@
 package org.androidtown.spectacle;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +33,7 @@ public class DetailContentActivity extends AppCompatActivity {
     LinearLayout layout;
     int contentID;
     String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+    int child, group;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +60,9 @@ public class DetailContentActivity extends AppCompatActivity {
         inputStartDate = intent.getStringExtra("startDate");
         inputEndDate = intent.getStringExtra("endDate");
         imgPath = intent.getStringExtra("image");
+        child = intent.getIntExtra("childPosition",0);
+        group = intent.getIntExtra("groupPosition",0);
+
 
         activityTitleDisplay = (TextView) findViewById(R.id.activity_title_display);
         categoryDisplay = (TextView) findViewById(R.id.category_display);
@@ -189,6 +189,16 @@ public class DetailContentActivity extends AppCompatActivity {
             final String selectedContent = selectedRow[4];
             imgPath = selectedRow[5];
 
+            final String selectedDate;
+            if (selectedStartDate.equals(selectedEndDate))
+            {
+                selectedDate = selectedStartDate;
+            }
+            else
+            {
+                selectedDate = selectedStartDate + " ~ " + selectedEndDate;
+            }
+
             activityTitleDisplay.setText(selectedTitle);
             categoryDisplay.setText(selectedCategory);
 
@@ -196,7 +206,9 @@ public class DetailContentActivity extends AppCompatActivity {
             returnIntent.putExtra("contentID", contentID);
             returnIntent.putExtra("cate", selectedCategory);
             returnIntent.putExtra("title", selectedTitle);
-            returnIntent.putExtra("startDate", selectedStartDate);
+            returnIntent.putExtra("startDate", selectedDate);
+            returnIntent.putExtra("child", child);
+            returnIntent.putExtra("group", group);
             setResult(Activity.RESULT_OK, returnIntent);
 
             //수정된 이미지로 교체

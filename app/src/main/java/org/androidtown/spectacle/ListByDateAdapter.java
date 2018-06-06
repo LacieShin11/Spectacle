@@ -1,7 +1,6 @@
 package org.androidtown.spectacle;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ public class ListByDateAdapter extends BaseExpandableListAdapter {
     ArrayList<ListByDateHeaderItem> headerList;
     LayoutInflater inflater;
     ArrayList<ArrayList<ListByDateItem>> childList;
+    ListByDateItem selectedItem;
 
     //부모리스트 크기 반환
     @Override
@@ -127,5 +127,19 @@ public class ListByDateAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void updateChild(int groupPosition, int childPosition, int contentID, String cate, String title, String startDate)
+    {
+        for (int i = 0; i < childList.get(groupPosition).size(); i++)
+        {
+            selectedItem = childList.get(groupPosition).get(childPosition);
+            if (contentID == selectedItem.getContentID()) {
+                selectedItem.setDate(startDate);
+                selectedItem.setCategoryName(cate);
+                selectedItem.setSpecName(title);
+            }
+
+        }
     }
 }
