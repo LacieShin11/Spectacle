@@ -266,7 +266,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
     }
@@ -274,8 +274,8 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     @Override
     public void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
-    }
+        // adapter.notifyDataSetChanged();
+}
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

@@ -168,12 +168,21 @@
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:text="사진"
-                android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:text="사진"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="※이미지는 하나만 첨부하실 수 있습니다"/>
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/add_img_btn"

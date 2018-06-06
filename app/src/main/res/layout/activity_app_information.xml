@@ -42,13 +42,30 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="스펙타클에 입력하신 모든 데이터(이미지, 엑셀 파일)는 앱을 설치하신 기기의 내장메모리(sd카드)에 저장되므로, 앱을 삭제하신 후에도 데이터는 보존됩니다."
+            android:text="스펙타클에 입력하신 모든 데이터는 앱을 삭제하시면 복구할 수 없으며 이에 대한 문제는 '코딩을 그리다'에서 책임지지 않습니다."
             android:textSize="17dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="17dp"
+            android:text="데이터 백업을 하시려면 '엑셀 파일로 만들기' 기능을 사용해주시기 바랍니다."/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="데이터를 영구삭제하실 경우에는 '내 파일/내장메모리/Spectacle' 폴더에서 삭제해주시길 바랍니다. "
+            android:text="엑셀파일의 경우, 앱을 설치하신 기기의 내장메모리(sd카드)에 저장되므로, 앱을 삭제하신 후에도 데이터는 보존됩니다."
+            android:textSize="17dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="데이터를 영구삭제하실 경우에는 '내 파일/내장메모리/Spectacle'폴더에서 삭제해주시기 바랍니다."
             android:textSize="17dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
@@ -57,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#dd5500"
-            android:text="(기기마다 데이터 저장 경로는 다를 수 있으니 이점 참고해주시길 바랍니다)"
+            android:text="(기기마다 데이터 저장 경로는 다를 수 있으니 이점 참고해주시기 바랍니다)"
             android:textSize="17dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -73,22 +90,26 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="비밀번호 분실 시 앱을 삭제하고 재설치 해야하며, 재설치 시 기존에 입력하신 데이터는 삭제됩니다."
+            android:text="스펙타클은 비밀번호 복구가 불가능합니다. 따라서 비밀번호 분실 시 앱을 삭제하고 재설치 해야하며, 재설치 시 기존에 입력하신 데이터는 삭제됩니다."
             android:textSize="17dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="앱 내에서는 기존 비밀번호를 기억하지 못하더라도 언제든지 비밀번호 변경이 가능합니다."
             android:textSize="17dp"
-            android:text="또한 앱 내에서는 기존 비밀번호를 기억하지 못하더라도 언제든지 비밀번호 변경이 가능합니다."
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="40dp"/>
+            android:layout_marginBottom="40dp"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -98,11 +119,13 @@
             android:textStyle="bold"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
             />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="'엑셀 파일로 만들기'를 클릭하시면 다음과 같은 알림창이 뜹니다"
+            android:text="'엑셀 파일로 만들기'를 클릭하시면 다음과 같은 알림창이 뜹니다."
             android:textSize="17dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -119,7 +142,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="[거부]를 누르시면 '엑셀 파일로 만들기'를 누르실 때마다 [허용]을 누르시기 전까지 계속 같은 알림창이 뜨며 만약 다음과 같이 '다시묻지 않기'를 클릭하시면 '엑셀 파일로 만들기' 기능은 사용하실 수 없습니다. "
+            android:text="[허용]을 누르시면 엑셀 파일을 만들기 위한 접근 권한이 허용된 것이며 엑셀 파일을 생성하기 위해서는 한번 더 '엑셀 파일로 만들기'를 눌러주시면 됩니다."
+            android:textSize="17dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="[거부]를 누르시면 '엑셀 파일로 만들기'를 누르실 때마다 [허용]을 누르시기 전까지 계속 같은 알림창이 뜨며 만약 다음과 같이 '다시묻지 않기'를 클릭하시면 '엑셀 파일로 만들기' 기능은 사용하실 수 없습니다."
             android:textSize="17dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -133,11 +167,35 @@
             android:src="@drawable/excelpermission2"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="'엑셀 파일로 만들기' 기능을 사용하시려면 반드시 [허용]버튼을 눌러주시기 바랍니다. '다시 묻지 않음'를 누르신 후 [거부]를 누르시면 앱을 삭제하신 후 다시 설치하셔야만 '엑셀 파일로 만들기' 기능을 사용하실 수 있으니 이점 유의해주시기 바랍니다."
+            android:text="'엑셀 파일로 만들기' 기능을 사용하시려면 반드시 [허용]버튼을 눌러주시기 바랍니다. '다시 묻지 않음'을 누르신 후 [거부]를 누르시면 앱을 삭제하신 후 다시 설치하셔야만 '엑셀 파일로 만들기' 기능을 사용하실 수 있습니다."
+            android:textSize="17dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(엑셀 기능 뿐만 아니라 스펙을 추가할 때 이미지 첨부 기능도 사용하실 수 없으므로 스펙타클의 모든 기능을 사용하시려면 [허용]을 눌러주시기 바랍니다)"
+            android:textSize="17dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="또한 엑셀 파일은 mySpec.xls파일 하나만 제공되며, '엑셀 파일로 내보내기' 를 누르실 때마다 이전 파일은 삭제되므로 이점 유의해주시기 바랍니다."
             android:textSize="17dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -157,7 +215,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="문의 : 코딩을 그리다\n(drawcoding@naver.com)"
+            android:text="문의 : 코딩을 그리다\n(drawcoding@gmail.com)"
             android:textSize="17dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="10dp" />

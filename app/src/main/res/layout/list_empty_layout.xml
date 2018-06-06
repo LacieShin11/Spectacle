@@ -12,7 +12,6 @@
         android:layout_gravity="right|bottom"
         android:layout_margin="16dp"
         android:src="@drawable/plus_btn" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,5 +20,15 @@
         android:text="우측 하단의 버튼을 눌러\n스펙을 추가해주세요"
         android:textAlignment="center"
         android:layout_gravity="center"
+        android:id="@+id/empty_layout_text1"
         android:textSize="23dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:text="스펙타클 사용방법은 상단 메뉴바의 [설정]-[앱 정보 및 사용설명서]를 참고해주세요"/>
 </FrameLayout>

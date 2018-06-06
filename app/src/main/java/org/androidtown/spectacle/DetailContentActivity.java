@@ -43,6 +43,10 @@ public class DetailContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_content);
 
+        Intent intentTab = new Intent(getApplicationContext(), FragmentTab1.class);
+        intentTab.putExtra("new","mew");
+        setResult(RESULT_OK, intentTab);
+
         activityTitleDisplay = (TextView) findViewById(R.id.activity_title_display);
         categoryDisplay = (TextView) findViewById(R.id.category_display);
         startDateDisplay = (TextView) findViewById(R.id.start_date_display);
