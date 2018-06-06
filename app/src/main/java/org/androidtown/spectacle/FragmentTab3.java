@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,56 +70,78 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
             if(values[index] != 0 ) break;
         }
         if(index == values.length) {
-            // Toast.makeText(getContext(), "차트를 만들 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
-        };
-        ArrayList<Entry> yvalues = new ArrayList<Entry>();
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        for(int i = 0; i < values.length; i++) {
-            if(values[i] != 0 ) {
-                yvalues.add(new Entry(values[i], i));
-                xVals.add(xTitle[i]);
-            }
+            //Toast.makeText(getContext(), "차트를 만들 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
         }
+        else {
+            ArrayList<Entry> yvalues = new ArrayList<Entry>();
+            ArrayList<String> xVals = new ArrayList<String>();
 
-        PieDataSet dataSet = new PieDataSet(yvalues, "스펙 카테고리");
+            for (int i = 0; i < values.length; i++) {
+                if (values[i] != 0) {
+                    yvalues.add(new Entry(values[i], i));
+                    xVals.add(xTitle[i]);
+                }
+            }
 
-        PieData data = new PieData(xVals, dataSet);
-        //default value
-        data.setValueFormatter(new DefaultValueFormatter(0));
-        //파이 차트 글씨
-        data.setValueTextSize(15f);
-        data.setValueTextColor(Color.DKGRAY);
-        pieChart.setData(data);
+            PieDataSet dataSet = new PieDataSet(yvalues, "스펙 카테고리");
 
-        pieChart.setDescription("카테고리 별 활동 비율");
-        //파이 차트 색상
-        dataSet.setColors(COLOR);
-        pieChart.getLegend().setEnabled(false);
-        //Legend 값 표시
-        TextView tLegend = (TextView) view.findViewById(R.id.chart_legend1);
-        tLegend.setText(pieChart.getXValue(0));
-        tLegend = (TextView) view.findViewById(R.id.chart_legend2);
-        tLegend.setText(pieChart.getXValue(1));
-        tLegend = (TextView) view.findViewById(R.id.chart_legend3);
-        tLegend.setText(pieChart.getXValue(2));
-        tLegend = (TextView) view.findViewById(R.id.chart_legend4);
-        tLegend.setText(pieChart.getXValue(3));
-        tLegend = (TextView) view.findViewById(R.id.chart_legend5);
-        tLegend.setText(pieChart.getXValue(4));
-        tLegend = (TextView) view.findViewById(R.id.chart_legend6);
-        tLegend.setText(pieChart.getXValue(5));
+            PieData data = new PieData(xVals, dataSet);
+            //default value
+            data.setValueFormatter(new DefaultValueFormatter(0));
+            //파이 차트 글씨
+            data.setValueTextSize(15f);
+            data.setValueTextColor(Color.DKGRAY);
+            pieChart.setData(data);
+
+            pieChart.setDescription("카테고리 별 활동 비율");
+            //파이 차트 색상
+            dataSet.setColors(COLOR);
+            pieChart.getLegend().setEnabled(false);
+            //Legend 값 표시
+            TextView tLegend = (TextView) view.findViewById(R.id.chart_legend1);
+            tLegend.setText(pieChart.getXValue(0));
+            tLegend = (TextView) view.findViewById(R.id.chart_legend2);
+            tLegend.setText(pieChart.getXValue(1));
+            tLegend = (TextView) view.findViewById(R.id.chart_legend3);
+            tLegend.setText(pieChart.getXValue(2));
+            tLegend = (TextView) view.findViewById(R.id.chart_legend4);
+            tLegend.setText(pieChart.getXValue(3));
+            tLegend = (TextView) view.findViewById(R.id.chart_legend5);
+            tLegend.setText(pieChart.getXValue(4));
+            tLegend = (TextView) view.findViewById(R.id.chart_legend6);
+            tLegend.setText(pieChart.getXValue(5));
 
 
-        //Disable Hole in the Pie Chart
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setTransparentCircleRadius(30f);
-        pieChart.setHoleRadius(25f);
+            //Disable Hole in the Pie Chart
+            pieChart.setDrawHoleEnabled(true);
+            pieChart.setTransparentCircleRadius(30f);
+            pieChart.setHoleRadius(25f);
 
-        pieChart.setOnChartValueSelectedListener(this);
+            pieChart.setOnChartValueSelectedListener(this);
 
-        pieChart.animateXY(1400, 1400);
+            pieChart.animateXY(1400, 1400);
 
+            //하단 색상legend 글씨 없으면 안 보이도록
+            View v = view.findViewById(R.id.chart_color1);
+            TextView text = (TextView) view.findViewById(R.id.chart_legend1);
+            if(text.getText().toString() != "") v.setVisibility(View.VISIBLE);
+            v = view.findViewById(R.id.chart_color2);
+            text = (TextView) view.findViewById(R.id.chart_legend2);
+            if (text.getText().toString() != "") v.setVisibility(View.VISIBLE);
+            v = view.findViewById(R.id.chart_color3);
+            text = (TextView) view.findViewById(R.id.chart_legend3);
+            if (text.getText().toString() != "") v.setVisibility(View.VISIBLE);
+            v = view.findViewById(R.id.chart_color4);
+            text = (TextView) view.findViewById(R.id.chart_legend4);
+            if (text.getText().toString() != "") v.setVisibility(View.VISIBLE);
+            v = view.findViewById(R.id.chart_color5);
+            text = (TextView) view.findViewById(R.id.chart_legend5);
+            if (text.getText().toString() != "") v.setVisibility(View.VISIBLE);
+            v = view.findViewById(R.id.chart_color6);
+            text = (TextView) view.findViewById(R.id.chart_legend6);
+            if (text.getText().toString() != "") v.setVisibility(View.VISIBLE);
+
+        }
         mDbOpenHelper.close();
 
         return view;
