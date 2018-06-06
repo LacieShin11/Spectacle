@@ -73,11 +73,19 @@ public class PasswordModifyingActivity extends AppCompatActivity {
 
                     if (inputPassword.getText().length() == 4) {
                         String password = inputPassword.getText().toString();
-                        mDbOpenHelper.updateColumnPass(password);
-                        String[] passwordDB = mDbOpenHelper.getPassword();
-                        Toast.makeText(PasswordModifyingActivity.this, "비밀번호가 변경되었습니다.", Toast.LENGTH_SHORT).show();
-                        finish();
-                        Log.i("비밀번호 : ", passwordDB[0]);
+                        String[] prepasswordDB = mDbOpenHelper.getPassword();
+                        Log.i("바꿀 비밀번호 : ", password);
+                        Log.i("기존 비밀번호 : ", prepasswordDB[0]);
+                        if (password.equals(prepasswordDB[0])) {
+                            inputPassword.setText("");
+                            Toast.makeText(PasswordModifyingActivity.this, "기존 비밀번호와 같습니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mDbOpenHelper.updateColumnPass(password);
+                            String[] passwordDB = mDbOpenHelper.getPassword();
+                            Toast.makeText(PasswordModifyingActivity.this, "비밀번호가 변경되었습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                            Log.i("비밀번호 : ", passwordDB[0]);
+                        }
                     }
                 }
             });
@@ -98,21 +106,16 @@ public class PasswordModifyingActivity extends AppCompatActivity {
                 if (inputPassword.getText() != null) {
                     String temp = inputPassword.getText().toString();
                     int length = temp.length();
-                    if (length > 0)
+                    if (length > 0) {
                         // 숫자 하나만 지우기
                         inputPassword.setText(temp.substring(0, length - 1));
+                        inputPassword.setSelection(inputPassword.getText().length());
+                    }
                 }
             }
         });
 
-        /*if (inputPassword.getText().length() == 4) {
-            String password = inputPassword.getText().toString();
-            mDbOpenHelper.insertColumnPass(password);
-            Log.i("비밀번호 : ", mDbOpenHelper.getPassword());
-
-        }*/
-
         // 비밀번호 입력 editText의 커서를 항상 끝에 위치시키기. 작동하지 않음. 수정 필요.
-        inputPassword.setSelection(inputPassword.getText().length());
+        //inputPassword.setSelection(inputPassword.getText().length());
     }
 }
