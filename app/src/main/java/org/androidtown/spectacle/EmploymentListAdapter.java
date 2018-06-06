@@ -11,13 +11,7 @@ import java.util.ArrayList;
 
 //채용정보 리스트 어댑터
 public class EmploymentListAdapter extends BaseAdapter {
-    ArrayList<EmploymentInfoItem> infoArray = new ArrayList<>();
-
-    static class ViewHolder {
-        private TextView tv1, tv2, tv3, tv4, tv5;
-        private int index;
-        EmploymentInfoItem item;
-    }
+    private ArrayList<EmploymentInfoItem> infoArray = new ArrayList<>();
 
     @Override
     public int getCount() {

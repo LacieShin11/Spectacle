@@ -324,7 +324,14 @@ public class DbOpenHelper {
         String[] date = new String[c.getCount()];
         int i = 0;
         while (c.moveToNext()) {
-            date[i] = c.getString(c.getColumnIndex("startDate"));
+            String start, end;
+            start = c.getString(c.getColumnIndex("startDate"));
+            end = c.getString(c.getColumnIndex("endDate"));
+
+            if (start.equals(end))
+                date[i] = start;
+            else
+                date[i] = start + " ~ " + end;
             i++;
         }
         return date;

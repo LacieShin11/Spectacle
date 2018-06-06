@@ -136,6 +136,9 @@ public class ModifyActivity extends AppCompatActivity {
         endDateStr = inputEndDate;
 
 
+        startDateStr = inputStartDate;
+        endDateStr = inputEndDate;
+
         String[] endDate = inputEndDate.split("-");
 
         endY = Integer.parseInt(endDate[0]);
@@ -171,7 +174,6 @@ public class ModifyActivity extends AppCompatActivity {
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //취소
                     }
                 });
 
@@ -420,7 +422,7 @@ public class ModifyActivity extends AppCompatActivity {
             try {
                 FileInputStream fis = new FileInputStream(from);
                 FileOutputStream newfos = new FileOutputStream(to);
-                int readcount = 0;
+                int readcount;
                 byte[] buffer = new byte[1024];
 
                 while ((readcount = fis.read(buffer, 0, 1024)) != -1) {

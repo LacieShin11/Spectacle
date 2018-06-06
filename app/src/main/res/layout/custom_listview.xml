@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:orientation="horizontal"
-    android:layout_marginTop="5dp">
+    android:orientation="vertical">
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/category"
-        android:textSize="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/project_name"
-        android:textSize="20dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/date"
-        android:textSize="20dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp"
         android:layout_weight="1"
-        android:gravity="center_vertical" />
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="모바일 프로그래밍프로그래밍프로그래밍"
+        android:textColor="@android:color/black"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical|left"
+        android:text="2019-9-32 ~ 2019-9-32"
+        android:textColor="#3b62d6" />
 
 </LinearLayout>

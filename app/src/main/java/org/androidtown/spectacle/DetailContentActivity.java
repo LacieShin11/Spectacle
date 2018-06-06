@@ -1,6 +1,8 @@
 package org.androidtown.spectacle;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +10,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -15,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -190,7 +194,6 @@ public class DetailContentActivity extends AppCompatActivity {
             returnIntent.putExtra("title", selectedTitle);
             returnIntent.putExtra("startDate", selectedStartDate);
             setResult(Activity.RESULT_OK, returnIntent);
-            // finish();
 
             //수정된 이미지로 교체
             File imgFile = new File(imgPath);
@@ -210,7 +213,8 @@ public class DetailContentActivity extends AppCompatActivity {
                     imgFileNameText.setText(imgPath.substring(imgPath.lastIndexOf("/") + 1));
 
                 } else {
-                    Toast.makeText(this, "이미지 파일이 손상되었습니다.\n" + sd + "/Spectacle/image\" 경로에서 파일을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    layout.setVisibility(View.INVISIBLE);
+                    noneImgFileText.setVisibility(View.VISIBLE);
                 }
             }
 

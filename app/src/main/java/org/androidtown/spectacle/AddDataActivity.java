@@ -124,7 +124,6 @@ AddDataActivity extends AppCompatActivity {
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //취소
                     }
                 });
 

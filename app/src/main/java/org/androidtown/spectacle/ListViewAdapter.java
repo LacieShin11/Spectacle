@@ -29,18 +29,17 @@ public class ListViewAdapter extends BaseAdapter {
         // position = ListView 위치, 0부터 시작
         // final int pos = position;
         final Context context = parent.getContext();
-        if(convertView==null) {
+        if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_listview, parent, false);
         }
-        TextView category = (TextView) convertView.findViewById(R.id.category);
+
         TextView projectName = (TextView) convertView.findViewById(R.id.project_name);
         TextView date = (TextView) convertView.findViewById(R.id.date);
 
         listViewItem = listVO.get(position);
 
         //아이템 내 각 위젯에 데이터 반영
-        category.setText(listViewItem.getCategory());
         projectName.setText(listViewItem.getProjectName());
         date.setText(listViewItem.getDate());
 
