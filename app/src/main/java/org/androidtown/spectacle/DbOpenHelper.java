@@ -1,12 +1,22 @@
 package org.androidtown.spectacle;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -409,5 +419,4 @@ public class DbOpenHelper {
         // c.close();
         return count;
     }
-
 }

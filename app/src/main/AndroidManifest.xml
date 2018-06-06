@@ -35,36 +35,54 @@
             android:label="교내활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity android:name=".InternationalActivities"
             android:label="대외활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity android:name=".Language"
             android:label="어학"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity android:name=".Intern"
             android:label="인턴·아르바이트"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity android:name=".VolunteerActivities"
             android:label="봉사활동"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity android:name=".Certificate"
             android:label="자격증"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
         <activity android:name=".DetailContentActivity"

@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("비밀번호 : ", passwordDB[0]);
                         }
                         else {
-                            Toast.makeText(LoginActivity.this, "비밀번호를 다시 입력해주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "비밀번호가 다릅니다.", Toast.LENGTH_SHORT).show();
                             inputPassword.setText("");
                         }
                     }
@@ -84,12 +84,14 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // 취소 버튼 이벤트 처리
- /*       cancleBtn.setOnClickListener(new View.OnClickListener() {
+        cancleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                moveTaskToBack(true);
                 finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
             }
-        });*/
+        });
 
         // backspace 버튼 이벤트 처리
         backspaceBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword.setSelection(inputPassword.getText().length());
     }
 
+    // 자체 키패드를 만들었으므로 키보드 항상 내려가있게 하기
     @Override
     public boolean onKeyDown (int keyCode, KeyEvent event) {
         switch (keyCode) {

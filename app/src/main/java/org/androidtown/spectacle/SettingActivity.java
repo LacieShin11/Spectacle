@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class SettingActivity extends AppCompatActivity {
         mDbOpenHelper = new DbOpenHelper(this);
         mDbOpenHelper.open();
 
+        //스위치 상태 저장하기 위해 preference 사용
         SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
         final SharedPreferences.Editor editor = pref.edit();
         Boolean result = pref.getBoolean("key", false);
@@ -43,13 +48,16 @@ public class SettingActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
+        // 암호 사용 유무를 설정하는 스위치 선언
         final Switch isLock = (Switch) findViewById(R.id.app_lock_switch);
 
         isLock.setChecked(result);
 
         isLock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // preference 사용법
                 editor.putBoolean("key", isChecked);
+                // 스위치 상태 commit
                 editor.commit();
                 if (isChecked) {
                     // On
@@ -68,6 +76,7 @@ public class SettingActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String strText = (String) parent.getItemAtPosition(position);
 
+                // 비밀번호 설정 클릭했을 때
                 if (strText == "비밀번호 설정") {
                     String[] passwordDB = mDbOpenHelper.getPassword();
                     if (passwordDB.length == 0) {
@@ -77,10 +86,10 @@ public class SettingActivity extends AppCompatActivity {
                         Toast.makeText(SettingActivity.this, "이미 설정되었습니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                } else if (strText == "비밀번호 변경") {
+                } else if (strText == "비밀번호 변경") { // 비밀번호 변경 클릭했을 때
                     Intent intent = new Intent(SettingActivity.this, PasswordModifyingActivity.class);
                     startActivityForResult(intent, 0);
-                } else if (strText == "어플 정보") {
+                } else if (strText == "어플 정보") { // 어플 정보 클릭했을 때
                     Intent intent = new Intent(SettingActivity.this, AppInformationActivity.class);
                     startActivityForResult(intent, 0);
                 }
