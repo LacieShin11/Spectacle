@@ -1,7 +1,6 @@
 package org.androidtown.spectacle;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -161,23 +160,6 @@ public class FragmentTab2 extends Fragment {
             mDbOpenHelper.open();
             Cursor cursor = mDbOpenHelper.getTable(); //db전체 내용 가져옴
 
-//*****나중에 알림창 띄우는 기능 추가할 수 있으면 할 것*********
-//            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-//                    getContext().getApplicationContext());
-//
-//            alertDialogBuilder
-//                    .setTitle("엑셀파일 생성 권한")
-//                    .setMessage("[엑셀 내보내기] 기능을 사용하시려면 내부 파일, 미디어 접근 권한을 [허용]해주셔야 합니다. " +
-//                            "'다시 묻지 않기' 후에 [거부]를 누르시면 [엑셀 내보내기] 기능을 사용하실 수 없으니 이 점 참고해 주시길 바랍니다.")
-//                    .setCancelable(false)
-//                    .setPositiveButton("확인했습니다",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(
-//                                        DialogInterface dialog, int id) {
-//                                    // 프로그램을 종료한다
-//                                }
-//                            });
-
             askForPermission();
 
             //우선 엑셀 파일 저장할 디렉토리랑 파일 생성
@@ -201,12 +183,11 @@ public class FragmentTab2 extends Fragment {
 
                 //WorkbookSetting class의 역할: 엑셀 시트 만들어주는데 필요한 클래스.
                 WritableSheet sheet = workbook.createSheet("MySPECtacle", 0); //엑셀파일 생성 및 이름 설정
-                sheet.addCell(new Label(0, 0, "번호"));
-                sheet.addCell(new Label(1, 0, "카테고리"));
-                sheet.addCell(new Label(2, 0, "활동명"));
-                sheet.addCell(new Label(3, 0, "활동내용"));
-                sheet.addCell(new Label(4, 0, "시작날짜"));
-                sheet.addCell(new Label(5, 0, "종료날짜"));
+                sheet.addCell(new Label(0, 0, "카테고리"));
+                sheet.addCell(new Label(1, 0, "활동명"));
+                sheet.addCell(new Label(2, 0, "활동내용"));
+                sheet.addCell(new Label(3, 0, "시작날짜"));
+                sheet.addCell(new Label(4, 0, "종료날짜"));
                 //차례로 column번호, row번호, row이름 정해주기
 
                 if (cursor.moveToFirst()) {
@@ -218,19 +199,18 @@ public class FragmentTab2 extends Fragment {
                     String[] enddate = mDbOpenHelper.getDate2(); //Date 데이터 가져옴
 
                     for (int i = 0; i < ids.length; i++) {
-                        sheet.addCell(new Label(0, i + 1, ids[i]));
-                        sheet.addCell(new Label(1, i + 1, category[i]));
-                        sheet.addCell(new Label(2, i + 1, activityname[i]));
-                        sheet.addCell(new Label(3, i + 1, activitycontent[i]));
-                        sheet.addCell(new Label(4, i + 1, startdate[i]));
-                        sheet.addCell(new Label(5, i + 1, enddate[i]));
+                        sheet.addCell(new Label(0, i + 1, category[i]));
+                        sheet.addCell(new Label(1, i + 1, activityname[i]));
+                        sheet.addCell(new Label(2, i + 1, activitycontent[i]));
+                        sheet.addCell(new Label(3, i + 1, startdate[i]));
+                        sheet.addCell(new Label(4, i + 1, enddate[i]));
                     }//데이터베이스 내용 가져오기
                 }
 
-                cursor.close();
+                cursor.close();//커서 안 닫으면 저장 안 됨
                 workbook.write();
                 workbook.close();
-                Toast.makeText(getActivity(), "다음 경로에 파일이 생성되었습니다." + '\n' + "(" + sd.getAbsolutePath().toString() +
+                Toast.makeText(getActivity(), "다음 경로에 파일이 생성되었습니다." + '\n' + "(" + "내 파일/내장 메모리" +
                         "/Spectacle/mySpec.xsl)", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();

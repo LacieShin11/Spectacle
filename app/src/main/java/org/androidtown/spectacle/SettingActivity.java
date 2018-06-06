@@ -20,7 +20,7 @@ import org.w3c.dom.Text;
 
 public class SettingActivity extends AppCompatActivity {
 
-    static final String[] LIST_MENU = {"비밀번호 설정", "비밀번호 변경", "어플 정보"};
+    static final String[] LIST_MENU = {"비밀번호 설정", "비밀번호 변경", "앱 정보 및 사용설명서"};
     private DbOpenHelper mDbOpenHelper;
     public final String PREFERENCE = "org.androidtown.spectacle";
 
@@ -87,8 +87,12 @@ public class SettingActivity extends AppCompatActivity {
                         return;
                     }
                 } else if (strText == "비밀번호 변경") { // 비밀번호 변경 클릭했을 때
-                    Intent intent = new Intent(SettingActivity.this, PasswordModifyingActivity.class);
-                    startActivityForResult(intent, 0);
+                    if (mDbOpenHelper.getPassword().length == 0) {
+                        Toast.makeText(SettingActivity.this, "먼저 비밀번호를 설정해 주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(SettingActivity.this, PasswordModifyingActivity.class);
+                        startActivityForResult(intent, 0);
+                    }
                 } else if (strText == "어플 정보") { // 어플 정보 클릭했을 때
                     Intent intent = new Intent(SettingActivity.this, AppInformationActivity.class);
                     startActivityForResult(intent, 0);
