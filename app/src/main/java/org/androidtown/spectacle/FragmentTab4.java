@@ -160,6 +160,7 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
     @Override
     public void onResume() {
         super.onResume();
+        showList();
     }
 
     @Override

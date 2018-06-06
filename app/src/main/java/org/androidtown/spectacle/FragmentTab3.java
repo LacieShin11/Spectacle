@@ -136,7 +136,6 @@ public class FragmentTab3 extends Fragment  implements OnChartValueSelectedListe
             if (text.getText().toString() != "") v.setVisibility(View.VISIBLE);
 
         }
-        //mDbOpenHelper.close();
 
         return view;
     }

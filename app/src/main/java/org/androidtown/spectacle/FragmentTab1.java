@@ -274,7 +274,10 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
     @Override
     public void onResume() {
         super.onResume();
-        // adapter.notifyDataSetChanged();
+//        adapter = new ListByDateAdapter();
+//        adapter.headerList = groupList;
+//        adapter.childList = childList;
+//        adapter.notifyDataSetChanged();
 }
 
     @Override
@@ -360,7 +363,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
 
         } else if (id == R.id.initialization) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setMessage("모든 내역을 초기화 하시겠습니까? \n초기화 된 내용은 복구가 불가능합니다.").setCancelable(false).setPositiveButton("확인",
+            builder.setTitle("초기화").setMessage("모든 내역을 초기화 하시겠습니까? \n초기화 된 내용은 복구가 불가능합니다.").setCancelable(false).setPositiveButton("확인",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
