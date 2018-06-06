@@ -1,22 +1,12 @@
 package org.androidtown.spectacle;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
-
-import java.io.ByteArrayOutputStream;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,7 +17,7 @@ public class DbOpenHelper {
     private static final String DATABASE_NAME = "spectacle.db";
     private static final int DATABASE_VERSION = 1;
     public static SQLiteDatabase mDB;
-    public static SQLiteDatabase rDB;
+   public static SQLiteDatabase rDB;
     private DatabaseHelper mDBHelper;
     private Context mCtx;
     private boolean state = false;
@@ -68,6 +58,7 @@ public class DbOpenHelper {
 
     public void close() {
         mDB.close();
+        rDB.close();
         state = false;
     }
 
@@ -137,7 +128,8 @@ public class DbOpenHelper {
         }
         if (notEmpty > 0) {
             return false;
-        } else return true;
+        }
+        else return true;
     } //DB 비어 있는지 여부 알려주는 함수 - 맨 처음 앱 켰을 때 빈 화면 뜨게 하기 위해 추가해 준 함수
 
     // 비밀번호 값 얻기
