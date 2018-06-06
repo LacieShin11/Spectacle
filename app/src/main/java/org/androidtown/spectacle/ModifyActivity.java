@@ -51,16 +51,16 @@ public class ModifyActivity extends AppCompatActivity {
     private Button startDateBtn, endDateBtn;
     private DatePicker datePicker;
     LinearLayout layout;
-    private ImageButton plusImgBtn, eraseBtn, copyBtn, deleteBtn;
+    private ImageButton eraseBtn, copyBtn, deleteBtn;
     private EditText titleText, contentText;
     private int startY, startM, startD, endY, endM, endD;
     private DbOpenHelper mDbOpenHelper;
     private ImageView selectImg;
-    private TextView noneImgFileText, imgNameText, textView;
+    private TextView noneImgFileText, imgNameText;
     String startDateStr, endDateStr, imgPath, imgName;
-    String inputTitle, inputContent, inputCategory, inputStartDate, inputEndDate;
+    String inputTitle, inputContent, inputCategory, inputStartDate, inputEndDate, deleteImgPath;
     int categoryIndex, contentID;
-    File to;
+    File to, imgFile;
     int imgCount;
 
     @Override
@@ -76,14 +76,12 @@ public class ModifyActivity extends AppCompatActivity {
         titleText = (EditText) findViewById(R.id.activity_title_edit);
         contentText = (EditText) findViewById(R.id.activity_content_edit);
         eraseBtn = (ImageButton) findViewById(R.id.eraser_img_btn);
-        plusImgBtn = (ImageButton) findViewById(R.id.add_img_btn);
         deleteBtn = (ImageButton) findViewById(R.id.close_img);
         noneImgFileText = (TextView) findViewById(R.id.none_img_text);
         imgNameText = (TextView) findViewById(R.id.img_name_text);
         copyBtn = (ImageButton) findViewById(R.id.copy_img_btn);
         selectImg = (ImageView) findViewById(R.id.select_img);
         layout = findViewById(R.id.image_layout);
-        textView = findViewById(R.id.none_img_text);
 
         Intent intent = getIntent();
         inputTitle = intent.getStringExtra("title");
@@ -94,20 +92,21 @@ public class ModifyActivity extends AppCompatActivity {
         contentID = intent.getIntExtra("contentID", 0);
         imgPath = intent.getStringExtra("image");
 
+        deleteImgPath = imgPath;
+
         //이미지가 있을 때와 없을 때 뷰를 바꿈
-        Log.i("imgPath", imgPath);
-        if (!(imgPath.equals(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Spectacle/image/null"))) {
-            File imgFile = new File(imgPath);
+        String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
+        imgFile = new File(imgPath);
 
-            if (imgFile.exists()) {
-                layout.setVisibility(View.VISIBLE);
-                noneImgFileText.setVisibility(View.INVISIBLE);
+        if (imgFile.exists() && !(imgPath.equals(sd + "/Spectacle/image") || imgPath.equals(sd + "/Spectacle/image/null"))) {
+            layout.setVisibility(View.VISIBLE);
+            noneImgFileText.setVisibility(View.INVISIBLE);
 
-                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath()); //해당 이미지 가져옴
-                selectImg.setImageBitmap(myBitmap);
-                imgNameText.setText(imgPath.substring(imgPath.lastIndexOf("/") + 1));
-                imgCount = 1;
-            }
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath()); //해당 이미지 가져옴
+            selectImg.setImageBitmap(myBitmap);
+            imgNameText.setText(imgPath.substring(imgPath.lastIndexOf("/") + 1));
+            imgCount = 1;
+
         } else {
             layout.setVisibility(View.INVISIBLE);
             noneImgFileText.setVisibility(View.VISIBLE);
@@ -121,7 +120,7 @@ public class ModifyActivity extends AppCompatActivity {
             categoryIndex = 1;
         else if (inputCategory.equals("자격증"))
             categoryIndex = 2;
-        else if (inputCategory.equals("인턴&알바"))
+        else if (inputCategory.equals("인턴·알바"))
             categoryIndex = 3;
         else if (inputCategory.equals("봉사활동"))
             categoryIndex = 4;
@@ -135,14 +134,8 @@ public class ModifyActivity extends AppCompatActivity {
         categorySpinner.setSelection(categoryIndex);
         startDateBtn.setText(inputStartDate);
         endDateBtn.setText(inputEndDate);
-        Log.i("스피너", "카테고리: " + categoryIndex);
 
         String[] endDate = inputEndDate.split("-");
-        Log.i("test", "test : " + endDate[0]);
-        Log.i("test", "test : " + endDate[1]);
-        Log.i("test", "test : " + endDate[2]);
-
-        Log.i("ModifyActivity : ", "contentID: " + contentID);
 
         endY = Integer.parseInt(endDate[0]);
         endM = Integer.parseInt(endDate[1]);
@@ -281,6 +274,7 @@ public class ModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeView();
+
                 imgCount = 0;
                 imgName = "";
                 imgPath = "";
@@ -325,7 +319,6 @@ public class ModifyActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.check) {
-            Log.i("확인버튼 선택됨", "확인버튼 눌러짐");
             String category = categorySpinner.getSelectedItem().toString();
             String title = titleText.getText().toString();
             String content = contentText.getText().toString();
@@ -343,13 +336,15 @@ public class ModifyActivity extends AppCompatActivity {
                     file.mkdirs();
                 }
 
-                File from = new File(imgPath); //기존 파일
                 to = new File(file + "/" + imgName);
 
-                to.createNewFile(); //복사할 파일명 가져와서 빈 파일 생성
+                if (!imgPath.isEmpty()) {
+                    File from = new File(imgPath); //기존 파일
 
-                copyFile(from, to.toString());
+                    to.createNewFile(); //복사할 파일명 가져와서 빈 파일 생성
 
+                    copyFile(from, to.toString());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -360,7 +355,6 @@ public class ModifyActivity extends AppCompatActivity {
                 else
                     Toast.makeText(getApplicationContext(), "분류할 카테고리를 선택해주세요.", Toast.LENGTH_SHORT).show();
             } else {
-                Log.i("삽입될 내용", to.toString());
                 mDbOpenHelper.updateColumn(contentID, category, title, content, startDate, endDate, to.toString());
                 mDbOpenHelper.displayColumn();
 
@@ -453,7 +447,6 @@ public class ModifyActivity extends AppCompatActivity {
         }
     }
 
-    //DbOpenHelper close
     @Override
     protected void onDestroy() {
         // mDbOpenHelper.close();

@@ -34,14 +34,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.channels.FileChannel;
 import java.util.Calendar;
 
 public class
@@ -59,7 +54,7 @@ AddDataActivity extends AppCompatActivity {
     private DbOpenHelper mDbOpenHelper;
     private TextView noneImgText, imgNameText;
     String startDateStr, endDateStr, imgPath = "", imgName;
-    File to;
+    File to, mainFile;
     int imgCount = 0;
 
     @Override
@@ -259,6 +254,7 @@ AddDataActivity extends AppCompatActivity {
 //                        Toast.makeText(this, "성공", Toast.LENGTH_LONG).show();
                     } else {
                         ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE);
+                        Toast.makeText(this, "권한 요청을 수락해야 정상적인 사진 첨부가 가능합니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -286,21 +282,22 @@ AddDataActivity extends AppCompatActivity {
             try {
                 File sd = Environment.getExternalStorageDirectory();
                 File directory = new File(sd.getAbsolutePath() + "/Spectacle/image");
-                String path = directory.toString();
-
-                File file = new File(path);
+                File file = new File(directory.toString());
 
                 if (!file.isDirectory()) { //디렉토리가 만들어지지 않았을 경우 새로 생성
                     file.mkdirs();
                 }
 
-                File from = new File(imgPath); //기존 파일
                 to = new File(file + "/" + imgName);
 
-                to.createNewFile(); //복사할 파일명 가져와서 빈 파일 생성
+                if (!imgPath.isEmpty()) {
+                    Log.i("파일생성", imgPath);
+                    File from = new File(imgPath); //기존 파일
 
-                copyFile(from, to.toString());
+                    to.createNewFile(); //복사할 파일명 가져와서 빈 파일 생성
 
+                    copyFile(from, to.toString());
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

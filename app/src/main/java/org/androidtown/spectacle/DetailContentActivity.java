@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 
 public class DetailContentActivity extends AppCompatActivity {
@@ -30,9 +33,9 @@ public class DetailContentActivity extends AppCompatActivity {
     ImageView selectImg;
     private DbOpenHelper mDbOpenHelper;
     String inputTitle, inputContent, inputCategory, inputStartDate, inputEndDate, imgPath;
-    ImageButton downloadBtn;
     LinearLayout layout;
     int contentID;
+    String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,6 @@ public class DetailContentActivity extends AppCompatActivity {
         startDateDisplay = (TextView) findViewById(R.id.start_date_display);
         activityContentDisplay = (TextView) findViewById(R.id.activity_content_display);
         selectImg = (ImageView) findViewById(R.id.select_img);
-        downloadBtn = (ImageButton) findViewById(R.id.download_img);
         noneImgFileText = (TextView) findViewById(R.id.none_img_text);
         layout = (LinearLayout) findViewById(R.id.image_layout);
         imgFileNameText = (TextView) findViewById(R.id.img_name_text);
@@ -80,21 +82,16 @@ public class DetailContentActivity extends AppCompatActivity {
 
         File imgFile = new File(imgPath);
 
-        /*String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-        File imgFile = new File(selectedImgPath);
-
-        if (selectedImgPath.equals(sd + "/Spectacle/image") || selectedImgPath.equals(sd + "/Spectacle/image/null")
-            */
-
         //이미지가 있을 때와 없을 때 뷰를 바꿈
-        //이부분 수정 필요
-        if (imgFile.exists() && !(imgPath.substring(imgPath.lastIndexOf("/") + 1).equals("null"))) {
+        if (imgFile.exists() && !(imgPath.equals(sd + "/Spectacle/image") || imgPath.equals(sd + "/Spectacle/image/null"))) {
+            Log.i("이미지 존재", imgPath);
             layout.setVisibility(View.VISIBLE);
             noneImgFileText.setVisibility(View.INVISIBLE);
 
             Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             selectImg.setImageBitmap(myBitmap);
         } else {
+            Log.i("이미지 존재X", imgPath);
             layout.setVisibility(View.INVISIBLE);
             noneImgFileText.setVisibility(View.VISIBLE);
         }
@@ -109,22 +106,34 @@ public class DetailContentActivity extends AppCompatActivity {
             activityContentDisplay.setTextColor(Color.parseColor("#000000"));
             activityContentDisplay.setGravity(Gravity.LEFT);
         }
+    }
 
-        //다운로드 버튼 클릭시 이벤트
-        downloadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String fileName;
-                String savePath = Environment.getExternalStorageDirectory().toString() + "/Spectacle";
+    public void downloadBtnOnClicked(View view) {
+        try {
+            String imgName = imgPath.substring(imgPath.lastIndexOf("/") + 1);
+            String galleryPath = sd + "/" + Environment.DIRECTORY_PICTURES;
 
-                File dir = new File(savePath);
+            File imgFolder = new File(galleryPath + "/Spectacle");
+            File saveFile = new File(imgFolder + "/" + imgName);
 
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-
+            if (!imgFolder.isDirectory()) { //디렉토리가 만들어지지 않았을 경우 새로 생성
+                imgFolder.mkdirs();
             }
-        });
+
+            if (!imgPath.isEmpty()) {
+                File from = new File(imgPath); //기존 파일
+                saveFile.createNewFile(); //복사할 파일명 가져와서 빈 파일 생성
+                copyFile(from, saveFile.toString());
+            }
+
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            intent.setData(Uri.fromFile(saveFile));
+            sendBroadcast(intent);
+
+            Toast.makeText(DetailContentActivity.this, "이미지 저장 완료", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -173,30 +182,27 @@ public class DetailContentActivity extends AppCompatActivity {
             final String selectedStartDate = selectedRow[2];
             final String selectedEndDate = selectedRow[3];
             final String selectedContent = selectedRow[4];
-            final String selectedImgPath = selectedRow[5];
+            imgPath = selectedRow[5];
 
             activityTitleDisplay.setText(selectedTitle);
             categoryDisplay.setText(selectedCategory);
 
             //수정된 이미지로 교체
-            String sd = Environment.getExternalStorageDirectory().getAbsolutePath();
-            File imgFile = new File(selectedImgPath);
+            File imgFile = new File(imgPath);
 
-            if (selectedImgPath.equals(sd + "/Spectacle/image") || selectedImgPath.equals(sd + "/Spectacle/image/null")) { //이미지가 없을 때
-                Log.i("이미지 존재하지 않음", selectedImgPath + "||" + sd);
+            if (imgPath.equals(sd + "/Spectacle/image") || imgPath.equals(sd + "/Spectacle/image/null")) { //이미지가 없을 때
+                Log.i("이미지 존재하지 않음", imgPath);
                 layout.setVisibility(View.INVISIBLE);
-                findViewById(R.id.none_img_text).setVisibility(View.VISIBLE);
-            }
-
-            else { //이미지가 있을 때
-                Log.i("이미지 존재함", selectedImgPath + "||" + sd);
+                noneImgFileText.setVisibility(View.VISIBLE);
+            } else { //이미지가 있을 때
+                Log.i("이미지 존재함", imgPath);
                 layout.setVisibility(View.VISIBLE);
-                findViewById(R.id.none_img_text).setVisibility(View.INVISIBLE);
+                noneImgFileText.setVisibility(View.INVISIBLE);
 
                 if (imgFile.exists()) {
                     Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                     selectImg.setImageBitmap(bitmap);
-                    imgFileNameText.setText(selectedImgPath.substring(selectedImgPath.lastIndexOf("/") + 1));
+                    imgFileNameText.setText(imgPath.substring(imgPath.lastIndexOf("/") + 1));
 
                 } else {
                     Toast.makeText(this, "이미지 파일이 손상되었습니다.\n" + sd + "/Spectacle/image\" 경로에서 파일을 확인해주세요.", Toast.LENGTH_SHORT).show();
@@ -218,6 +224,28 @@ public class DetailContentActivity extends AppCompatActivity {
                 activityContentDisplay.setText(selectedContent);
                 activityContentDisplay.setTextColor(Color.parseColor("#000000"));
                 activityContentDisplay.setGravity(Gravity.LEFT);
+            }
+        }
+    }
+
+    //원본 파일, 덮어씌울 파일 받아서 복사하는 함수
+    private void copyFile(File from, String to) throws Exception {
+
+        if (from != null && from.exists()) {
+            try {
+                FileInputStream fis = new FileInputStream(from);
+                FileOutputStream newfos = new FileOutputStream(to);
+                int readcount = 0;
+                byte[] buffer = new byte[1024];
+
+                while ((readcount = fis.read(buffer, 0, 1024)) != -1) {
+                    newfos.write(buffer, 0, readcount);
+                }
+
+                newfos.close();
+                fis.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

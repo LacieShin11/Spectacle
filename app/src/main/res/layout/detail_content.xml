@@ -173,6 +173,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|center_vertical"
                         android:background="@android:color/transparent"
+                        android:onClick="downloadBtnOnClicked"
                         android:src="@drawable/ic_file_download_24dp" />
                 </FrameLayout>
             </LinearLayout>

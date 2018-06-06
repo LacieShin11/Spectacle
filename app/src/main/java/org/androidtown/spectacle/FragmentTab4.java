@@ -182,8 +182,6 @@ public class FragmentTab4 extends Fragment implements CompoundButton.OnCheckedCh
         } else if (id == R.id.login) {
             Intent intent = new Intent(getActivity(), SettingActivity.class);
             startActivity(intent);
-        } else if (id == R.id.make_excel) {
-
         }
 
         return true;

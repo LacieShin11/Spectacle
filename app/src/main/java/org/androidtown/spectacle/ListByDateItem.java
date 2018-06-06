@@ -12,7 +12,6 @@ public class ListByDateItem {
         this.specName = specName;
         this.date = date;
         this.contentID = contentID;
-
     }
 
     public int getContentID() {

@@ -204,6 +204,7 @@ public class FragmentTab1 extends Fragment implements ActivityCompat.OnRequestPe
                             public void onClick(DialogInterface dialog, int id) {
                                 selectedItem = (ListByDateItem) adapter.getChild(groupPosition, childPosition);
                                 int content_id = selectedItem.getContentID();
+
                                 mDbOpenHelper.delete(content_id);
                                 adapter.removeChild(groupPosition, childPosition);
 

@@ -1,9 +1,5 @@
 package org.androidtown.spectacle;
 
-/**
- *
- */
-
 public class ListVO {
     private String category;
     private String projectName;
